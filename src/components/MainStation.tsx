@@ -71,36 +71,14 @@ export function MainStation({
           padding: `max(var(--edge), env(safe-area-inset-top)) var(--edge) max(var(--edge), env(safe-area-inset-bottom))`,
         }}
       >
-        {/* Logo / Corporate Station Wordmark */}
-        <div
-          className="anim-rise flex flex-col items-center select-none"
-          style={{
-            marginTop: 'clamp(5vh, 8vh, 11vh)',
-            animationDelay: '0.06s',
-          }}
-        >
-          <h1
-            className="font-[var(--font-space-grotesk)] font-black text-white leading-none tracking-tight text-center"
-            style={{
-              fontSize: 'clamp(2.2rem, 5.5vw, 4.2rem)',
-              textShadow: '0 4px 30px rgba(0,0,0,0.65)',
-            }}
-          >
-            {station.name}
-          </h1>
-          <span
-            className="text-[10px] sm:text-xs font-bold text-white/50 tracking-[0.35em] uppercase mt-2"
-            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-          >
-            {isFavoritesMode ? '❤️ FAVORITES STATION' : station.subtitle}
-          </span>
-        </div>
+        {/* Center spacing spacer */}
+        <div className="flex-1" />
 
         {/* Bottom Dock: Playlist Popup + Bumper Quote + Pill Player */}
         <div
           className="anim-rise w-full flex flex-col items-center relative px-2 sm:px-0"
           style={{
-            maxWidth: '31rem',
+            maxWidth: '48rem',
             marginBottom: 'clamp(0.6rem, 4vh, 2.5rem)',
             animationDelay: '0.16s',
           }}

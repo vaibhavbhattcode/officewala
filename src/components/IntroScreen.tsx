@@ -23,16 +23,12 @@ export function IntroScreen({ station, onEnter }: IntroScreenProps) {
       <div className="absolute inset-0">
         <Image
           src={station.background}
-          alt="Office background"
+          alt="Background"
           fill
-          className="object-cover bg-slow-zoom"
+          className="object-cover"
           priority
           sizes="100vw"
         />
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/80 to-black/90" />
-        {/* Grain */}
-        <div className="absolute inset-0 grain-overlay overflow-hidden" />
       </div>
 
       {/* Content */}

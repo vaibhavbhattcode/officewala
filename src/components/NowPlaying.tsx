@@ -2,22 +2,113 @@
 
 import { useCallback, useRef, useEffect, useState } from 'react';
 import {
-  Play,
-  Pause,
-  SkipBack,
-  SkipForward,
-  Shuffle,
-  ListMusic,
-  Volume2,
-  VolumeX,
-  Volume1,
-  Loader2,
+  MoreHorizontal,
   Heart,
+  ListMusic,
+  Shuffle,
+  Loader2,
   Music,
+  Check,
+  Radio,
+  Sparkles,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlayerState, StationConfig } from '@/types/types';
 import { AudioPlayerActions } from '@/hooks/useAudioPlayer';
+
+/* ── SVG Icons ─────────────────────────────────── */
+
+function RewindIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" className={className}>
+      <path d="M11 18.2V5.8L2.8 12L11 18.2ZM20.2 18.2V5.8L12 12L20.2 18.2Z" />
+    </svg>
+  );
+}
+
+function ForwardIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" className={className}>
+      <path d="M3.8 18.2V5.8L12 12L3.8 18.2ZM13 18.2V5.8L21.2 12L13 18.2Z" />
+    </svg>
+  );
+}
+
+function PauseIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <rect x="5.5" y="4.5" width="4.5" height="15" rx="2.25" />
+      <rect x="14" y="4.5" width="4.5" height="15" rx="2.25" />
+    </svg>
+  );
+}
+
+function PlayIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" className={className}>
+      <path d="M6.5 4.8V19.2L18.5 12L6.5 4.8Z" />
+    </svg>
+  );
+}
+
+function AirPlayIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M4 14.5C4 10.6 7.3 7.5 12 7.5C16.7 7.5 20 10.6 20 14.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M7 14.5C7 12 9.2 10 12 10C14.8 10 17 12 17 14.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M9.8 14.5C9.8 13.5 10.8 12.5 12 12.5C13.2 12.5 14.2 13.5 14.2 14.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <polygon points="12,13 16.5,19.5 7.5,19.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+function SlidersIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" className={className}>
+      <line x1="3" y1="8" x2="21" y2="8" />
+      <circle cx="16" cy="8" r="2.5" fill="currentColor" stroke="none" />
+      <line x1="3" y1="16" x2="21" y2="16" />
+      <circle cx="8" cy="16" r="2.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function SpeakerIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path
+        d="M10.8 4.6L6.2 8.3H3.8C3.1 8.3 2.5 8.9 2.5 9.6V14.4C2.5 15.1 3.1 15.7 3.8 15.7H6.2L10.8 19.4C11.4 19.9 12.3 19.4 12.3 18.6V5.4C12.3 4.6 11.4 4.1 10.8 4.6Z"
+        fill="currentColor"
+      />
+      <path
+        d="M15.5 9.2C16.4 10.1 16.9 11.2 16.9 12.5C16.9 13.8 16.4 14.9 15.5 15.8"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M18.8 6.5C20.4 8.1 21.3 10.2 21.3 12.5C21.3 14.8 20.4 16.9 18.8 18.5"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function WaveformIcon({ className = '', isPlaying = false }: { className?: string; isPlaying?: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <rect x="2" y="10" width="2.2" height="4" rx="1" className={isPlaying ? 'anim-waveform-1' : ''} />
+      <rect x="5.8" y="7" width="2.2" height="10" rx="1" className={isPlaying ? 'anim-waveform-2' : ''} />
+      <rect x="9.6" y="4" width="2.2" height="16" rx="1" className={isPlaying ? 'anim-waveform-3' : ''} />
+      <rect x="13.4" y="8" width="2.2" height="8" rx="1" className={isPlaying ? 'anim-waveform-4' : ''} />
+      <rect x="17.2" y="5" width="2.2" height="14" rx="1" className={isPlaying ? 'anim-waveform-5' : ''} />
+    </svg>
+  );
+}
+
+/* ── Types ─────────────────────────────────────── */
 
 interface NowPlayingProps {
   playerState: PlayerState;
@@ -31,10 +122,9 @@ interface NowPlayingProps {
   onToggleFavorite?: () => void;
 }
 
-function fmt(s: number): string {
-  if (!Number.isFinite(s) || s < 0) s = 0;
-  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-}
+const EQ_PRESETS = ['Flat', 'Bass Boost', 'Vocal Focus', 'Office Warmth', 'Studio HD'];
+
+/* ── Component ─────────────────────────────────── */
 
 export function NowPlaying({
   playerState,
@@ -52,296 +142,513 @@ export function NowPlaying({
 
   const seekRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
-  const knobRef = useRef<HTMLDivElement>(null);
-  const curTimeRef = useRef<HTMLSpanElement>(null);
-  const durTimeRef = useRef<HTMLSpanElement>(null);
   const [scrubbing, setScrubbing] = useState(false);
   const [showVolumePopup, setShowVolumePopup] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [showEqMenu, setShowEqMenu] = useState(false);
+  const [showAirplayMenu, setShowAirplayMenu] = useState(false);
+  const [activeEq, setActiveEq] = useState('Office Warmth');
 
-  // 60fps progress painting via refs
+  // Dynamic HSL color extraction from background image (fetching blob to avoid CORS canvas taint)
+  const [accentHsl, setAccentHsl] = useState<{ h: number; s: number } | null>(null);
+  const coverUrl = station.background || currentSong?.cover;
+
+  useEffect(() => {
+    if (!coverUrl) return;
+
+    let isMounted = true;
+
+    fetch(coverUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        if (!isMounted) return;
+        const blobUrl = URL.createObjectURL(blob);
+        const img = new window.Image();
+        img.src = blobUrl;
+
+        img.onload = () => {
+          if (!isMounted) {
+            URL.revokeObjectURL(blobUrl);
+            return;
+          }
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 40;
+            canvas.height = 40;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            ctx.drawImage(img, 0, 0, 40, 40);
+            const data = ctx.getImageData(0, 0, 40, 40).data;
+
+            let maxSat = -1;
+            let bestH = 265;
+            let bestS = 50;
+
+            for (let i = 0; i < data.length; i += 4) {
+              const r = data[i];
+              const g = data[i + 1];
+              const b = data[i + 2];
+              const max = Math.max(r, g, b);
+              const min = Math.min(r, g, b);
+              const sat = max - min;
+
+              // Sample vibrant colorful pixels (sky, hoodie, sunset)
+              if (sat > maxSat && max > 45 && min < 220) {
+                maxSat = sat;
+                let h = 0;
+                const d = max - min;
+                if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+                else if (max === g) h = (b - r) / d + 2;
+                else if (max === b) h = (r - g) / d + 4;
+                h = Math.round((h / 6) * 360);
+
+                bestH = h;
+                bestS = Math.min(75, Math.max(35, Math.round((sat / max) * 100)));
+              }
+            }
+
+            if (maxSat > 15) {
+              setAccentHsl({ h: bestH, s: bestS });
+            }
+          } catch {
+            // Fallback
+          } finally {
+            URL.revokeObjectURL(blobUrl);
+          }
+        };
+      })
+      .catch(() => {
+        // Fallback
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [coverUrl]);
+
+  useEffect(() => {
+    function close(e: MouseEvent) {
+      if (!(e.target as HTMLElement).closest('.player-popover-area')) {
+        setShowMoreMenu(false);
+        setShowEqMenu(false);
+        setShowAirplayMenu(false);
+      }
+    }
+    window.addEventListener('click', close);
+    return () => window.removeEventListener('click', close);
+  }, []);
+
   useEffect(() => {
     if (scrubbing) return;
-    const frac = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
-    if (fillRef.current) fillRef.current.style.transform = `scaleX(${frac})`;
-    if (knobRef.current) {
-      const seekWidth = seekRef.current?.clientWidth || 0;
-      knobRef.current.style.transform = `translate(-50%, -50%) translateX(${frac * seekWidth}px)`;
-    }
-    if (curTimeRef.current) curTimeRef.current.textContent = fmt(currentTime);
-    if (durTimeRef.current) durTimeRef.current.textContent = fmt(duration);
+    const f = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
+    if (fillRef.current) fillRef.current.style.transform = `scaleX(${f})`;
   }, [currentTime, duration, scrubbing]);
 
-  const fractionFromEvent = useCallback((e: PointerEvent | React.PointerEvent) => {
+  const frac = useCallback((e: PointerEvent | React.PointerEvent) => {
     if (!seekRef.current) return 0;
     const r = seekRef.current.getBoundingClientRect();
     return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
   }, []);
 
-  const previewSeek = useCallback((frac: number) => {
-    if (fillRef.current) fillRef.current.style.transform = `scaleX(${frac})`;
-    if (knobRef.current) {
-      const seekWidth = seekRef.current?.clientWidth || 0;
-      knobRef.current.style.transform = `translate(-50%, -50%) translateX(${frac * seekWidth}px)`;
-    }
-    if (curTimeRef.current && duration > 0) {
-      curTimeRef.current.textContent = fmt(duration * frac);
-    }
-  }, [duration]);
+  const preview = useCallback((f: number) => {
+    if (fillRef.current) fillRef.current.style.transform = `scaleX(${f})`;
+  }, []);
 
-  const handleSeekDown = useCallback((e: React.PointerEvent) => {
+  const onDown = useCallback((e: React.PointerEvent) => {
     setScrubbing(true);
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    previewSeek(fractionFromEvent(e));
-  }, [fractionFromEvent, previewSeek]);
+    preview(frac(e));
+  }, [frac, preview]);
 
-  const handleSeekMove = useCallback((e: React.PointerEvent) => {
-    if (scrubbing) previewSeek(fractionFromEvent(e));
-  }, [scrubbing, fractionFromEvent, previewSeek]);
+  const onMove = useCallback((e: React.PointerEvent) => {
+    if (scrubbing) preview(frac(e));
+  }, [scrubbing, frac, preview]);
 
-  const handleSeekUp = useCallback((e: React.PointerEvent) => {
+  const onUp = useCallback((e: React.PointerEvent) => {
     if (!scrubbing) return;
     setScrubbing(false);
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-    const frac = fractionFromEvent(e);
-    if (duration > 0) playerActions.seek(duration * frac);
-  }, [scrubbing, fractionFromEvent, duration, playerActions]);
+    const f = frac(e);
+    if (duration > 0) playerActions.seek(duration * f);
+  }, [scrubbing, frac, duration, playerActions]);
 
-  const handlePlayClick = useCallback(() => {
-    if (!started) {
-      onFirstPlay();
-    } else {
-      playerActions.togglePlay();
-    }
+  const handlePlay = useCallback(() => {
+    if (!started) onFirstPlay();
+    else playerActions.togglePlay();
   }, [started, onFirstPlay, playerActions]);
 
-  const VolumeIcon = isMuted || volume === 0 ? VolumeX : volume < 0.5 ? Volume1 : Volume2;
+  const hue = accentHsl ? accentHsl.h : 265;
+  const sat = accentHsl ? accentHsl.s : 50;
 
+  // Dark Card Background: Rich midnight dark hue matching background sky/accent (e.g. dark violet/purple)
+  const cardBg = `hsla(${hue}, ${sat}%, 8%, 0.92)`;
+  const cardBorder = `1px solid hsla(${hue}, ${sat}%, 55%, 0.22)`;
+
+  // Outer Glass Player Background: Translucent dark glowing glass
+  const outerBg = `hsla(${hue}, ${sat}%, 12%, 0.72)`;
+  const outerBorder = `1px solid hsla(${hue}, ${sat}%, 60%, 0.25)`;
+
+  // Dynamic Dialog Popover Background
+  const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)`;
+  const popoverBorder = `1px solid hsla(${hue}, ${sat}%, 60%, 0.22)`;
+
+  /* ── Render ── */
   return (
-    <section
-      className="player-pill glass-pill flex items-center gap-2 sm:gap-3.5 w-full select-none px-2 py-1.5 sm:py-[0.45rem] sm:pr-[0.9rem] sm:pl-[0.5rem]"
-      style={{
-        borderRadius: '999px',
-        background: 'rgba(12, 12, 16, 0.85)',
-        backdropFilter: 'blur(36px) saturate(170%)',
-        WebkitBackdropFilter: 'blur(36px) saturate(170%)',
-        border: '1px solid rgba(255, 255, 255, 0.18)',
-        boxShadow: '0 20px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.22)',
-      }}
-      aria-label="Music Player"
-    >
-      {/* Vinyl Disc Artwork with safe clearance */}
-      <div
-        className={`disc ${isPlaying ? 'disc--playing' : ''} flex-none w-[2.8rem] h-[2.8rem] sm:w-[3.4rem] sm:h-[3.4rem]`}
+    <div className="relative w-full flex justify-center player-popover-area select-none">
+
+      {/* ════════ OUTER GLASS PILL ════════ */}
+      <section
+        aria-label="Music Player"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '850px',
+          maxWidth: 'calc(100vw - 80px)',
+          height: '86px',
+          borderRadius: '44px',
+          padding: '0 42px',
+          background: outerBg,
+          backdropFilter: 'blur(18px) saturate(130%)',
+          WebkitBackdropFilter: 'blur(18px) saturate(130%)',
+          border: outerBorder,
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.28)',
+          position: 'relative',
+          transition: 'background 500ms ease, border-color 500ms ease',
+        }}
       >
-        <div className="disc__ring shadow-lg shadow-black/60">
-          {currentSong?.cover ? (
-            <Image
-              src={currentSong.cover}
-              alt={currentSong.title || 'Album art'}
-              width={54}
-              height={54}
-              className="disc__art"
-              sizes="54px"
-              priority
+
+        {/* ── LEFT: Utility Controls (Heart, Equalizer, Volume) ── */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '26px', flexShrink: 0 }}>
+
+          {/* Favorite Heart Button */}
+          <button
+            type="button"
+            onClick={() => onToggleFavorite?.()}
+            aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            style={{ padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
+            className="hover:scale-105 active:scale-95 transition-all"
+          >
+            <Heart
+              className={`w-[22px] h-[22px] transition-colors ${
+                isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'
+              }`}
             />
-          ) : (
-            <div className="flex items-center justify-center h-full bg-[#1a1a1a]">
-              <Music className="w-5 h-5 text-white/40" />
+          </button>
+
+          {/* Equalizer */}
+          <div style={{ position: 'relative' }}>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowAirplayMenu(false); setShowMoreMenu(false); }}
+              aria-label="Equalizer & FX" title="Equalizer Settings"
+              style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
+              className="hover:text-white active:scale-95 transition-all"
+            >
+              <SlidersIcon className="w-[22px] h-[22px]" />
+            </button>
+            {showEqMenu && (
+              <div style={{
+                position: 'absolute', bottom: '100%', marginBottom: '12px', left: 0, width: '210px', zIndex: 50,
+                background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)',
+                border: popoverBorder, borderRadius: '18px',
+                padding: '10px', boxShadow: '0 16px 40px rgba(0,0,0,0.55)',
+                transition: 'background 500ms ease, border-color 500ms ease',
+              }}>
+                <div className="flex items-center gap-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.10)', paddingBottom: '7px', marginBottom: '7px', paddingLeft: '4px' }}>
+                  <Sparkles className="w-3.5 h-3.5 text-white/80" />
+                  <p style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>Audio Presets</p>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                  {EQ_PRESETS.map((p) => (
+                    <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }}
+                      className="w-full flex items-center justify-between text-left transition-all hover:bg-white/10"
+                      style={{
+                        padding: '6px 10px', fontSize: '11px', borderRadius: '11px', cursor: 'pointer',
+                        fontWeight: activeEq === p ? 700 : 500,
+                        color: activeEq === p ? '#ffffff' : 'rgba(255,255,255,0.65)',
+                        backgroundColor: activeEq === p ? 'rgba(255, 255, 255, 0.14)' : 'transparent',
+                        border: activeEq === p ? '1px solid rgba(255, 255, 255, 0.22)' : '1px solid transparent',
+                      }}>
+                      <span>{p}</span>
+                      {activeEq === p && <Check className="w-3.5 h-3.5 text-white" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Volume */}
+          <div
+            style={{
+              position: 'relative', display: 'flex', alignItems: 'center',
+              width: showVolumePopup ? '100px' : '26px',
+              background: showVolumePopup ? 'rgba(255,255,255,0.07)' : 'transparent',
+              borderRadius: '999px',
+              border: showVolumePopup ? '1px solid rgba(255,255,255,0.10)' : '1px solid transparent',
+              padding: showVolumePopup ? '1px 5px' : '0',
+              transition: 'width 300ms ease, background 300ms ease, border 300ms ease, padding 300ms ease',
+              overflow: 'hidden',
+            }}
+            onMouseEnter={() => setShowVolumePopup(true)}
+            onMouseLeave={() => setShowVolumePopup(false)}
+          >
+            <button
+              type="button"
+              onClick={playerActions.toggleMute}
+              aria-label={isMuted ? 'Unmute' : 'Mute'}
+              title={isMuted ? 'Unmute' : `Volume: ${Math.round((isMuted ? 0 : volume) * 100)}%`}
+              style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', flexShrink: 0, background: 'none', border: 'none' }}
+              className="hover:text-white active:scale-95 transition-all"
+            >
+              <SpeakerIcon className="w-[22px] h-[22px]" />
+            </button>
+            <div style={{
+              flex: 1, paddingRight: '5px', display: 'flex', alignItems: 'center',
+              opacity: showVolumePopup ? 1 : 0,
+              transition: 'opacity 200ms ease',
+              transitionDelay: showVolumePopup ? '60ms' : '0ms',
+              pointerEvents: showVolumePopup ? 'auto' : 'none',
+            }}>
+              <input
+                type="range" min="0" max="1" step="0.01"
+                value={isMuted ? 0 : volume}
+                onChange={(e) => playerActions.setVolume(parseFloat(e.target.value))}
+                className="w-full h-[3px] rounded-full appearance-none cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-sm"
+                style={{
+                  background: `linear-gradient(to right, #fff ${(isMuted ? 0 : volume) * 100}%, rgba(255,255,255,0.18) ${(isMuted ? 0 : volume) * 100}%)`,
+                }}
+                aria-label="Volume slider"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ── CENTER: Dark Track Card ── */}
+        <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', justifyContent: 'center', margin: '0 30px', position: 'relative' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '460px',
+              maxWidth: '100%',
+              height: '68px',
+              borderRadius: '18px',
+              background: cardBg,
+              border: cardBorder,
+              padding: '0 14px',
+              gap: '12px',
+              transition: 'background 500ms ease, border-color 500ms ease',
+            }}
+          >
+            {/* Album Art — 52×52, 11px radius */}
+            <div
+              style={{
+                position: 'relative',
+                width: '50px',
+                height: '50px',
+                borderRadius: '10px',
+                overflow: 'hidden',
+                flexShrink: 0,
+                background: '#161520',
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              {currentSong?.cover ? (
+                <Image
+                  src={currentSong.cover}
+                  alt={currentSong.title || 'Album cover'}
+                  fill
+                  className="object-cover"
+                  sizes="50px"
+                  priority
+                />
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                  <Music style={{ width: '18px', height: '18px', color: 'rgba(255,255,255,0.25)' }} />
+                </div>
+              )}
+            </div>
+
+            {/* Text + Progress — unified vertical group */}
+            <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+
+              {/* Title — 15px, bold */}
+              <p style={{
+                fontSize: '14px',
+                fontWeight: 700,
+                color: '#ffffff',
+                lineHeight: '18px',
+                letterSpacing: '-0.01em',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                margin: 0,
+              }}>
+                {currentSong?.artist || 'Gery & Gany'}
+                {isLoading && <Loader2 className="inline-block animate-spin text-amber-400" style={{ width: '12px', height: '12px', marginLeft: '6px' }} />}
+              </p>
+
+              {/* Artist — 11px, muted */}
+              <p style={{
+                fontSize: '11px',
+                fontWeight: 500,
+                color: 'rgba(255, 255, 255, 0.50)',
+                lineHeight: '16px',
+                marginTop: '2px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}>
+                {error
+                  ? <span style={{ color: '#f87171', fontWeight: 400 }}>{error}</span>
+                  : currentSong?.title || 'Rusuk'
+                }
+              </p>
+
+              {/* Progress — 3px, 6px below artist */}
+              <div
+                ref={seekRef}
+                role="slider"
+                tabIndex={0}
+                aria-label="Seek track position"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0}
+                onPointerDown={onDown}
+                onPointerMove={onMove}
+                onPointerUp={onUp}
+                style={{
+                  width: '100%',
+                  height: '3px',
+                  borderRadius: '999px',
+                  background: 'rgba(255, 255, 255, 0.16)',
+                  marginTop: '6px',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                <div
+                  ref={fillRef}
+                  style={{
+                    height: '100%',
+                    borderRadius: '999px',
+                    background: 'rgba(255, 255, 255, 0.80)',
+                    transformOrigin: 'left center',
+                    transition: 'transform 75ms linear',
+                    transform: `scaleX(${duration > 0 ? currentTime / duration : 0})`,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Card right: Waveform + ··· */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0, paddingLeft: '8px' }}>
+              <WaveformIcon
+                isPlaying={isPlaying}
+                className={`w-[18px] h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`}
+              />
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMoreMenu(p => !p);
+                  setShowEqMenu(false);
+                  setShowAirplayMenu(false);
+                }}
+                aria-label="More song options"
+                title="Song options"
+                style={{ color: 'rgba(255,255,255,0.45)', padding: '2px', cursor: 'pointer', background: 'none', border: 'none' }}
+                className="hover:text-white transition-colors"
+              >
+                <MoreHorizontal style={{ width: '18px', height: '18px' }} />
+              </button>
+            </div>
+          </div>
+
+          {/* More popover */}
+          {showMoreMenu && (
+            <div style={{
+              position: 'absolute', bottom: '100%', marginBottom: '12px',
+              left: '50%', transform: 'translateX(-50%)', width: '220px', zIndex: 50,
+              background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)',
+              border: popoverBorder, borderRadius: '18px',
+              padding: '8px', boxShadow: '0 16px 40px rgba(0,0,0,0.55)',
+              transition: 'background 500ms ease, border-color 500ms ease',
+            }}>
+              <div style={{ padding: '6px 10px', borderBottom: '1px solid rgba(255,255,255,0.10)', marginBottom: '4px' }}>
+                <p className="truncate" style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>{currentSong?.title || 'Track Info'}</p>
+                <p className="truncate" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>{currentSong?.artist || 'Office Waala'}</p>
+              </div>
+              {onToggleFavorite && (
+                <button type="button" onClick={() => { onToggleFavorite(); setShowMoreMenu(false); }}
+                  className="w-full flex items-center text-left hover:bg-white/10 transition-all"
+                  style={{ gap: '8px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.85)', borderRadius: '11px', background: 'none', border: 'none', cursor: 'pointer' }}>
+                  <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/60'}`} />
+                  {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                </button>
+              )}
+              <button type="button" onClick={() => { playerActions.toggleShuffle(); setShowMoreMenu(false); }}
+                className="w-full flex items-center text-left hover:bg-white/10 transition-all"
+                style={{ gap: '8px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.85)', borderRadius: '11px', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <Shuffle className={`w-3.5 h-3.5 ${isShuffle ? 'text-white font-bold' : 'text-white/60'}`} />
+                {isShuffle ? 'Shuffle: Enabled' : 'Shuffle: Disabled'}
+              </button>
+              {onTogglePlaylist && (
+                <button type="button" onClick={() => { onTogglePlaylist(); setShowMoreMenu(false); }}
+                  className="w-full flex items-center text-left hover:bg-white/10 transition-all"
+                  style={{ gap: '8px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.85)', borderRadius: '11px', background: 'none', border: 'none', cursor: 'pointer' }}>
+                  <ListMusic className="w-3.5 h-3.5 text-white/60" />
+                  {isPlaylistOpen ? 'Hide Playlist' : 'Show Playlist'}
+                </button>
+              )}
             </div>
           )}
         </div>
-        <span className="disc__hub" aria-hidden="true" />
-      </div>
 
-      {/* Meta + Seek Progress Bar */}
-      <div className="flex-1 min-w-0 pr-1 py-0.5">
-        {/* Title, Artist and Heart button */}
-        <div className="flex items-center justify-between gap-2">
-          <p
-            className="font-bold text-xs sm:text-[13px] leading-tight text-white truncate"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}
-          >
-            {currentSong?.title || 'Office Waala'}
-            {isLoading && <Loader2 className="inline-block w-3 h-3 ml-1.5 animate-spin text-amber-400" />}
-          </p>
-
-          {/* Dedicated Favorite Heart Button */}
-          {onToggleFavorite && (
-            <button
-              type="button"
-              onClick={onToggleFavorite}
-              className="p-1 rounded-full text-white/40 hover:text-red-400 transition-all cursor-pointer flex-none active:scale-125"
-              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              aria-label="Favorite song"
-            >
-              <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
-            </button>
-          )}
-        </div>
-
-        <p className="text-[10px] sm:text-[11px] font-semibold text-white/60 truncate leading-tight mt-0.5">
-          {error ? (
-            <span className="text-red-400/90 font-medium">{error}</span>
-          ) : (
-            currentSong?.artist || station.tagline
-          )}
-        </p>
-
-        {/* 60fps Seek bar with comfortable margin */}
-        <div
-          ref={seekRef}
-          className="seek mt-1.5 mb-0.5"
-          role="slider"
-          tabIndex={0}
-          aria-label="Seek track position"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0}
-          onPointerDown={handleSeekDown}
-          onPointerMove={handleSeekMove}
-          onPointerUp={handleSeekUp}
-        >
-          <div className="seek__rail">
-            <div ref={fillRef} className="seek__fill" />
-          </div>
-          <div ref={knobRef} className="seek__knob" />
-        </div>
-
-        {/* Time elapsed / duration */}
-        <div className="flex justify-between mt-0.5">
-          <span
-            ref={curTimeRef}
-            className="text-[9px] sm:text-[10px] font-bold text-white/50 tabular-nums"
-          >
-            0:00
-          </span>
-          <span
-            ref={durTimeRef}
-            className="text-[9px] sm:text-[10px] font-bold text-white/50 tabular-nums"
-          >
-            0:00
-          </span>
-        </div>
-      </div>
-
-      {/* Control Buttons with comfortable touch targets and gap */}
-      <div className="player-controls flex items-center gap-1 sm:gap-1.5 flex-none relative">
-        {/* Shuffle Toggle Button */}
-        <button
-          type="button"
-          onClick={playerActions.toggleShuffle}
-          className={`ctrl-btn w-[1.85rem] h-[1.85rem] rounded-full transition-all duration-150 active:scale-90 ${
-            isShuffle
-              ? 'text-amber-400 bg-amber-400/20 border border-amber-400/40 shadow-sm shadow-amber-400/20'
-              : 'text-white/70 hover:text-white hover:bg-white/10'
-          }`}
-          aria-label="Toggle shuffle"
-          aria-pressed={isShuffle}
-          title={isShuffle ? 'Shuffle: ON (Randomized)' : 'Shuffle: OFF (Ordered)'}
-        >
-          <Shuffle className="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" />
-        </button>
-
-        {/* Previous Button */}
-        <button
-          type="button"
-          onClick={playerActions.previous}
-          className="ctrl-btn w-[1.85rem] h-[1.85rem] rounded-full text-white/80 hover:text-white hover:bg-white/10 active:scale-90 transition-all"
-          aria-label="Previous track"
-          title="Previous track"
-        >
-          <SkipBack className="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" fill="currentColor" />
-        </button>
-
-        {/* Big Central Play/Pause Button */}
-        <button
-          type="button"
-          onClick={handlePlayClick}
-          className="ctrl-btn ctrl-btn--play w-[2.35rem] h-[2.35rem] sm:w-[2.5rem] sm:h-[2.5rem] rounded-full shadow-lg shadow-black/50 active:scale-90 transition-transform duration-100 flex items-center justify-center cursor-pointer mx-0.5"
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-          title={isPlaying ? 'Pause' : 'Play'}
-        >
-          {isPlaying ? (
-            <Pause className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="currentColor" />
-          ) : (
-            <Play className="w-4 h-4 sm:w-[18px] sm:h-[18px] ml-[1.5px]" fill="currentColor" />
-          )}
-        </button>
-
-        {/* Next Button */}
-        <button
-          type="button"
-          onClick={playerActions.next}
-          className="ctrl-btn w-[1.85rem] h-[1.85rem] rounded-full text-white/80 hover:text-white hover:bg-white/10 active:scale-90 transition-all"
-          aria-label="Next track"
-          title="Next track"
-        >
-          <SkipForward className="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" fill="currentColor" />
-        </button>
-
-        {/* Playlist Toggle Button */}
-        {onTogglePlaylist && (
+        {/* ── RIGHT: Playback Controls (Prev, Play/Pause, Next) ── */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '26px', flexShrink: 0 }}>
           <button
             type="button"
-            onClick={onTogglePlaylist}
-            className={`ctrl-btn w-[1.85rem] h-[1.85rem] rounded-full transition-all duration-150 active:scale-90 ${
-              isPlaylistOpen
-                ? 'text-amber-400 bg-amber-400/20 border border-amber-400/40 shadow-sm shadow-amber-400/20'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-            }`}
-            aria-label="Playlist"
-            aria-expanded={isPlaylistOpen}
-            title={isPlaylistOpen ? 'Hide Playlist' : 'Show Playlist'}
+            onClick={playerActions.previous}
+            aria-label="Previous track"
+            title="Previous track"
+            style={{ color: 'rgba(255,255,255,0.7)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
+            className="hover:text-white active:scale-95 transition-all"
           >
-            <ListMusic className="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" />
+            <RewindIcon className="w-[22px] h-[22px]" />
           </button>
-        )}
 
-        {/* Expanding Volume Pill */}
-        <div
-          className={`relative flex items-center transition-all duration-300 ease-out overflow-hidden ${
-            showVolumePopup
-              ? 'w-[7rem] sm:w-[7.5rem] bg-white/[0.08] rounded-full shadow-inner border border-white/[0.08]'
-              : 'w-[1.85rem] bg-transparent border border-transparent rounded-full'
-          }`}
-          onMouseEnter={() => setShowVolumePopup(true)}
-          onMouseLeave={() => setShowVolumePopup(false)}
-        >
           <button
             type="button"
-            onClick={playerActions.toggleMute}
-            className={`ctrl-btn flex-none w-[1.85rem] h-[1.85rem] rounded-full active:scale-90 transition-all flex items-center justify-center ${
-              isMuted ? 'text-red-400' : 'text-white/75 hover:text-white'
-            }`}
-            aria-label={isMuted ? 'Unmute' : 'Mute'}
-            title={isMuted ? 'Unmute' : `Volume: ${Math.round((isMuted ? 0 : volume) * 100)}%`}
+            onClick={handlePlay}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            title={isPlaying ? 'Pause' : 'Play'}
+            style={{ color: 'rgba(255,255,255,0.8)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
+            className="hover:text-white active:scale-95 transition-all"
           >
-            <VolumeIcon className="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" />
+            {isPlaying
+              ? <PauseIcon className="w-[22px] h-[22px]" />
+              : <PlayIcon className="w-[22px] h-[22px]" />
+            }
           </button>
 
-          <div
-            className={`flex-1 pr-2.5 flex items-center transition-opacity duration-300 ${
-              showVolumePopup ? 'opacity-100 delay-100' : 'opacity-0 duration-75'
-            }`}
+          <button
+            type="button"
+            onClick={playerActions.next}
+            aria-label="Next track"
+            title="Next track"
+            style={{ color: 'rgba(255,255,255,0.7)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
+            className="hover:text-white active:scale-95 transition-all"
           >
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={isMuted ? 0 : volume}
-              onChange={(e) => playerActions.setVolume(parseFloat(e.target.value))}
-              className="w-full h-1 rounded-full appearance-none cursor-pointer outline-none transition-all [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:bg-amber-400 [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full"
-              style={{
-                background: `linear-gradient(to right, #fbbf24 ${
-                  (isMuted ? 0 : volume) * 100
-                }%, rgba(255,255,255,0.15) ${(isMuted ? 0 : volume) * 100}%)`,
-              }}
-              aria-label="Volume slider"
-            />
-          </div>
+            <ForwardIcon className="w-[22px] h-[22px]" />
+          </button>
         </div>
-      </div>
-    </section>
+
+      </section>
+    </div>
   );
 }
