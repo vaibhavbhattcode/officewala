@@ -24,17 +24,17 @@ export const StationHeader = memo(function StationHeader({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-30 w-full select-none pointer-events-none">
-      <div className="max-w-7xl mx-auto px-3 sm:px-8 py-3 sm:py-4 grid grid-cols-3 items-center gap-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between relative">
         {/* Left: Clock */}
-        <div className="flex flex-col items-start pointer-events-auto min-w-0 justify-self-start">
+        <div className="flex flex-col items-start pointer-events-auto shrink-0 min-w-0 z-10">
           <span
-            className="font-extrabold text-xs sm:text-base md:text-lg tracking-wide text-white tabular-nums leading-tight truncate w-full"
+            className="font-extrabold text-xs sm:text-base md:text-lg tracking-wide text-white tabular-nums leading-tight"
             style={{ textShadow: '0 2px 10px rgba(0,0,0,0.85)' }}
           >
             {clock.time}
           </span>
           <span
-            className="text-[9px] sm:text-[11px] text-white/70 tracking-[0.1em] sm:tracking-[0.18em] uppercase font-bold mt-0.5 truncate w-full"
+            className="text-[9px] sm:text-[11px] text-white/70 tracking-[0.1em] sm:tracking-[0.18em] uppercase font-bold mt-0.5 whitespace-nowrap"
             style={{ textShadow: '0 1px 4px rgba(0,0,0,0.85)' }}
           >
             {clock.day} <span className="hidden sm:inline">·</span> {clock.date}
@@ -42,9 +42,9 @@ export const StationHeader = memo(function StationHeader({
         </div>
 
         {/* Center: Live Office Listeners Badge */}
-        <div className="pointer-events-auto flex items-center justify-center justify-self-center">
+        <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-20">
           <div
-            className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border border-emerald-500/35 bg-black/55 backdrop-blur-2xl shadow-xl shadow-black/50 hover:border-emerald-400/50 transition-colors max-w-full overflow-hidden"
+            className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border border-emerald-500/35 bg-black/55 backdrop-blur-2xl shadow-xl shadow-black/50 hover:border-emerald-400/50 transition-colors whitespace-nowrap"
             title="Real-time listeners active in the office"
           >
             {/* Pulsing Emerald Radar Dot */}
@@ -59,14 +59,14 @@ export const StationHeader = memo(function StationHeader({
             </span>
 
             {/* Location Label */}
-            <span className="text-[9px] sm:text-[11px] text-emerald-300 font-extrabold tracking-wider uppercase hidden md:inline truncate">
+            <span className="text-[9px] sm:text-[11px] text-emerald-300 font-extrabold tracking-wider uppercase hidden sm:inline">
               {station.locationText}
             </span>
           </div>
         </div>
 
         {/* Right: Premium Favorites Button */}
-        <div className="flex items-center justify-end pointer-events-auto min-w-0 justify-self-end">
+        <div className="flex items-center justify-end pointer-events-auto shrink-0 min-w-0 z-10">
           <button
             type="button"
             onClick={onToggleFavoritesMode}

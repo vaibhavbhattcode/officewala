@@ -6,7 +6,7 @@ import { getFirebaseDatabase } from '@/lib/firebase';
 const PRESENCE_STORAGE_KEY = 'office_waala_active_sessions';
 
 export function useFirebasePresence(): number {
-  const [listenerCount, setListenerCount] = useState<number>(52);
+  const [listenerCount, setListenerCount] = useState<number>(1);
   const sessionIdRef = useRef<string>('');
   const hasFirebaseRef = useRef<boolean>(false);
 
@@ -21,7 +21,7 @@ export function useFirebasePresence(): number {
 
     const myId = sessionIdRef.current;
 
-    // Local multi-tab presence heartbeat
+    // Local multi-tab presence heartbeat (Fallback if no Firebase)
     const updateLocalPresence = () => {
       try {
         const now = Date.now();
@@ -46,20 +46,15 @@ export function useFirebasePresence(): number {
     let activeLocalTabs = updateLocalPresence();
     const heartbeatInterval = setInterval(() => {
       activeLocalTabs = updateLocalPresence();
+      if (!hasFirebaseRef.current) {
+        setListenerCount(activeLocalTabs);
+      }
     }, 4000);
 
-    // Realistic corporate listener base (e.g., 46 - 58) + local active tabs
-    let baseOfficeAudience = 48 + Math.floor(Math.random() * 6);
-    setListenerCount(baseOfficeAudience + activeLocalTabs);
+    // Initial local set
+    setListenerCount(activeLocalTabs);
 
-    const driftInterval = setInterval(() => {
-      if (hasFirebaseRef.current) return;
-      const change = Math.random() > 0.52 ? 1 : -1;
-      baseOfficeAudience = Math.max(42, Math.min(68, baseOfficeAudience + change));
-      setListenerCount(baseOfficeAudience + activeLocalTabs);
-    }, 5000 + Math.random() * 3000);
-
-    // Firebase presence (if credentials configured)
+    // Firebase exact real-time presence
     const db = getFirebaseDatabase();
     let firebaseCleanup: (() => void) | undefined;
 
@@ -70,23 +65,29 @@ export function useFirebasePresence(): number {
             'firebase/database'
           );
 
+          const connectedRef = ref(db, '.info/connected');
           const sessionRef = ref(db, `presence/${myId}`);
           const presenceRoot = ref(db, 'presence');
 
-          await set(sessionRef, {
-            connected: true,
-            timestamp: serverTimestamp(),
+          const connectedUnsub = onValue(connectedRef, (snap) => {
+            if (snap.val() === true) {
+              // Ensure we remove ourselves on disconnect
+              onDisconnect(sessionRef).remove().then(() => {
+                set(sessionRef, {
+                  connected: true,
+                  timestamp: serverTimestamp(),
+                });
+              });
+            }
           });
 
-          onDisconnect(sessionRef).remove();
-
-          const unsubscribe = onValue(
+          const presenceUnsub = onValue(
             presenceRoot,
             (snapshot) => {
               const data = snapshot.val();
               const count = data ? Object.keys(data).length : 0;
               hasFirebaseRef.current = true;
-              setListenerCount(Math.max(1, count + 45)); // Real presence + office floor broadcast
+              setListenerCount(Math.max(1, count)); // Exactly real count
             },
             () => {
               hasFirebaseRef.current = false;
@@ -94,7 +95,8 @@ export function useFirebasePresence(): number {
           );
 
           firebaseCleanup = () => {
-            unsubscribe();
+            connectedUnsub();
+            presenceUnsub();
             set(sessionRef, null).catch(() => {});
           };
         } catch {
@@ -103,10 +105,7 @@ export function useFirebasePresence(): number {
       })();
     }
 
-    return () => {
-      clearInterval(heartbeatInterval);
-      clearInterval(driftInterval);
-      firebaseCleanup?.();
+    const handleBeforeUnload = () => {
       try {
         const raw = localStorage.getItem(PRESENCE_STORAGE_KEY);
         if (raw) {
@@ -114,9 +113,18 @@ export function useFirebasePresence(): number {
           delete sessions[myId];
           localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(sessions));
         }
-      } catch {
-        // ignore
+      } catch {}
+      if (firebaseCleanup) {
+        firebaseCleanup();
       }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearInterval(heartbeatInterval);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      handleBeforeUnload();
     };
   }, []);
 
