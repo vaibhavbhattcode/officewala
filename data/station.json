@@ -1,0 +1,14 @@
+{
+  "name": "Office Waala",
+  "subtitle": "WORKSPACE RADIO",
+  "tagline": "Good Work. Good Music.",
+  "locationText": "LIVE IN THE OFFICE",
+  "logo": "/logo/logo.png",
+  "background": "/backgrounds/office.webp",
+  "primaryColor": "#D9A441",
+  "secondaryColor": "#1A1A2E",
+  "shuffle": false,
+  "autoplayNext": true,
+  "loopPlaylist": true,
+  "oneLinerInterval": 15000
+}

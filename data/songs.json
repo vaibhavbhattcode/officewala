@@ -1,0 +1,34 @@
+[
+  {
+    "id": "office-001",
+    "title": "100 Million",
+    "artist": "DIVINE, Karan Aujla",
+    "album": "Street Dreams",
+    "cover": "/images/song-1.webp",
+    "audio": "/songs/100 Million - DIVINE, Karan Aujla  Official Music Video.mp3"
+  },
+  {
+    "id": "office-002",
+    "title": "Boom Shaka",
+    "artist": "KR$NA, Dhanda Nyoliwala",
+    "album": "Street Beats",
+    "cover": "/images/song-2.webp",
+    "audio": "/songs/Boom Shaka (Official Music Video)  KR$NA   Dhanda Nyoliwala.mp3"
+  },
+  {
+    "id": "office-003",
+    "title": "Brown Rang",
+    "artist": "Yo Yo Honey Singh",
+    "album": "International Villager",
+    "cover": "/images/song-3.webp",
+    "audio": "/songs/Brown Rang (8K Video)  Yo Yo Honey Singh  Full Song  Latest Punjabi Song 2026.mp3"
+  },
+  {
+    "id": "office-004",
+    "title": "We Rollin",
+    "artist": "Shubh",
+    "album": "Single",
+    "cover": "/images/song-4.webp",
+    "audio": "/songs/We Rollin (Official Audio) - Shubh.mp3"
+  }
+]
