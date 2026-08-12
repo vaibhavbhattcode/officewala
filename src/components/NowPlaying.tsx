@@ -137,7 +137,7 @@ export function NowPlaying({
   isFavorite = false,
   onToggleFavorite,
 }: NowPlayingProps) {
-  const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error } =
+  const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error, isYouTube } =
     playerState;
 
   const fillRef = useRef<HTMLDivElement>(null);
