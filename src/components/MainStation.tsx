@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Song, StationConfig, PlayerState } from '@/types/types';
 import { AudioPlayerActions } from '@/hooks/useAudioPlayer';
 import { HeroBackground } from './HeroBackground';
@@ -37,6 +37,22 @@ export function MainStation({
   onToggleFavoritesMode,
 }: MainStationProps) {
   const [showPlaylist, setShowPlaylist] = useState(false);
+
+  // Click outside to close playlist
+  useEffect(() => {
+    if (!showPlaylist) return;
+    function close(e: MouseEvent) {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.playlist-popup') && !target.closest('.playlist-toggle-btn')) {
+        setShowPlaylist(false);
+      }
+    }
+    // Delay adding the listener to avoid the immediate toggle click
+    setTimeout(() => {
+      window.addEventListener('click', close);
+    }, 10);
+    return () => window.removeEventListener('click', close);
+  }, [showPlaylist]);
 
   // Active playlist based on mode
   const displayedSongs = useMemo(() => {

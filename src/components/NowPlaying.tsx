@@ -530,8 +530,9 @@ export function NowPlaying({
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onTogglePlaylist(); }}
-              className={`p-2 cursor-pointer rounded-full transition-all active:scale-95 border ${isPlaylistOpen ? 'bg-white/15 text-white border-white/20 shadow-inner' : 'bg-transparent text-white/50 border-transparent hover:text-white hover:bg-white/5'}`}
-              title="Toggle Playlist"
+              className={`playlist-toggle-btn p-2 cursor-pointer rounded-full transition-all active:scale-95 border ${isPlaylistOpen ? 'bg-white/15 text-white border-white/20 shadow-inner' : 'bg-transparent text-white/50 border-transparent hover:text-white hover:bg-white/5'}`}
+              aria-label="Toggle playlist"
+              title="Playlist"
             >
               <ListMusic className="w-[20px] h-[20px] sm:w-[20px] sm:h-[20px]" />
             </button>
