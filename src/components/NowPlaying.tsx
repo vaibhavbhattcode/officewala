@@ -366,7 +366,6 @@ export function NowPlaying({
           <div className="flex flex-col min-w-0 justify-center pr-2">
             <p className="text-[13px] sm:text-[15px] font-bold text-white leading-tight tracking-tight truncate">
               {currentSong?.title || 'Track Title'}
-              {isLoading && <Loader2 className="inline-block animate-spin text-amber-400 w-3 h-3 ml-1.5" />}
             </p>
             <p className="text-[11px] sm:text-[13px] font-medium text-white/55 leading-tight mt-0.5 truncate">
               {error ? <span className="text-red-400 font-normal">{error}</span> : (currentSong?.artist || 'Artist Name')}
