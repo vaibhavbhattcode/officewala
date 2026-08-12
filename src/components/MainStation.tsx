@@ -93,8 +93,8 @@ export function MainStation({
 
           {/* Core Player Pill with Playlist Anchor */}
           <div className="relative w-full">
-            {/* Playlist popup directly above the player pill, right aligned on desktop */}
-            <div className="absolute bottom-full right-0 z-50 mb-2 sm:mb-3">
+            {/* Playlist popup directly above the player pill, centered on mobile, right aligned on desktop */}
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 sm:left-auto sm:-translate-x-0 sm:right-0 z-50 mb-2 sm:mb-3 flex justify-center sm:justify-end w-full sm:w-auto pointer-events-none">
               <PlaylistDrawer
                 isOpen={showPlaylist}
                 onClose={() => setShowPlaylist(false)}
