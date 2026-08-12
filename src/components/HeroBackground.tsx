@@ -15,10 +15,10 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
   useEffect(() => {
     if (images.length <= 1) return;
     
-    // Cycle every 30 seconds
+    // Cycle every 35 seconds
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 30000);
+    }, 35000);
     
     return () => clearInterval(interval);
   }, [images.length]);
@@ -35,9 +35,9 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
             src={src}
             alt={`Station Background ${index + 1}`}
             fill
+            sizes="100vw"
             className="object-contain sm:object-cover"
             priority={index === 0}
-            unoptimized
           />
         </div>
       ))}

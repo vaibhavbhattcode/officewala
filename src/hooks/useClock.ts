@@ -30,23 +30,15 @@ function formatClock(): ClockState {
 }
 
 export function useClock(): ClockState {
-  const [clock, setClock] = useState<ClockState>({ time: '', day: '', date: '' });
-  const [mounted, setMounted] = useState(false);
+  const [clock, setClock] = useState<ClockState>(formatClock());
 
   useEffect(() => {
-    setMounted(true);
-    setClock(formatClock()); // Initial update on mount
-
     const interval = setInterval(() => {
       setClock(formatClock());
     }, 30000);
 
     return () => clearInterval(interval);
   }, []);
-
-  if (!mounted) {
-    return { time: '', day: '', date: '' };
-  }
 
   return clock;
 }

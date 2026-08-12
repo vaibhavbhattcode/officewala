@@ -140,8 +140,8 @@ export function NowPlaying({
   const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error } =
     playerState;
 
-  const seekRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
+  const fillRefMobile = useRef<HTMLDivElement>(null);
   const [scrubbing, setScrubbing] = useState(false);
   const [showVolumePopup, setShowVolumePopup] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
@@ -242,16 +242,18 @@ export function NowPlaying({
     if (scrubbing) return;
     const f = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
     if (fillRef.current) fillRef.current.style.transform = `scaleX(${f})`;
+    if (fillRefMobile.current) fillRefMobile.current.style.transform = `scaleX(${f})`;
   }, [currentTime, duration, scrubbing]);
 
   const frac = useCallback((e: PointerEvent | React.PointerEvent) => {
-    if (!seekRef.current) return 0;
-    const r = seekRef.current.getBoundingClientRect();
+    const target = e.currentTarget as HTMLElement;
+    const r = target.getBoundingClientRect();
     return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
   }, []);
 
   const preview = useCallback((f: number) => {
     if (fillRef.current) fillRef.current.style.transform = `scaleX(${f})`;
+    if (fillRefMobile.current) fillRefMobile.current.style.transform = `scaleX(${f})`;
   }, []);
 
   const onDown = useCallback((e: React.PointerEvent) => {
@@ -317,14 +319,22 @@ export function NowPlaying({
         }}
       >
         {/* MOBILE ONLY: Absolute Bottom Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/10 sm:hidden">
-          <div 
-            className="h-full bg-white/80 origin-left"
-            style={{
-              transition: 'transform 75ms linear',
-              transform: `scaleX(${duration > 0 ? currentTime / duration : 0})`,
-            }}
-          />
+        <div 
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          className="absolute bottom-0 left-0 right-0 h-[14px] sm:hidden cursor-pointer touch-none flex items-end"
+        >
+          <div className="w-full h-[3px] bg-white/10 relative">
+            <div 
+              ref={fillRefMobile}
+              className="absolute top-0 left-0 bottom-0 w-full bg-white/80 origin-left"
+              style={{
+                transition: scrubbing ? 'none' : 'transform 75ms linear',
+                transform: `scaleX(${duration > 0 ? currentTime / duration : 0})`,
+              }}
+            />
+          </div>
         </div>
 
         {/* ── LEFT: Cover & Info ── */}
@@ -420,15 +430,14 @@ export function NowPlaying({
               {formatTime(currentTime)}
             </span>
             <div
-              ref={seekRef}
               onPointerDown={onDown}
               onPointerMove={onMove}
               onPointerUp={onUp}
-              className="flex-1 h-[4px] rounded-full bg-white/10 hover:bg-white/15 cursor-pointer relative overflow-hidden group/seek"
+              className="flex-1 h-[6px] rounded-full bg-white/10 hover:bg-white/15 cursor-pointer relative overflow-hidden group/seek touch-none"
             >
               <div
                 ref={fillRef}
-                className="h-full rounded-full bg-white/50 group-hover/seek:bg-white transition-colors origin-left"
+                className="absolute top-0 left-0 bottom-0 w-full rounded-full bg-white/50 group-hover/seek:bg-white transition-colors origin-left"
                 style={{
                   transform: `scaleX(${duration > 0 ? currentTime / duration : 0})`,
                 }}
