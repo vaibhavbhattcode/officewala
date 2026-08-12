@@ -40,7 +40,7 @@ export function OneLinerRotator({ oneLiners, intervalMs = 15000 }: OneLinerRotat
   if (!oneLiners || oneLiners.length === 0) return null;
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-3 mb-12 sm:mb-14 lg:mb-16 px-4 text-center select-none">
+    <div className="w-full max-w-lg mx-auto px-4 text-center select-none shrink-0">
       <p
         className="inline-flex items-center justify-center gap-2 text-center font-medium tracking-wide text-white/80 leading-relaxed"
         style={{

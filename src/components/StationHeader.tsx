@@ -98,8 +98,8 @@ export const StationHeader = memo(function StationHeader({
           title={isFavoritesMode ? "Disable Favorites Only Mode" : "Play Only My Favorites"}
         >
           <Heart className={`w-4 h-4 sm:w-[18px] sm:h-[18px] transition-transform group-active:scale-95 ${isFavoritesMode ? 'fill-current text-red-500' : ''}`} />
-          <span className="text-xs sm:text-sm font-bold tabular-nums">
-            {favoritesCount} <span className="hidden sm:inline-block ml-1 font-medium text-[10px] uppercase tracking-wider opacity-80">{isFavoritesMode ? 'Favs Only' : 'Favs'}</span>
+          <span className="text-xs sm:text-sm font-bold tabular-nums leading-none mb-[1px]">
+            {favoritesCount}
           </span>
         </button>
       </div>

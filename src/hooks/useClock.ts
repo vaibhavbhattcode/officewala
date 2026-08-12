@@ -31,14 +31,25 @@ function formatClock(): ClockState {
 
 export function useClock(): ClockState {
   const [clock, setClock] = useState<ClockState>(formatClock());
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    // Sync immediately on client mount to fix any server/client time mismatch
+    setClock(formatClock());
+    
+    // Update every second to guarantee real-time accuracy without lag
     const interval = setInterval(() => {
       setClock(formatClock());
-    }, 30000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
+
+  // Avoid hydration mismatch by returning a clean state during SSR
+  if (!mounted) {
+    return { time: '', day: '', date: '' };
+  }
 
   return clock;
 }

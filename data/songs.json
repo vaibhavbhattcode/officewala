@@ -1,34 +1,802 @@
 [
   {
-    "id": "office-001",
-    "title": "100 Million",
-    "artist": "DIVINE, Karan Aujla",
-    "album": "Street Dreams",
-    "cover": "/images/song-1.webp",
-    "audio": "/songs/100 Million - DIVINE, Karan Aujla  Official Music Video.mp3"
+    "id": "song-001",
+    "title": "MAHEBOOBA MAHEBOOBA",
+    "artist": "SHOLAY",
+    "album": "SHOLAY",
+    "cover": "",
+    "audio": "/songs/001 (016) SHOLAY = MAHEBOOBA MAHEBOOBA.mp3"
   },
   {
-    "id": "office-002",
-    "title": "Boom Shaka",
-    "artist": "KR$NA, Dhanda Nyoliwala",
-    "album": "Street Beats",
-    "cover": "/images/song-2.webp",
-    "audio": "/songs/Boom Shaka (Official Music Video)  KR$NA   Dhanda Nyoliwala.mp3"
+    "id": "song-002",
+    "title": "NI SULTANA RE",
+    "artist": "PYAR KA MAUSAM",
+    "album": "PYAR KA MAUSAM",
+    "cover": "",
+    "audio": "/songs/001 (049) PYAR KA MAUSAM = NI SULTANA RE.mp3"
   },
   {
-    "id": "office-003",
-    "title": "Brown Rang",
-    "artist": "Yo Yo Honey Singh",
-    "album": "International Villager",
-    "cover": "/images/song-3.webp",
-    "audio": "/songs/Brown Rang (8K Video)  Yo Yo Honey Singh  Full Song  Latest Punjabi Song 2026.mp3"
+    "id": "song-003",
+    "title": "MUJHE TERI MAHOBAAT KA",
+    "artist": "AAP AYE BAHAAR AYE",
+    "album": "AAP AYE BAHAAR AYE",
+    "cover": "",
+    "audio": "/songs/002 AAP AYE BAHAAR AYE = MUJHE TERI MAHOBAAT KA.mp3"
   },
   {
-    "id": "office-004",
-    "title": "We Rollin",
-    "artist": "Shubh",
-    "album": "Single",
-    "cover": "/images/song-4.webp",
-    "audio": "/songs/We Rollin (Official Audio) - Shubh.mp3"
+    "id": "song-004",
+    "title": "HUM NE TUMKO DEKHA",
+    "artist": "KHEL KHEL MAIN",
+    "album": "KHEL KHEL MAIN",
+    "cover": "",
+    "audio": "/songs/002 KHEL KHEL MAIN = HUM NE TUMKO DEKHA.mp3"
+  },
+  {
+    "id": "song-005",
+    "title": "TUMHARI NAZAR",
+    "artist": "DO KALIYAN",
+    "album": "DO KALIYAN",
+    "cover": "",
+    "audio": "/songs/003 DO KALIYAN = TUMHARI NAZAR.mp3"
+  },
+  {
+    "id": "song-006",
+    "title": "KITNE BHI TU KARLE",
+    "artist": "SANAM TERI KASAM",
+    "album": "SANAM TERI KASAM",
+    "cover": "",
+    "audio": "/songs/003 SANAM TERI KASAM = KITNE BHI TU KARLE.mp3"
+  },
+  {
+    "id": "song-007",
+    "title": "MERE MITWA",
+    "artist": "GEET",
+    "album": "GEET",
+    "cover": "",
+    "audio": "/songs/004 GEET = MERE MITWA.mp3"
+  },
+  {
+    "id": "song-008",
+    "title": "HOGA TUMSE PYARA",
+    "artist": "ZAMAANE KO DIKHANA HAI",
+    "album": "ZAMAANE KO DIKHANA HAI",
+    "cover": "",
+    "audio": "/songs/004 ZAMAANE KO DIKHANA HAI = HOGA TUMSE PYARA.mp3"
+  },
+  {
+    "id": "song-009",
+    "title": "WADA KAR LE SAJNA",
+    "artist": "HAATH KI SAFAI",
+    "album": "HAATH KI SAFAI",
+    "cover": "",
+    "audio": "/songs/005 HAATH KI SAFAI = WADA KAR LE SAJNA.mp3"
+  },
+  {
+    "id": "song-010",
+    "title": "JAANE JA DHUNDHTA",
+    "artist": "JAWANI DIWANI",
+    "album": "JAWANI DIWANI",
+    "cover": "",
+    "audio": "/songs/005 JAWANI DIWANI = JAANE JA DHUNDHTA.mp3"
+  },
+  {
+    "id": "song-011",
+    "title": "HUM TUMHARE LIYE",
+    "artist": "INTAQAM",
+    "album": "INTAQAM",
+    "cover": "",
+    "audio": "/songs/006 INTAQAM = HUM TUMHARE LIYE.mp3"
+  },
+  {
+    "id": "song-012",
+    "title": "TITLE SONG",
+    "artist": "YE WADA RAHA",
+    "album": "YE WADA RAHA",
+    "cover": "",
+    "audio": "/songs/006 YE WADA RAHA = TITLE SONG.mp3"
+  },
+  {
+    "id": "song-013",
+    "title": "KITNA PYARA WADA",
+    "artist": "CARVAN",
+    "album": "CARVAN",
+    "cover": "",
+    "audio": "/songs/007 CARVAN = KITNA PYARA WADA.mp3"
+  },
+  {
+    "id": "song-014",
+    "title": "CHURA LIYA HAI TUMNE",
+    "artist": "YAADOBN KI BAARAT",
+    "album": "YAADOBN KI BAARAT",
+    "cover": "",
+    "audio": "/songs/007 YAADOBN KI BAARAT = CHURA LIYA HAI TUMNE.mp3"
+  },
+  {
+    "id": "song-015",
+    "title": "BEKHUDI MEIN SANAM",
+    "artist": "HASINA MAAN JAYEGI",
+    "album": "HASINA MAAN JAYEGI",
+    "cover": "",
+    "audio": "/songs/008 HASINA MAAN JAYEGI = BEKHUDI MEIN SANAM.mp3"
+  },
+  {
+    "id": "song-016",
+    "title": "DIL KI BAAT KAHIN",
+    "artist": "TERI KASAM",
+    "album": "TERI KASAM",
+    "cover": "",
+    "audio": "/songs/008 TERI KASAM = DIL KI BAAT KAHIN.mp3"
+  },
+  {
+    "id": "song-017",
+    "title": "RIM JIM KE GEET",
+    "artist": "ANJAANA",
+    "album": "ANJAANA",
+    "cover": "",
+    "audio": "/songs/009 ANJAANA = RIM JIM KE GEET.mp3"
+  },
+  {
+    "id": "song-018",
+    "title": "PAHLE PAHLE PYAR KI",
+    "artist": "THE GREAT GAMBLER",
+    "album": "THE GREAT GAMBLER",
+    "cover": "",
+    "audio": "/songs/009 THE GREAT GAMBLER = PAHLE PAHLE PYAR KI.mp3"
+  },
+  {
+    "id": "song-019",
+    "title": "JANAM JANAM KA SAATH",
+    "artist": "BHEEGI PALKEN",
+    "album": "BHEEGI PALKEN",
+    "cover": "",
+    "audio": "/songs/010 BHEEGI PALKEN = JANAM JANAM KA SAATH.mp3"
+  },
+  {
+    "id": "song-020",
+    "title": "ARE JANE KAISE",
+    "artist": "SHAKTI",
+    "album": "SHAKTI",
+    "cover": "",
+    "audio": "/songs/010 SHAKTI = ARE JANE KAISE.mp3"
+  },
+  {
+    "id": "song-021",
+    "title": "EK DAAL PAR TOTA BOLE",
+    "artist": "CHOR MACHYE SHOR",
+    "album": "CHOR MACHYE SHOR",
+    "cover": "",
+    "audio": "/songs/011 CHOR MACHYE SHOR = EK DAAL PAR TOTA BOLE.mp3"
+  },
+  {
+    "id": "song-022",
+    "title": "MAANG LOONGA MAIN TUJHE",
+    "artist": "ROCKY",
+    "album": "ROCKY",
+    "cover": "",
+    "audio": "/songs/011 ROCKY = MAANG LOONGA MAIN TUJHE.mp3"
+  },
+  {
+    "id": "song-023",
+    "title": "MAUSAM BHIGA BHIGA",
+    "artist": "DHARTI",
+    "album": "DHARTI",
+    "cover": "",
+    "audio": "/songs/012 DHARTI = MAUSAM BHIGA BHIGA.mp3"
+  },
+  {
+    "id": "song-024",
+    "title": "GUM HAI KISI KE PYAR MAIN",
+    "artist": "RAAMPUR KA LAXMAN",
+    "album": "RAAMPUR KA LAXMAN",
+    "cover": "",
+    "audio": "/songs/012 RAAMPUR KA LAXMAN = GUM HAI KISI KE PYAR MAIN.mp3"
+  },
+  {
+    "id": "song-025",
+    "title": "DIL NE DIL KO PUKARA",
+    "artist": "DO RAASTE",
+    "album": "DO RAASTE",
+    "cover": "",
+    "audio": "/songs/013 DO RAASTE = DIL NE DIL KO PUKARA.mp3"
+  },
+  {
+    "id": "song-026",
+    "title": "EK BAAT DIL MAIN AAYI HAI",
+    "artist": "RAHI BADAL GAYE",
+    "album": "RAHI BADAL GAYE",
+    "cover": "",
+    "audio": "/songs/013 RAHI BADAL GAYE = EK BAAT DIL MAIN AAYI HAI.mp3"
+  },
+  {
+    "id": "song-027",
+    "title": "TUMSE O HASEENA",
+    "artist": "FARZ",
+    "album": "FARZ",
+    "cover": "",
+    "audio": "/songs/014 FARZ = TUMSE O HASEENA.mp3"
+  },
+  {
+    "id": "song-028",
+    "title": "JEEVAN KE HAR MOD PE",
+    "artist": "JHOOTA KAHIN KA",
+    "album": "JHOOTA KAHIN KA",
+    "cover": "",
+    "audio": "/songs/014 JHOOTA KAHIN KA = JEEVAN KE HAR MOD PE.mp3"
+  },
+  {
+    "id": "song-029",
+    "title": "MEIN TUJHSE MILNE AAYEE",
+    "artist": "HEERA",
+    "album": "HEERA",
+    "cover": "",
+    "audio": "/songs/015 HEERA = MEIN TUJHSE MILNE AAYEE.mp3"
+  },
+  {
+    "id": "song-030",
+    "title": "YEH LADKA HAI ALLAH",
+    "artist": "HUM KISI SE KUM NAHI",
+    "album": "HUM KISI SE KUM NAHI",
+    "cover": "",
+    "audio": "/songs/015 HUM KISI SE KUM NAHI = YEH LADKA HAI ALLAH.mp3"
+  },
+  {
+    "id": "song-031",
+    "title": "PHOOL HAI BAHARON KA",
+    "artist": "JIGRI DOST",
+    "album": "JIGRI DOST",
+    "cover": "",
+    "audio": "/songs/016 JIGRI DOST = PHOOL HAI BAHARON KA.mp3"
+  },
+  {
+    "id": "song-032",
+    "title": "AY SAGAR KI LAHERON",
+    "artist": "SAMUNDAR",
+    "album": "SAMUNDAR",
+    "cover": "",
+    "audio": "/songs/016 SAMUNDAR = AY SAGAR KI LAHERON.mp3"
+  },
+  {
+    "id": "song-033",
+    "title": "CHADHATI JAWANI MERI",
+    "artist": "CARAVAN",
+    "album": "CARAVAN",
+    "cover": "",
+    "audio": "/songs/017 CARAVAN = CHADHATI JAWANI MERI.mp3"
+  },
+  {
+    "id": "song-034",
+    "title": "KHULLAM KHULLA PYAR KARENGE",
+    "artist": "KHEL KHEL MAIN",
+    "album": "KHEL KHEL MAIN",
+    "cover": "",
+    "audio": "/songs/017 KHEL KHEL MAIN = KHULLAM KHULLA PYAR KARENGE.mp3"
+  },
+  {
+    "id": "song-035",
+    "title": "BACHNA AYE HASINO",
+    "artist": "HUM KISI SE KUM NAHI",
+    "album": "HUM KISI SE KUM NAHI",
+    "cover": "",
+    "audio": "/songs/018 HUM KISI SE KUM NAHI = BACHNA AYE HASINO.mp3"
+  },
+  {
+    "id": "song-036",
+    "title": "KAHE KO BULAYA",
+    "artist": "HUM SHAKAL",
+    "album": "HUM SHAKAL",
+    "cover": "",
+    "audio": "/songs/018 HUM SHAKAL = KAHE KO BULAYA.mp3"
+  },
+  {
+    "id": "song-037",
+    "title": "AISE NA MUJHE TUM",
+    "artist": "DARLING DARLING",
+    "album": "DARLING DARLING",
+    "cover": "",
+    "audio": "/songs/019 DARLING DARLING = AISE NA MUJHE TUM.mp3"
+  },
+  {
+    "id": "song-038",
+    "title": "TERI NILI NILI ANKHON KE",
+    "artist": "JANE ANJANE",
+    "album": "JANE ANJANE",
+    "cover": "",
+    "audio": "/songs/019 JANE ANJANE = TERI NILI NILI ANKHON KE.mp3"
+  },
+  {
+    "id": "song-039",
+    "title": "IS RESHMI PAAZEB KI JHANKAR",
+    "artist": "LAILA MAJNU",
+    "album": "LAILA MAJNU",
+    "cover": "",
+    "audio": "/songs/020 LAILA MAJNU = IS RESHMI PAAZEB KI JHANKAR.mp3"
+  },
+  {
+    "id": "song-040",
+    "title": "DUKKI PE DUKKI HO",
+    "artist": "SATTE PE SATTA",
+    "album": "SATTE PE SATTA",
+    "cover": "",
+    "audio": "/songs/020 SATTE PE SATTA = DUKKI PE DUKKI HO.mp3"
+  },
+  {
+    "id": "song-041",
+    "title": "BOL MERE SAATHIYA",
+    "artist": "LALKAR",
+    "album": "LALKAR",
+    "cover": "",
+    "audio": "/songs/021 LALKAR = BOL MERE SAATHIYA.mp3"
+  },
+  {
+    "id": "song-042",
+    "title": "PYAR KARNEWALE",
+    "artist": "SHAAN",
+    "album": "SHAAN",
+    "cover": "",
+    "audio": "/songs/021 SHAAN = PYAR KARNEWALE.mp3"
+  },
+  {
+    "id": "song-043",
+    "title": "PYAR MAIN DIL PE",
+    "artist": "MAHAAN",
+    "album": "MAHAAN",
+    "cover": "",
+    "audio": "/songs/022 MAHAAN = PYAR MAIN DIL PE.mp3"
+  },
+  {
+    "id": "song-044",
+    "title": "ITNA TO YAAD HAI MUJHE",
+    "artist": "MEHBOOB KI MEHNDI",
+    "album": "MEHBOOB KI MEHNDI",
+    "cover": "",
+    "audio": "/songs/022 MEHBOOB KI MEHNDI = ITNA TO YAAD HAI MUJHE.mp3"
+  },
+  {
+    "id": "song-045",
+    "title": "KUCHH KEHTA HAI YE SAWAN",
+    "artist": "MERA GAON MERA DESH",
+    "album": "MERA GAON MERA DESH",
+    "cover": "",
+    "audio": "/songs/023 MERA GAON MERA DESH = KUCHH KEHTA HAI YE SAWAN.mp3"
+  },
+  {
+    "id": "song-046",
+    "title": "AA DEKHEIN ZARA",
+    "artist": "ROCKY",
+    "album": "ROCKY",
+    "cover": "",
+    "audio": "/songs/023 ROCKY = AA DEKHEIN ZARA.mp3"
+  },
+  {
+    "id": "song-047",
+    "title": "DIL MEIN KYA HAI",
+    "artist": "JIGRI DOST",
+    "album": "JIGRI DOST",
+    "cover": "",
+    "audio": "/songs/024 JIGRI DOST = DIL MEIN KYA HAI.mp3"
+  },
+  {
+    "id": "song-048",
+    "title": "JAB ANDHERA HOTA HAI",
+    "artist": "RAJA RANI",
+    "album": "RAJA RANI",
+    "cover": "",
+    "audio": "/songs/024 RAJA RANI = JAB ANDHERA HOTA HAI.mp3"
+  },
+  {
+    "id": "song-049",
+    "title": "DUM MARO DUM",
+    "artist": "HARE RAMA HARE KRISHNA",
+    "album": "HARE RAMA HARE KRISHNA",
+    "cover": "",
+    "audio": "/songs/025 HARE RAMA HARE KRISHNA = DUM MARO DUM.mp3"
+  },
+  {
+    "id": "song-050",
+    "title": "HAYE RE HAYE",
+    "artist": "HUMJOLI",
+    "album": "HUMJOLI",
+    "cover": "",
+    "audio": "/songs/025 HUMJOLI = HAYE RE HAYE.mp3"
+  },
+  {
+    "id": "song-051",
+    "title": "PIYA TOO AB TO AAJA",
+    "artist": "CARAVAN",
+    "album": "CARAVAN",
+    "cover": "",
+    "audio": "/songs/026 CARAVAN = PIYA TOO AB TO AAJA.mp3"
+  },
+  {
+    "id": "song-052",
+    "title": "BAAHON MEIN TERI",
+    "artist": "KAALA PATTHAR",
+    "album": "KAALA PATTHAR",
+    "cover": "",
+    "audio": "/songs/026 KAALA PATTHAR = BAAHON MEIN TERI.mp3"
+  },
+  {
+    "id": "song-053",
+    "title": "YE DIN TO AATA HAI",
+    "artist": "MAHAAN",
+    "album": "MAHAAN",
+    "cover": "",
+    "audio": "/songs/027 MAHAAN = YE DIN TO AATA HAI.mp3"
+  },
+  {
+    "id": "song-054",
+    "title": "RUT HAI MILAN KI",
+    "artist": "MELA",
+    "album": "MELA",
+    "cover": "",
+    "audio": "/songs/027 MELA = RUT HAI MILAN KI.mp3"
+  },
+  {
+    "id": "song-055",
+    "title": "GUN GUNA RAHE HAIN BHANVRE",
+    "artist": "ARADHANA",
+    "album": "ARADHANA",
+    "cover": "",
+    "audio": "/songs/028 ARADHANA = GUN GUNA RAHE HAIN BHANVRE.mp3"
+  },
+  {
+    "id": "song-056",
+    "title": "BACHKE RAHENA RE BABA",
+    "artist": "PUKAR",
+    "album": "PUKAR",
+    "cover": "",
+    "audio": "/songs/028 PUKAR = BACHKE RAHENA RE BABA.mp3"
+  },
+  {
+    "id": "song-057",
+    "title": "SAATHIYA NAHI JANA",
+    "artist": "AYA SAWAN JHOOM KE",
+    "album": "AYA SAWAN JHOOM KE",
+    "cover": "",
+    "audio": "/songs/029 AYA SAWAN JHOOM KE = SAATHIYA NAHI JANA.mp3"
+  },
+  {
+    "id": "song-058",
+    "title": "JEENE KO TO JEETE HAIN SABHI",
+    "artist": "YE WADA RAHA",
+    "album": "YE WADA RAHA",
+    "cover": "",
+    "audio": "/songs/029 YE WADA RAHA = JEENE KO TO JEETE HAIN SABHI.mp3"
+  },
+  {
+    "id": "song-059",
+    "title": "AAJA TERI YAAD AAYEE",
+    "artist": "CHARAS",
+    "album": "CHARAS",
+    "cover": "",
+    "audio": "/songs/030 CHARAS = AAJA TERI YAAD AAYEE.mp3"
+  },
+  {
+    "id": "song-060",
+    "title": "TUM SAATH HO JAB APNE",
+    "artist": "KAALIA",
+    "album": "KAALIA",
+    "cover": "",
+    "audio": "/songs/030 KAALIA = TUM SAATH HO JAB APNE.mp3"
+  },
+  {
+    "id": "song-061",
+    "title": "SAJNA SAATH NIBHANA",
+    "artist": "DOLI",
+    "album": "DOLI",
+    "cover": "",
+    "audio": "/songs/031 DOLI = SAJNA SAATH NIBHANA.mp3"
+  },
+  {
+    "id": "song-062",
+    "title": "YAMMA YAMMA",
+    "artist": "SHAAN",
+    "album": "SHAAN",
+    "cover": "",
+    "audio": "/songs/031 SHAAN = YAMMA YAMMA.mp3"
+  },
+  {
+    "id": "song-063",
+    "title": "MERI HASRATO KI DUNIYA",
+    "artist": "GAAL GULABI NAIN SHARABI",
+    "album": "GAAL GULABI NAIN SHARABI",
+    "cover": "",
+    "audio": "/songs/032 GAAL GULABI NAIN SHARABI = MERI HASRATO KI DUNIYA.mp3"
+  },
+  {
+    "id": "song-064",
+    "title": "JANE JAAN O MERI",
+    "artist": "SANAM TERI KASAM",
+    "album": "SANAM TERI KASAM",
+    "cover": "",
+    "audio": "/songs/032 SANAM TERI KASAM = JANE JAAN O MERI.mp3"
+  },
+  {
+    "id": "song-065",
+    "title": "MAN JAIYE",
+    "artist": "HIMMAT",
+    "album": "HIMMAT",
+    "cover": "",
+    "audio": "/songs/033 HIMMAT = MAN JAIYE .mp3"
+  },
+  {
+    "id": "song-066",
+    "title": "PUCHHO NA YAAR",
+    "artist": "ZAMAANE KO DIKHANA HAI",
+    "album": "ZAMAANE KO DIKHANA HAI",
+    "cover": "",
+    "audio": "/songs/033 ZAMAANE KO DIKHANA HAI = PUCHHO NA YAAR.mp3"
+  },
+  {
+    "id": "song-067",
+    "title": "DHAL GAYA DIN",
+    "artist": "HUMJOLI",
+    "album": "HUMJOLI",
+    "cover": "",
+    "audio": "/songs/034 HUMJOLI = DHAL GAYA DIN.mp3"
+  },
+  {
+    "id": "song-068",
+    "title": "EK MAIN AUR EK TU",
+    "artist": "KHEL KHEL MAIN",
+    "album": "KHEL KHEL MAIN",
+    "cover": "",
+    "audio": "/songs/034 KHEL KHEL MAIN = EK MAIN AUR EK TU.mp3"
+  },
+  {
+    "id": "song-069",
+    "title": "YE DIL TUM BIN",
+    "artist": "IZZAT",
+    "album": "IZZAT",
+    "cover": "",
+    "audio": "/songs/035 IZZAT = YE DIL TUM BIN .mp3"
+  },
+  {
+    "id": "song-070",
+    "title": "NAHI NAHI ABHI NAHI",
+    "artist": "JAWANI DIWANI",
+    "album": "JAWANI DIWANI",
+    "cover": "",
+    "audio": "/songs/035 JAWANI DIWANI = NAHI NAHI ABHI NAHI.mp3"
+  },
+  {
+    "id": "song-071",
+    "title": "JIL MIL SITARO KA",
+    "artist": "JIVAN MRITYU",
+    "album": "JIVAN MRITYU",
+    "cover": "",
+    "audio": "/songs/036 JIVAN MRITYU = JIL MIL SITARO KA .mp3"
+  },
+  {
+    "id": "song-072",
+    "title": "DIL MAIN JO BAATEIN HAI",
+    "artist": "JOSHILA",
+    "album": "JOSHILA",
+    "cover": "",
+    "audio": "/songs/036 JOSHILA = DIL MAIN JO BAATEIN HAI.mp3"
+  },
+  {
+    "id": "song-073",
+    "title": "KABHI RAAT DIN HUM DOOR",
+    "artist": "AAMNE SAAMNE",
+    "album": "AAMNE SAAMNE",
+    "cover": "",
+    "audio": "/songs/037 AAMNE SAAMNE = KABHI RAAT DIN HUM DOOR .mp3"
+  },
+  {
+    "id": "song-074",
+    "title": "PANNA KI TAMANNA",
+    "artist": "HEERA PANNA",
+    "album": "HEERA PANNA",
+    "cover": "",
+    "audio": "/songs/037 HEERA PANNA = PANNA KI TAMANNA.mp3"
+  },
+  {
+    "id": "song-075",
+    "title": "MUJHE KITNA PYAR",
+    "artist": "DIL TERA DEWANA",
+    "album": "DIL TERA DEWANA",
+    "cover": "",
+    "audio": "/songs/038 DIL TERA DEWANA = MUJHE KITNA PYAR.mp3"
+  },
+  {
+    "id": "song-076",
+    "title": "AAJ UNSE PAHELI",
+    "artist": "PARAYAN DHAN",
+    "album": "PARAYAN DHAN",
+    "cover": "",
+    "audio": "/songs/038 PARAYAN DHAN = AAJ UNSE PAHELI.mp3"
+  },
+  {
+    "id": "song-077",
+    "title": "AA MERE HAMJOLI AA",
+    "artist": "JEENE KI RAAH",
+    "album": "JEENE KI RAAH",
+    "cover": "",
+    "audio": "/songs/039 JEENE KI RAAH = AA MERE HAMJOLI AA.mp3"
+  },
+  {
+    "id": "song-078",
+    "title": "TITLE SONG",
+    "artist": "KASME WADE",
+    "album": "KASME WADE",
+    "cover": "",
+    "audio": "/songs/039 KASME WADE = TITLE SONG.mp3"
+  },
+  {
+    "id": "song-079",
+    "title": "KOYAL KYON GAYE",
+    "artist": "AAP AYE BAHAAR AYE",
+    "album": "AAP AYE BAHAAR AYE",
+    "cover": "",
+    "audio": "/songs/040 AAP AYE BAHAAR AYE = KOYAL KYON GAYE .mp3"
+  },
+  {
+    "id": "song-080",
+    "title": "AAJ KAHIN NA JA",
+    "artist": "BADE DIL WALA",
+    "album": "BADE DIL WALA",
+    "cover": "",
+    "audio": "/songs/040 BADE DIL WALA = AAJ KAHIN NA JA.mp3"
+  },
+  {
+    "id": "song-081",
+    "title": "TITLE SONG",
+    "artist": "AYA SAWAN JHOOM KE",
+    "album": "AYA SAWAN JHOOM KE",
+    "cover": "",
+    "audio": "/songs/041 AYA SAWAN JHOOM KE = TITLE SONG.mp3"
+  },
+  {
+    "id": "song-082",
+    "title": "KITNI KHOOBSURAT YE TASVEER HAI",
+    "artist": "BEMISAL",
+    "album": "BEMISAL",
+    "cover": "",
+    "audio": "/songs/041 BEMISAL = KITNI KHOOBSURAT YE TASVEER HAI.mp3"
+  },
+  {
+    "id": "song-083",
+    "title": "KARVATEN BADLATE RAHE",
+    "artist": "AAP KI KASAM",
+    "album": "AAP KI KASAM",
+    "cover": "",
+    "audio": "/songs/042 AAP KI KASAM = KARVATEN BADLATE RAHE.mp3"
+  },
+  {
+    "id": "song-084",
+    "title": "PARBAT KE US PAAR",
+    "artist": "SARGAM",
+    "album": "SARGAM",
+    "cover": "",
+    "audio": "/songs/042 SARGAM = PARBAT KE US PAAR.mp3"
+  },
+  {
+    "id": "song-085",
+    "title": "DHOOM MACHE DHOOM",
+    "artist": "KAALA PATTHAR",
+    "album": "KAALA PATTHAR",
+    "cover": "",
+    "audio": "/songs/043 KAALA PATTHAR = DHOOM MACHE DHOOM.mp3"
+  },
+  {
+    "id": "song-086",
+    "title": "MAIN EK CHOR",
+    "artist": "RAJA RANI",
+    "album": "RAJA RANI",
+    "cover": "",
+    "audio": "/songs/043 RAJA RANI = MAIN EK CHOR.mp3"
+  },
+  {
+    "id": "song-087",
+    "title": "GORIYAN KAHAN TERA DESH",
+    "artist": "CARAVAN",
+    "album": "CARAVAN",
+    "cover": "",
+    "audio": "/songs/044 CARAVAN = GORIYAN KAHAN TERA DESH.mp3"
+  },
+  {
+    "id": "song-088",
+    "title": "SAAGAR JAISI ANKHOWALI",
+    "artist": "SAAGAR",
+    "album": "SAAGAR",
+    "cover": "",
+    "audio": "/songs/044 SAAGAR = SAAGAR JAISI ANKHOWALI.mp3"
+  },
+  {
+    "id": "song-089",
+    "title": "GORI KE HAATH MEIN",
+    "artist": "MELA",
+    "album": "MELA",
+    "cover": "",
+    "audio": "/songs/045 MELA = GORI KE HAATH MEIN.mp3"
+  },
+  {
+    "id": "song-090",
+    "title": "O SAATHI CHAL",
+    "artist": "SEETA AUR GEETA",
+    "album": "SEETA AUR GEETA",
+    "cover": "",
+    "audio": "/songs/045 SEETA AUR GEETA = O SAATHI CHAL.mp3"
+  },
+  {
+    "id": "song-091",
+    "title": "MERE DIL NE JO MANGA",
+    "artist": "RAKHWALA",
+    "album": "RAKHWALA",
+    "cover": "",
+    "audio": "/songs/046 RAKHWALA = MERE DIL NE JO MANGA.mp3"
+  },
+  {
+    "id": "song-092",
+    "title": "LEKAR HUM DEEANA DIL",
+    "artist": "YAADOBN KI BAARAT",
+    "album": "YAADOBN KI BAARAT",
+    "cover": "",
+    "audio": "/songs/046 YAADOBN KI BAARAT = LEKAR HUM DEEANA DIL.mp3"
+  },
+  {
+    "id": "song-093",
+    "title": "YUNHI TUM MUJHSE",
+    "artist": "SACHAA JHUTHA",
+    "album": "SACHAA JHUTHA",
+    "cover": "",
+    "audio": "/songs/047 SACHAA JHUTHA = YUNHI TUM MUJHSE.mp3"
+  },
+  {
+    "id": "song-094",
+    "title": "HUM JIS RASTE PE",
+    "artist": "TERI KASAM",
+    "album": "TERI KASAM",
+    "cover": "",
+    "audio": "/songs/047 TERI KASAM = HUM JIS RASTE PE.mp3"
+  },
+  {
+    "id": "song-095",
+    "title": "MUJHSE BHALA YEH KAJAL",
+    "artist": "THE TRAIN",
+    "album": "THE TRAIN",
+    "cover": "",
+    "audio": "/songs/048 THE TRAIN = MUJHSE BHALA YEH KAJAL.mp3"
+  },
+  {
+    "id": "song-096",
+    "title": "BOLO BOLO KUCH TO BOLO",
+    "artist": "ZAMAANE KO DIKHANA HAI",
+    "album": "ZAMAANE KO DIKHANA HAI",
+    "cover": "",
+    "audio": "/songs/048 ZAMAANE KO DIKHANA HAI = BOLO BOLO KUCH TO BOLO.mp3"
+  },
+  {
+    "id": "song-097",
+    "title": "DOSTON SE PYAR KIYA",
+    "artist": "SHAAN",
+    "album": "SHAAN",
+    "cover": "",
+    "audio": "/songs/049 SHAAN = DOSTON SE PYAR KIYA.mp3"
+  },
+  {
+    "id": "song-098",
+    "title": "PYAR SIKHA DOON",
+    "artist": "UPAASNA",
+    "album": "UPAASNA",
+    "cover": "",
+    "audio": "/songs/049 UPAASNA = PYAR SIKHA DOON.mp3"
+  },
+  {
+    "id": "song-099",
+    "title": "TU RUTHA TO MAIN",
+    "artist": "JAWAANI",
+    "album": "JAWAANI",
+    "cover": "",
+    "audio": "/songs/050 JAWAANI = TU RUTHA TO MAIN.mp3"
+  },
+  {
+    "id": "song-100",
+    "title": "EK TERA SAATH",
+    "artist": "WAPAS",
+    "album": "WAPAS",
+    "cover": "",
+    "audio": "/songs/050 WAPAS = EK TERA SAATH.mp3"
   }
 ]

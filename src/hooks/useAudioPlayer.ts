@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Song, PlayerState } from '@/types/types';
+import { Song, PlayerState, AudioPreset } from '@/types/types';
 
 interface UseAudioPlayerOptions {
   songs: Song[];
@@ -25,12 +25,25 @@ export interface AudioPlayerActions {
   seekBackward: (seconds?: number) => void;
   volumeUp: (step?: number) => void;
   volumeDown: (step?: number) => void;
+  setPreset: (preset: AudioPreset) => void;
 }
+
+const PRESET_CONFIGS: Record<AudioPreset, { low: number; mid: number; high: number }> = {
+  'Flat': { low: 0, mid: 0, high: 0 },
+  'Bass Boost': { low: 8, mid: 0, high: -2 },
+  'Vocal Focus': { low: -2, mid: 6, high: 2 },
+  'Office Warmth': { low: 4, mid: -2, high: -4 },
+  'Studio HD': { low: 4, mid: -1, high: 5 },
+};
 
 export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, AudioPlayerActions] {
   const { songs, shuffle: initialShuffle, autoplayNext, loopPlaylist } = options;
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
+  const filtersRef = useRef<{ low: BiquadFilterNode; mid: BiquadFilterNode; high: BiquadFilterNode } | null>(null);
+
   const shuffleHistoryRef = useRef<number[]>([]);
   const volumeBeforeMuteRef = useRef<number>(0.8);
   const isShuffleRef = useRef<boolean>(initialShuffle);
@@ -51,6 +64,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     isMuted: false,
     isLoading: false,
     error: null,
+    activePreset: 'Flat',
   });
 
   isShuffleRef.current = state.isShuffle;
@@ -84,6 +98,11 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     }));
 
     if (autoplay) {
+      // Must resume context on play for browser policy
+      if (audioCtxRef.current?.state === 'suspended') {
+        audioCtxRef.current.resume();
+      }
+
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise
@@ -100,16 +119,82 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     }
   }, []);
 
-  // Initialize audio element once
+  const applyPresetToFilters = useCallback((preset: AudioPreset) => {
+    const filters = filtersRef.current;
+    if (!filters) {
+      console.warn("Filters not initialized yet");
+      return;
+    }
+    
+    const config = PRESET_CONFIGS[preset];
+    if (!config) return;
+
+    try {
+      filters.low.gain.value = config.low;
+      filters.mid.gain.value = config.mid;
+      filters.high.gain.value = config.high;
+      console.log(`Applied preset ${preset}:`, config);
+    } catch (e) {
+      console.error("Error applying filter preset:", e);
+    }
+  }, []);
+
+  const setPreset = useCallback((preset: AudioPreset) => {
+    console.log("Setting preset state to:", preset);
+    applyPresetToFilters(preset);
+    setState(prev => ({ ...prev, activePreset: preset }));
+  }, [applyPresetToFilters]);
+
+  // Initialize audio element and Web Audio API Context once
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     if (!audioRef.current) {
       const audio = new Audio();
       audio.preload = 'metadata';
+      audio.crossOrigin = 'anonymous'; // Important for Web Audio API
       audio.volume = state.volume;
       audio.muted = state.isMuted;
       audioRef.current = audio;
+
+      try {
+        // Initialize Web Audio API
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const ctx = new AudioContextClass();
+        audioCtxRef.current = ctx;
+
+        // Create MediaElementSource
+        const source = ctx.createMediaElementSource(audio);
+        sourceNodeRef.current = source;
+
+        // Create Filters (3-band EQ)
+        const lowFilter = ctx.createBiquadFilter();
+        lowFilter.type = 'lowshelf';
+        lowFilter.frequency.value = 250;
+
+        const midFilter = ctx.createBiquadFilter();
+        midFilter.type = 'peaking';
+        midFilter.frequency.value = 1000;
+        midFilter.Q.value = 1.0;
+
+        const highFilter = ctx.createBiquadFilter();
+        highFilter.type = 'highshelf';
+        highFilter.frequency.value = 4000;
+
+        filtersRef.current = { low: lowFilter, mid: midFilter, high: highFilter };
+
+        // Connect the pipeline: Source -> Low -> Mid -> High -> Destination
+        source.connect(lowFilter);
+        lowFilter.connect(midFilter);
+        midFilter.connect(highFilter);
+        highFilter.connect(ctx.destination);
+
+        // Apply default preset
+        applyPresetToFilters('Flat');
+
+      } catch (err) {
+        console.warn('Web Audio API not supported or failed to initialize:', err);
+      }
     }
 
     const audio = audioRef.current;
@@ -119,9 +204,6 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
 
     return () => {
       // We only clean up when the component fully unmounts
-      // but since this effect depends on `songs` (which can change),
-      // we shouldn't destroy the audio element here.
-      // Instead, we just let it be. It will be garbage collected when unmounted.
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -272,6 +354,10 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     const list = songsRef.current;
     if (!audio || list.length === 0) return;
 
+    if (audioCtxRef.current?.state === 'suspended') {
+      audioCtxRef.current.resume();
+    }
+
     const current = currentIndexRef.current;
     const currentSong = list[current];
 
@@ -411,6 +497,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     seekBackward,
     volumeUp,
     volumeDown,
+    setPreset,
   };
 
   return [state, actions];

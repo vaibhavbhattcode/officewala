@@ -53,8 +53,11 @@ export function MainStation({
 
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden select-none">
-      {/* Background */}
-      <HeroBackground backgroundUrl={station.background} backgrounds={station.backgrounds} />
+      {/* Background - Using the actual video as requested */}
+      <HeroBackground 
+        backgroundUrl={station.background || "/backgrounds/270983.mp4"} 
+        backgrounds={station.backgrounds && station.backgrounds.length > 0 ? station.backgrounds : undefined} 
+      />
 
       {/* Top Header with Live Presence and Favorites button */}
       <StationHeader
@@ -76,52 +79,54 @@ export function MainStation({
 
         {/* Bottom Dock: Playlist Popup + Bumper Quote + Pill Player */}
         <div
-          className="anim-rise w-full max-w-[1100px] mx-auto flex flex-col items-center relative px-2 sm:px-4 lg:px-8"
+          className="anim-rise w-full max-w-[1100px] mx-auto flex flex-col items-center justify-end relative px-2 sm:px-4 lg:px-8 shrink-0 gap-6 sm:gap-10 lg:gap-12"
           style={{
             marginBottom: 'clamp(0.6rem, 4vh, 2.5rem)',
             animationDelay: '0.16s',
           }}
         >
-          {/* Playlist popup directly above the dock, right aligned on desktop */}
-          <div className="w-full flex sm:justify-end sm:pr-8">
-            <PlaylistDrawer
-              isOpen={showPlaylist}
-              onClose={() => setShowPlaylist(false)}
-              songs={displayedSongs}
-              currentIndex={playerState.currentIndex}
-              isPlaying={playerState.isPlaying}
-              onPlaySong={(idx) => {
-                playerActions.playSong(idx);
-                if (!started) onFirstPlay();
-              }}
-              favorites={favorites}
-              onToggleFavorite={onToggleFavorite}
-              isFavoritesMode={isFavoritesMode}
-            />
-          </div>
-
           {/* One-Liner Quote / Bumper */}
           <OneLinerRotator
             oneLiners={oneLiners}
             intervalMs={station.oneLinerInterval}
           />
 
-          {/* Core Player Pill */}
-          <NowPlaying
-            playerState={playerState}
-            playerActions={playerActions}
-            station={station}
-            started={started}
-            onFirstPlay={onFirstPlay}
-            isPlaylistOpen={showPlaylist}
-            onTogglePlaylist={() => setShowPlaylist((p) => !p)}
-            isFavorite={isCurrentFav}
-            onToggleFavorite={() => {
-              if (playerState.currentSong) {
-                onToggleFavorite(playerState.currentSong.id);
-              }
-            }}
-          />
+          {/* Core Player Pill with Playlist Anchor */}
+          <div className="relative w-full">
+            {/* Playlist popup directly above the player pill, right aligned on desktop */}
+            <div className="absolute bottom-full right-0 z-50 mb-2 sm:mb-3">
+              <PlaylistDrawer
+                isOpen={showPlaylist}
+                onClose={() => setShowPlaylist(false)}
+                songs={displayedSongs}
+                currentIndex={playerState.currentIndex}
+                isPlaying={playerState.isPlaying}
+                onPlaySong={(idx) => {
+                  playerActions.playSong(idx);
+                  if (!started) onFirstPlay();
+                }}
+                favorites={favorites}
+                onToggleFavorite={onToggleFavorite}
+                isFavoritesMode={isFavoritesMode}
+              />
+            </div>
+
+            <NowPlaying
+              playerState={playerState}
+              playerActions={playerActions}
+              station={station}
+              started={started}
+              onFirstPlay={onFirstPlay}
+              isPlaylistOpen={showPlaylist}
+              onTogglePlaylist={() => setShowPlaylist((p) => !p)}
+              isFavorite={isCurrentFav}
+              onToggleFavorite={() => {
+                if (playerState.currentSong) {
+                  onToggleFavorite(playerState.currentSong.id);
+                }
+              }}
+            />
+          </div>
         </div>
       </main>
     </div>

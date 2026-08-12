@@ -147,7 +147,11 @@ export function NowPlaying({
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [showEqMenu, setShowEqMenu] = useState(false);
   const [showAirplayMenu, setShowAirplayMenu] = useState(false);
-  const [activeEq, setActiveEq] = useState('Office Warmth');
+  const [localPreset, setLocalPreset] = useState<string>(playerState.activePreset || 'Flat');
+
+  useEffect(() => {
+    setLocalPreset(playerState.activePreset || 'Flat');
+  }, [playerState.activePreset]);
 
   // Dynamic HSL color extraction from background image (fetching blob to avoid CORS canvas taint)
   const [accentHsl, setAccentHsl] = useState<{ h: number; s: number } | null>(null);
@@ -308,7 +312,7 @@ export function NowPlaying({
     <div className="relative w-full flex justify-center player-popover-area select-none">
       <section
         aria-label="Music Player"
-        className="flex items-center justify-between w-full max-w-[1100px] h-[68px] sm:h-[90px] rounded-[20px] sm:rounded-[24px] px-3 sm:px-6 relative overflow-hidden group"
+        className="flex items-center justify-between w-full max-w-[1100px] h-[68px] sm:h-[90px] rounded-[20px] sm:rounded-[24px] px-3 sm:px-6 relative group"
         style={{
           background: outerBg,
           backdropFilter: 'blur(24px) saturate(140%)',
@@ -323,7 +327,7 @@ export function NowPlaying({
           onPointerDown={onDown}
           onPointerMove={onMove}
           onPointerUp={onUp}
-          className="absolute bottom-0 left-0 right-0 h-[14px] sm:hidden cursor-pointer touch-none flex items-end"
+          className="absolute bottom-0 left-0 right-0 h-[14px] sm:hidden cursor-pointer touch-none flex items-end overflow-hidden rounded-b-[20px]"
         >
           <div className="w-full h-[3px] bg-white/10 relative">
             <div 
@@ -484,11 +488,21 @@ export function NowPlaying({
                 </div>
                 <div className="flex flex-col gap-1">
                   {EQ_PRESETS.map((p) => (
-                    <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }}
-                      className={`w-full flex items-center justify-between text-left px-2.5 py-1.5 rounded-lg text-[11px] cursor-pointer transition-all hover:bg-white/10 ${activeEq === p ? 'text-white font-bold bg-white/10 border border-white/20' : 'text-white/60 font-medium border border-transparent'}`}
+                    <button key={p} type="button" onClick={(e) => { 
+                        e.preventDefault(); 
+                        e.stopPropagation(); 
+                        setLocalPreset(p);
+                        if (playerActions && playerActions.setPreset) {
+                          playerActions.setPreset(p as any); 
+                        } else {
+                          alert("Audio Engine not connected properly! Please do a HARD REFRESH (Ctrl+Shift+R).");
+                        }
+                        setShowEqMenu(false); 
+                      }}
+                      className={`w-full flex items-center justify-between text-left px-2.5 py-1.5 rounded-lg text-[11px] cursor-pointer transition-all hover:bg-white/10 ${localPreset === p ? 'text-white font-bold bg-white/10 border border-white/20' : 'text-white/60 font-medium border border-transparent'}`}
                     >
                       <span>{p}</span>
-                      {activeEq === p && <Check className="w-3.5 h-3.5 text-white" />}
+                      {localPreset === p && <Check className="w-3.5 h-3.5 text-white" />}
                     </button>
                   ))}
                 </div>

@@ -23,6 +23,8 @@ export interface StationConfig {
   oneLinerInterval: number;
 }
 
+export type AudioPreset = 'Flat' | 'Bass Boost' | 'Vocal Focus' | 'Office Warmth' | 'Studio HD';
+
 export interface PlayerState {
   currentSong: Song | null;
   currentIndex: number;
@@ -34,4 +36,5 @@ export interface PlayerState {
   isMuted: boolean;
   isLoading: boolean;
   error: string | null;
+  activePreset: AudioPreset;
 }
