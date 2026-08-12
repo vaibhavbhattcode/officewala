@@ -29,16 +29,16 @@ export const PlaylistDrawer = memo(function PlaylistDrawer({
 }: PlaylistDrawerProps) {
   return (
     <section
-      className={`playlist-popup w-full mb-3.5 select-none transition-all duration-300 ${
-        isOpen ? 'is-open pointer-events-auto opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-3'
+      className={`playlist-popup w-full sm:w-[380px] sm:max-w-[380px] origin-bottom-right mb-3.5 select-none transition-all duration-300 ${
+        isOpen ? 'is-open pointer-events-auto opacity-100 translate-y-0 scale-100' : 'pointer-events-none opacity-0 translate-y-3 sm:translate-y-0 sm:scale-95'
       }`}
       style={{
         borderRadius: '1.5rem',
-        background: 'rgba(20, 20, 24, 0.65)',
-        backdropFilter: 'blur(28px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(150%)',
-        border: '1px solid rgba(255, 255, 255, 0.18)',
-        boxShadow: '0 15px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+        background: 'rgba(20, 20, 24, 0.75)',
+        backdropFilter: 'blur(32px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(150%)',
+        border: '1px solid rgba(255, 255, 255, 0.15)',
+        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
         maxHeight: 'min(50dvh, 24rem)',
         overflow: 'hidden',
       }}

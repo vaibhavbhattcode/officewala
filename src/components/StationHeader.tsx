@@ -25,16 +25,23 @@ export const StationHeader = memo(function StationHeader({
   return (
     <header className="fixed top-0 left-0 right-0 z-30 w-full select-none pointer-events-none">
       {/* Left: Clock */}
-      <div className="absolute top-4 left-4 sm:left-8 pointer-events-auto flex flex-col items-start z-10 select-none">
+      <div 
+        className="absolute top-4 left-4 sm:left-8 pointer-events-auto flex flex-col items-start z-10 select-none px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl transition-all duration-300"
+        style={{
+          background: 'rgba(18, 16, 28, 0.45)',
+          backdropFilter: 'blur(16px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+        }}
+      >
         <span
-          className="font-[var(--font-space-grotesk)] font-medium text-sm sm:text-base md:text-lg tracking-tight text-white/70 tabular-nums leading-none"
-          style={{ textShadow: '0 1px 6px rgba(0, 0, 0, 0.5)' }}
+          className="font-[var(--font-space-grotesk)] font-medium text-sm sm:text-base md:text-lg tracking-tight text-white/90 tabular-nums leading-none"
         >
           {clock.time}
         </span>
         <span
-          className="text-[9px] sm:text-[10px] text-white/45 font-normal tracking-[0.18em] uppercase mt-1 whitespace-nowrap"
-          style={{ textShadow: '0 1px 4px rgba(0, 0, 0, 0.5)' }}
+          className="text-[9px] sm:text-[10px] text-white/60 font-normal tracking-[0.18em] uppercase mt-1 whitespace-nowrap"
         >
           {clock.day} · {clock.date}
         </span>

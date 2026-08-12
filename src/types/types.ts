@@ -14,6 +14,7 @@ export interface StationConfig {
   locationText: string;
   logo: string;
   background: string;
+  backgrounds?: string[];
   primaryColor: string;
   secondaryColor: string;
   shuffle: boolean;

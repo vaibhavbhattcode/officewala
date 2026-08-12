@@ -54,7 +54,7 @@ export function MainStation({
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden select-none">
       {/* Background */}
-      <HeroBackground backgroundUrl={station.background} />
+      <HeroBackground backgroundUrl={station.background} backgrounds={station.backgrounds} />
 
       {/* Top Header with Live Presence and Favorites button */}
       <StationHeader
@@ -76,28 +76,29 @@ export function MainStation({
 
         {/* Bottom Dock: Playlist Popup + Bumper Quote + Pill Player */}
         <div
-          className="anim-rise w-full flex flex-col items-center relative px-2 sm:px-0"
+          className="anim-rise w-full max-w-[1100px] mx-auto flex flex-col items-center relative px-2 sm:px-4 lg:px-8"
           style={{
-            maxWidth: '48rem',
             marginBottom: 'clamp(0.6rem, 4vh, 2.5rem)',
             animationDelay: '0.16s',
           }}
         >
-          {/* Playlist popup directly above the dock */}
-          <PlaylistDrawer
-            isOpen={showPlaylist}
-            onClose={() => setShowPlaylist(false)}
-            songs={displayedSongs}
-            currentIndex={playerState.currentIndex}
-            isPlaying={playerState.isPlaying}
-            onPlaySong={(idx) => {
-              playerActions.playSong(idx);
-              if (!started) onFirstPlay();
-            }}
-            favorites={favorites}
-            onToggleFavorite={onToggleFavorite}
-            isFavoritesMode={isFavoritesMode}
-          />
+          {/* Playlist popup directly above the dock, right aligned on desktop */}
+          <div className="w-full flex sm:justify-end sm:pr-8">
+            <PlaylistDrawer
+              isOpen={showPlaylist}
+              onClose={() => setShowPlaylist(false)}
+              songs={displayedSongs}
+              currentIndex={playerState.currentIndex}
+              isPlaying={playerState.isPlaying}
+              onPlaySong={(idx) => {
+                playerActions.playSong(idx);
+                if (!started) onFirstPlay();
+              }}
+              favorites={favorites}
+              onToggleFavorite={onToggleFavorite}
+              isFavoritesMode={isFavoritesMode}
+            />
+          </div>
 
           {/* One-Liner Quote / Bumper */}
           <OneLinerRotator

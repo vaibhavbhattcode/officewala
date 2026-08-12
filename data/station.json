@@ -4,7 +4,16 @@
   "tagline": "Good Work. Good Music.",
   "locationText": "LIVE IN THE OFFICE",
   "logo": "/logo/logo.png",
-  "background": "/backgrounds/truck-bg.jpg",
+  "background": "/backgrounds/file_00000000c74c82119f6940ac235617eb.png",
+  "backgrounds": [
+    "/backgrounds/file_00000000c74c82119f6940ac235617eb.png",
+    "/backgrounds/a (4).png",
+    "/backgrounds/a (5).png",
+    "/backgrounds/a (6).png",
+    "/backgrounds/a (7).png",
+    "/backgrounds/truck-bg.jpg",
+    "/backgrounds/office.webp"
+  ],
   "primaryColor": "#D9A441",
   "secondaryColor": "#1A1A2E",
   "shuffle": false,
