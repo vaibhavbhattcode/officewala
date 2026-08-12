@@ -404,7 +404,10 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
   const seek = useCallback((time: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = Math.max(0, Math.min(time, audio.duration || 0));
+    const newTime = Math.max(0, Math.min(time, audio.duration || 0));
+    audio.currentTime = newTime;
+    // Eagerly update state to prevent visual rubber-banding
+    setState(prev => ({ ...prev, currentTime: newTime }));
   }, []);
 
   const setVolume = useCallback((vol: number) => {
@@ -465,13 +468,17 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
   const seekForward = useCallback((seconds: number = 5) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = Math.min(audio.currentTime + seconds, audio.duration || 0);
+    const newTime = Math.min(audio.currentTime + seconds, audio.duration || 0);
+    audio.currentTime = newTime;
+    setState(prev => ({ ...prev, currentTime: newTime }));
   }, []);
 
   const seekBackward = useCallback((seconds: number = 5) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = Math.max(audio.currentTime - seconds, 0);
+    const newTime = Math.max(audio.currentTime - seconds, 0);
+    audio.currentTime = newTime;
+    setState(prev => ({ ...prev, currentTime: newTime }));
   }, []);
 
   const volumeUp = useCallback((step: number = 0.1) => {
