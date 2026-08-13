@@ -462,50 +462,50 @@ export function NowPlaying({
             </div>
 
             {/* Right: Waveform + More */}
-            <div className="flex items-center gap-2 sm:gap-[16px] shrink-0 pl-1 sm:pl-[8px]">
+            <div className="flex items-center gap-2 sm:gap-[16px] shrink-0 pl-1 sm:pl-[8px] relative">
               <WaveformIcon isPlaying={isPlaying} className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`} />
-              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowEqMenu(false); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer ignore-click-outside">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowEqMenu(false); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer ignore-click-outside outline-none focus:outline-none">
                 <MoreHorizontal className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
               </button>
+
+              {/* More popover */}
+              {showMoreMenu && (
+                <div className="absolute bottom-[calc(100%+12px)] right-0 sm:-right-2 w-[220px] z-50 rounded-[18px] p-2 transition-all ignore-click-outside" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
+                  <div className="px-[10px] py-[6px] border-b border-white/10 mb-1">
+                    <p className="text-[12px] font-bold text-white truncate m-0">{currentSong?.title || 'Track Info'}</p>
+                    <p className="text-[10px] text-white/50 truncate m-0">{currentSong?.artist || 'Office Waala'}</p>
+                  </div>
+                  {onToggleFavorite && (
+                    <button type="button" onClick={() => { onToggleFavorite(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer outline-none focus:outline-none">
+                      <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/60'}`} />
+                      {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                    </button>
+                  )}
+                  <button type="button" onClick={() => { playerActions.toggleShuffle(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer outline-none focus:outline-none">
+                    <Shuffle className={`w-3.5 h-3.5 ${isShuffle ? 'text-white font-bold' : 'text-white/60'}`} />
+                    {isShuffle ? 'Shuffle: Enabled' : 'Shuffle: Disabled'}
+                  </button>
+                  {onTogglePlaylist && (
+                    <button type="button" onClick={() => { onTogglePlaylist(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer outline-none focus:outline-none">
+                      <ListMusic className="w-3.5 h-3.5 text-white/60" />
+                      {isPlaylistOpen ? 'Hide Playlist' : 'Show Playlist'}
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-          
-          {/* More popover */}
-          {showMoreMenu && (
-            <div className="absolute bottom-full mb-[12px] left-1/2 -translate-x-1/2 w-[220px] z-50 rounded-[18px] p-2 transition-all ignore-click-outside" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
-              <div className="px-[10px] py-[6px] border-b border-white/10 mb-1">
-                <p className="text-[12px] font-bold text-white truncate m-0">{currentSong?.title || 'Track Info'}</p>
-                <p className="text-[10px] text-white/50 truncate m-0">{currentSong?.artist || 'Office Waala'}</p>
-              </div>
-              {onToggleFavorite && (
-                <button type="button" onClick={() => { onToggleFavorite(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer">
-                  <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/60'}`} />
-                  {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-                </button>
-              )}
-              <button type="button" onClick={() => { playerActions.toggleShuffle(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer">
-                <Shuffle className={`w-3.5 h-3.5 ${isShuffle ? 'text-white font-bold' : 'text-white/60'}`} />
-                {isShuffle ? 'Shuffle: Enabled' : 'Shuffle: Disabled'}
-              </button>
-              {onTogglePlaylist && (
-                <button type="button" onClick={() => { onTogglePlaylist(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer">
-                  <ListMusic className="w-3.5 h-3.5 text-white/60" />
-                  {isPlaylistOpen ? 'Hide Playlist' : 'Show Playlist'}
-                </button>
-              )}
-            </div>
-          )}
         </div>
 
         {/* ── DESKTOP RIGHT: Playback Controls (Prev, Play/Pause, Next) ── */}
         <div className="hidden sm:flex items-center gap-[26px] shrink-0 order-3">
-          <button type="button" onClick={playerActions.previous} aria-label="Previous" title="Previous" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer">
+          <button type="button" onClick={playerActions.previous} aria-label="Previous" title="Previous" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer outline-none focus:outline-none">
             <RewindIcon className="w-[22px] h-[22px]" />
           </button>
-          <button type="button" onClick={handlePlay} aria-label="Play/Pause" title={isPlaying ? 'Pause' : 'Play'} className="text-white/80 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer">
+          <button type="button" onClick={handlePlay} aria-label="Play/Pause" title={isPlaying ? 'Pause' : 'Play'} className="text-white/80 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer outline-none focus:outline-none">
             {isPlaying ? <PauseIcon className="w-[22px] h-[22px]" /> : <PlayIcon className="w-[22px] h-[22px]" />}
           </button>
-          <button type="button" onClick={playerActions.next} aria-label="Next" title="Next" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer">
+          <button type="button" onClick={playerActions.next} aria-label="Next" title="Next" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer outline-none focus:outline-none">
             <ForwardIcon className="w-[22px] h-[22px]" />
           </button>
         </div>
@@ -514,13 +514,13 @@ export function NowPlaying({
         <div className="flex sm:hidden w-full items-center justify-between mt-3 px-2 order-3">
           <div className="flex items-center gap-4">
             {/* Mobile Heart */}
-            <button type="button" onClick={() => onToggleFavorite?.()} className="active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+            <button type="button" onClick={() => onToggleFavorite?.()} className="active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <Heart className={`w-[20px] h-[20px] transition-colors ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'}`} />
             </button>
             
             {/* Mobile Equalizer */}
             <div className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowMoreMenu(false); }} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer ignore-click-outside">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowMoreMenu(false); }} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer ignore-click-outside outline-none focus:outline-none">
                 <SlidersIcon className="w-[20px] h-[20px]" />
               </button>
               {showEqMenu && (
@@ -531,7 +531,7 @@ export function NowPlaying({
                   </div>
                   <div className="flex flex-col gap-[2px]">
                     {EQ_PRESETS.map((p) => (
-                      <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }} className="w-full flex items-center justify-between text-left transition-all rounded-[10px] px-2 py-1.5 text-[10px] cursor-pointer" style={{ fontWeight: activeEq === p ? 700 : 500, color: activeEq === p ? '#ffffff' : 'rgba(255,255,255,0.65)', backgroundColor: activeEq === p ? 'rgba(255, 255, 255, 0.14)' : 'transparent', border: activeEq === p ? '1px solid rgba(255, 255, 255, 0.22)' : '1px solid transparent' }}>
+                      <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }} className="w-full flex items-center justify-between text-left transition-all rounded-[10px] px-2 py-1.5 text-[10px] cursor-pointer outline-none focus:outline-none" style={{ fontWeight: activeEq === p ? 700 : 500, color: activeEq === p ? '#ffffff' : 'rgba(255,255,255,0.65)', backgroundColor: activeEq === p ? 'rgba(255, 255, 255, 0.14)' : 'transparent', border: activeEq === p ? '1px solid rgba(255, 255, 255, 0.22)' : '1px solid transparent' }}>
                         <span>{p}</span>
                         {activeEq === p && <Check className="w-3 h-3 text-white" />}
                       </button>
@@ -544,13 +544,13 @@ export function NowPlaying({
 
           {/* Mobile Playback Controls */}
           <div className="flex items-center gap-6">
-            <button type="button" onClick={playerActions.previous} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+            <button type="button" onClick={playerActions.previous} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <RewindIcon className="w-[20px] h-[20px]" />
             </button>
-            <button type="button" onClick={handlePlay} className="text-white hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+            <button type="button" onClick={handlePlay} className="text-white hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               {isPlaying ? <PauseIcon className="w-[26px] h-[26px]" /> : <PlayIcon className="w-[26px] h-[26px]" />}
             </button>
-            <button type="button" onClick={playerActions.next} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+            <button type="button" onClick={playerActions.next} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <ForwardIcon className="w-[20px] h-[20px]" />
             </button>
           </div>
