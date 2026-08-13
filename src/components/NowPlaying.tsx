@@ -419,7 +419,7 @@ export function NowPlaying({
                 {currentSong?.artist || 'Gery & Gany'}
               </p>
               {/* Progress */}
-              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[3px] rounded-full bg-white/15 mt-[6px] cursor-pointer relative overflow-hidden outline-none focus:outline-none">
+              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[3px] rounded-full bg-white/15 mt-[6px] cursor-pointer relative overflow-hidden outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
                 <div ref={fillRef} className="h-full rounded-full bg-white/80 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
               </div>
             </div>
