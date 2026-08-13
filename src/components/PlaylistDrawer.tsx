@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Music, Heart } from 'lucide-react';
 import Image from 'next/image';
 import { Song } from '@/types/types';
@@ -19,6 +19,7 @@ interface PlaylistDrawerProps {
 
 export const PlaylistDrawer = memo(function PlaylistDrawer({
   isOpen,
+  onClose,
   songs,
   currentIndex,
   isPlaying,
@@ -27,8 +28,27 @@ export const PlaylistDrawer = memo(function PlaylistDrawer({
   onToggleFavorite,
   isFavoritesMode = false,
 }: PlaylistDrawerProps) {
+  const drawerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      if (target.closest('.ignore-click-outside')) return;
+
+      if (drawerRef.current && !drawerRef.current.contains(target)) {
+        onClose();
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, onClose]);
+
   return (
     <section
+      ref={drawerRef}
       className={`playlist-popup w-[92vw] max-w-[400px] sm:w-[380px] sm:max-w-[380px] origin-bottom sm:origin-bottom-right mb-3.5 select-none transition-all duration-300 ${
         isOpen ? 'is-open pointer-events-auto opacity-100 translate-y-0 scale-100' : 'pointer-events-none opacity-0 translate-y-3 sm:translate-y-0 sm:scale-95'
       }`}

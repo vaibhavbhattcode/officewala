@@ -151,9 +151,25 @@ export function NowPlaying({
   const [showAirplayMenu, setShowAirplayMenu] = useState(false);
   const [activeEq, setActiveEq] = useState('Office Warmth');
 
+  useEffect(() => {
+    function handleOutsideClick(e: MouseEvent) {
+      const target = e.target as Element;
+      if (target.closest('.ignore-click-outside')) return;
+      
+      setShowEqMenu(false);
+      setShowMoreMenu(false);
+      setShowAirplayMenu(false);
+    }
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
   // Dynamic HSL color extraction from background image (fetching blob to avoid CORS canvas taint)
   const [accentHsl, setAccentHsl] = useState<{ h: number; s: number } | null>(null);
-  const coverUrl = currentBackgroundUrl || station.background || currentSong?.cover;
+  // If the background is a video, use the song cover for color extraction instead
+  const activeBg = currentBackgroundUrl || station.background;
+  const isVideoBg = activeBg?.match(/\.(mp4|webm)$/i);
+  const coverUrl = isVideoBg ? currentSong?.cover : (activeBg || currentSong?.cover);
 
   useEffect(() => {
     if (!coverUrl) return;
@@ -336,12 +352,12 @@ export function NowPlaying({
               onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowAirplayMenu(false); setShowMoreMenu(false); }}
               aria-label="Equalizer & FX" title="Equalizer Settings"
               style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
-              className="hover:text-white active:scale-95 transition-all"
+              className="hover:text-white active:scale-95 transition-all ignore-click-outside"
             >
               <SlidersIcon className="w-[22px] h-[22px]" />
             </button>
             {showEqMenu && (
-              <div style={{
+              <div className="ignore-click-outside" style={{
                 position: 'absolute', bottom: '100%', marginBottom: '12px', left: 0, width: '210px', zIndex: 50,
                 background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)',
                 border: popoverBorder, borderRadius: '18px',
@@ -433,11 +449,11 @@ export function NowPlaying({
             {/* Text + Progress */}
             <div className="flex-1 min-w-0 flex flex-col justify-center">
               <p className="text-[13px] sm:text-[14px] font-bold text-white leading-[18px] tracking-tight truncate m-0">
-                {currentSong?.artist || 'Gery & Gany'}
+                {error ? <span className="text-red-400 font-normal">{error}</span> : (currentSong?.title || 'Rusuk')}
                 {isLoading && <Loader2 className="inline-block animate-spin text-amber-400 w-3 h-3 ml-1.5" />}
               </p>
               <p className="text-[10px] sm:text-[11px] font-medium text-white/50 leading-[16px] mt-[2px] truncate m-0">
-                {error ? <span className="text-red-400 font-normal">{error}</span> : (currentSong?.title || 'Rusuk')}
+                {currentSong?.artist || 'Gery & Gany'}
               </p>
               {/* Progress */}
               <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[3px] rounded-full bg-white/15 mt-[6px] cursor-pointer relative overflow-hidden">
@@ -448,7 +464,7 @@ export function NowPlaying({
             {/* Right: Waveform + More */}
             <div className="flex items-center gap-2 sm:gap-[16px] shrink-0 pl-1 sm:pl-[8px]">
               <WaveformIcon isPlaying={isPlaying} className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`} />
-              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowEqMenu(false); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowEqMenu(false); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer ignore-click-outside">
                 <MoreHorizontal className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
               </button>
             </div>
@@ -456,7 +472,7 @@ export function NowPlaying({
           
           {/* More popover */}
           {showMoreMenu && (
-            <div className="absolute bottom-full mb-[12px] left-1/2 -translate-x-1/2 w-[220px] z-50 rounded-[18px] p-2 transition-all" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
+            <div className="absolute bottom-full mb-[12px] left-1/2 -translate-x-1/2 w-[220px] z-50 rounded-[18px] p-2 transition-all ignore-click-outside" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
               <div className="px-[10px] py-[6px] border-b border-white/10 mb-1">
                 <p className="text-[12px] font-bold text-white truncate m-0">{currentSong?.title || 'Track Info'}</p>
                 <p className="text-[10px] text-white/50 truncate m-0">{currentSong?.artist || 'Office Waala'}</p>
@@ -504,11 +520,11 @@ export function NowPlaying({
             
             {/* Mobile Equalizer */}
             <div className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowMoreMenu(false); }} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowMoreMenu(false); }} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer ignore-click-outside">
                 <SlidersIcon className="w-[20px] h-[20px]" />
               </button>
               {showEqMenu && (
-                <div className="absolute bottom-full mb-3 left-0 w-[180px] z-50 rounded-[16px] p-[8px] transition-all" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
+                <div className="absolute bottom-full mb-3 left-0 w-[180px] z-50 rounded-[16px] p-[8px] transition-all ignore-click-outside" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
                   <div className="flex items-center gap-2 border-b border-white/10 pb-[6px] mb-[6px] pl-1">
                     <Sparkles className="w-3 h-3 text-white/80" />
                     <p className="text-[11px] font-bold text-white m-0">Audio Presets</p>

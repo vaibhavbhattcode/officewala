@@ -40,9 +40,9 @@ export function OneLinerRotator({ oneLiners, intervalMs = 15000 }: OneLinerRotat
   if (!oneLiners || oneLiners.length === 0) return null;
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-3 mb-6 sm:mb-8 px-4 text-center select-none">
+    <div className="w-full max-w-2xl mx-auto mt-3 mb-14 sm:mb-20 px-4 text-center select-none overflow-hidden">
       <p
-        className="inline-flex items-center justify-center gap-2 text-center font-medium tracking-wide text-white/80 leading-relaxed"
+        className="text-center font-medium tracking-wide text-white/80 leading-relaxed truncate"
         style={{
           fontSize: 'clamp(0.84rem, 2vw, 0.98rem)',
           textShadow: '0 1px 6px rgba(0,0,0,0.6)',
@@ -50,7 +50,7 @@ export function OneLinerRotator({ oneLiners, intervalMs = 15000 }: OneLinerRotat
       >
         <span
           className={`bumper-text transition-opacity duration-200 ${isSwapping ? 'is-swapping opacity-0' : 'opacity-100'}`}
-          style={{ textWrap: 'balance' }}
+          style={{ whiteSpace: 'nowrap' }}
         >
           {oneLiners[index]}
         </span>
