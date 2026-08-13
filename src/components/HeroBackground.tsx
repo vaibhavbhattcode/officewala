@@ -6,39 +6,26 @@ import Image from 'next/image';
 interface HeroBackgroundProps {
   backgroundUrl: string;
   backgrounds?: string[];
-  onBackgroundChange?: (url: string) => void;
+  currentIndex: number;
 }
 
-export const HeroBackground = memo(function HeroBackground({ backgroundUrl, backgrounds, onBackgroundChange }: HeroBackgroundProps) {
+export const HeroBackground = memo(function HeroBackground({ backgroundUrl, backgrounds, currentIndex }: HeroBackgroundProps) {
   const allBackgrounds = backgrounds && backgrounds.length > 0 ? backgrounds : [backgroundUrl];
   
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(-1);
+  const [activeIdx, setActiveIdx] = useState(currentIndex);
 
   useEffect(() => {
-    if (onBackgroundChange) {
-      onBackgroundChange(allBackgrounds[currentIndex]);
+    if (currentIndex !== activeIdx) {
+      setPrevIndex(activeIdx);
+      setActiveIdx(currentIndex);
     }
-  }, [currentIndex, allBackgrounds, onBackgroundChange]);
-
-  useEffect(() => {
-    if (allBackgrounds.length <= 1) return;
-
-    // Cycle backgrounds every 35 seconds
-    const interval = setInterval(() => {
-      setCurrentIndex((curr) => {
-        setPrevIndex(curr);
-        return (curr + 1) % allBackgrounds.length;
-      });
-    }, 35000);
-
-    return () => clearInterval(interval);
-  }, [allBackgrounds.length]);
+  }, [currentIndex, activeIdx]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#0c0c0c]">
       {allBackgrounds.map((bg, idx) => {
-        const isActive = idx === currentIndex;
+        const isActive = idx === activeIdx;
         const isPrev = idx === prevIndex;
         const isVideo = bg.endsWith('.mp4') || bg.endsWith('.webm');
         
@@ -73,7 +60,7 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
                 alt="Station Background"
                 fill
                 className="object-cover"
-                priority={idx === 0 || idx === currentIndex}
+                priority={idx === 0 || idx === activeIdx}
                 unoptimized
               />
             )}

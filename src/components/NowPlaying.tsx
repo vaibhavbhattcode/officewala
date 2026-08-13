@@ -11,6 +11,7 @@ import {
   Check,
   Radio,
   Sparkles,
+  ImageIcon,
 } from 'lucide-react';
 import Image from 'next/image';
 import { PlayerState, StationConfig } from '@/types/types';
@@ -121,9 +122,8 @@ interface NowPlayingProps {
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
   currentBackgroundUrl?: string;
+  onNextBackground?: () => void;
 }
-
-const EQ_PRESETS = ['Flat', 'Bass Boost', 'Vocal Focus', 'Office Warmth', 'Studio HD'];
 
 /* ── Component ─────────────────────────────────── */
 
@@ -131,13 +131,14 @@ export function NowPlaying({
   playerState,
   playerActions,
   station,
-  started,
+  started = true,
   onFirstPlay,
-  isPlaylistOpen,
+  isPlaylistOpen = false,
   onTogglePlaylist,
   isFavorite = false,
   onToggleFavorite,
   currentBackgroundUrl,
+  onNextBackground,
 }: NowPlayingProps) {
   const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error } =
     playerState;
@@ -147,16 +148,13 @@ export function NowPlaying({
   const [scrubbing, setScrubbing] = useState(false);
   const [showVolumePopup, setShowVolumePopup] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
-  const [showEqMenu, setShowEqMenu] = useState(false);
   const [showAirplayMenu, setShowAirplayMenu] = useState(false);
-  const [activeEq, setActiveEq] = useState('Office Warmth');
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
       const target = e.target as Element;
       if (target.closest('.ignore-click-outside')) return;
       
-      setShowEqMenu(false);
       setShowMoreMenu(false);
       setShowAirplayMenu(false);
     }
@@ -248,7 +246,6 @@ export function NowPlaying({
     function close(e: MouseEvent) {
       if (!(e.target as HTMLElement).closest('.player-popover-area')) {
         setShowMoreMenu(false);
-        setShowEqMenu(false);
         setShowAirplayMenu(false);
       }
     }
@@ -305,7 +302,7 @@ export function NowPlaying({
   const outerBg = `hsla(${hue}, ${sat}%, 12%, 0.72)`;
   const outerBorder = '1px solid transparent';
 
-  const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)`;
+  const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)';
   const popoverBorder = '1px solid rgba(255, 255, 255, 0.08)';
 
   /* ── Render ── */
@@ -325,7 +322,7 @@ export function NowPlaying({
         }}
       >
 
-        {/* ── DESKTOP LEFT: Utility Controls (Heart, Equalizer, Volume) ── */}
+        {/* ── DESKTOP LEFT: Utility Controls (Heart, Background, Volume) ── */}
         <div className="hidden sm:flex items-center gap-[32px] shrink-0 order-1 pr-4">
           {/* Favorite Heart Button */}
           <button
@@ -343,48 +340,16 @@ export function NowPlaying({
             />
           </button>
 
-          {/* Equalizer */}
-          <div style={{ position: 'relative' }}>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowAirplayMenu(false); setShowMoreMenu(false); }}
-              aria-label="Equalizer & FX" title="Equalizer Settings"
-              style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
-              className="hover:text-white active:scale-95 transition-all ignore-click-outside"
-            >
-              <SlidersIcon className="w-[22px] h-[22px]" />
-            </button>
-            {showEqMenu && (
-              <div className="ignore-click-outside" style={{
-                position: 'absolute', bottom: '100%', marginBottom: '12px', left: 0, width: '210px', zIndex: 50,
-                background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)',
-                border: popoverBorder, borderRadius: '18px',
-                padding: '10px', boxShadow: '0 16px 40px rgba(0,0,0,0.55)',
-                transition: 'background 500ms ease, border-color 500ms ease',
-              }}>
-                <div className="flex items-center gap-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.10)', paddingBottom: '7px', marginBottom: '7px', paddingLeft: '4px' }}>
-                  <Sparkles className="w-3.5 h-3.5 text-white/80" />
-                  <p style={{ fontSize: '12px', fontWeight: 700, color: '#fff', margin: 0 }}>Audio Presets</p>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                  {EQ_PRESETS.map((p) => (
-                    <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }}
-                      className="w-full flex items-center justify-between text-left transition-all hover:bg-white/10"
-                      style={{
-                        padding: '6px 10px', fontSize: '11px', borderRadius: '11px', cursor: 'pointer',
-                        fontWeight: activeEq === p ? 700 : 500,
-                        color: activeEq === p ? '#ffffff' : 'rgba(255,255,255,0.65)',
-                        backgroundColor: activeEq === p ? 'rgba(255, 255, 255, 0.14)' : 'transparent',
-                        border: activeEq === p ? '1px solid rgba(255, 255, 255, 0.22)' : '1px solid transparent',
-                      }}>
-                      <span>{p}</span>
-                      {activeEq === p && <Check className="w-3.5 h-3.5 text-white" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          {/* Change Background Button */}
+          <button
+            type="button"
+            onClick={onNextBackground}
+            aria-label="Change Background" title="Change Background"
+            style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
+            className="hover:text-white active:scale-95 transition-all ignore-click-outside outline-none focus:outline-none"
+          >
+            <ImageIcon className="w-[22px] h-[22px]" />
+          </button>
 
           {/* Volume */}
           <div
@@ -509,39 +474,21 @@ export function NowPlaying({
         </div>
 
         {/* ── MOBILE ROW 2: All Controls ── */}
-        <div className="flex sm:hidden w-full items-center justify-between mt-3 px-2 order-3">
-          <div className="flex items-center gap-4">
+        <div className="flex sm:hidden w-full items-center mt-3 px-2 order-3 relative min-h-[30px]">
+          <div className="flex items-center gap-4 absolute left-2">
             {/* Mobile Heart */}
             <button type="button" onClick={() => onToggleFavorite?.()} className="active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <Heart className={`w-[20px] h-[20px] transition-colors ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'}`} />
             </button>
             
-            {/* Mobile Equalizer */}
-            <div className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowMoreMenu(false); }} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer ignore-click-outside outline-none focus:outline-none">
-                <SlidersIcon className="w-[20px] h-[20px]" />
-              </button>
-              {showEqMenu && (
-                <div className="absolute bottom-full mb-3 left-0 w-[180px] z-50 rounded-[16px] p-[8px] transition-all ignore-click-outside" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
-                  <div className="flex items-center gap-2 border-b border-white/10 pb-[6px] mb-[6px] pl-1">
-                    <Sparkles className="w-3 h-3 text-white/80" />
-                    <p className="text-[11px] font-bold text-white m-0">Audio Presets</p>
-                  </div>
-                  <div className="flex flex-col gap-[2px]">
-                    {EQ_PRESETS.map((p) => (
-                      <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }} className="w-full flex items-center justify-between text-left transition-all rounded-[10px] px-2 py-1.5 text-[10px] cursor-pointer outline-none focus:outline-none" style={{ fontWeight: activeEq === p ? 700 : 500, color: activeEq === p ? '#ffffff' : 'rgba(255,255,255,0.65)', backgroundColor: activeEq === p ? 'rgba(255, 255, 255, 0.14)' : 'transparent', border: activeEq === p ? '1px solid rgba(255, 255, 255, 0.22)' : '1px solid transparent' }}>
-                        <span>{p}</span>
-                        {activeEq === p && <Check className="w-3 h-3 text-white" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* Mobile Change Background */}
+            <button type="button" onClick={onNextBackground} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer ignore-click-outside outline-none focus:outline-none">
+              <ImageIcon className="w-[20px] h-[20px]" />
+            </button>
           </div>
 
-          {/* Mobile Playback Controls */}
-          <div className="flex items-center gap-6">
+          {/* Mobile Playback Controls (Centered) */}
+          <div className="flex items-center gap-6 mx-auto">
             <button type="button" onClick={playerActions.previous} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <RewindIcon className="w-[20px] h-[20px]" />
             </button>

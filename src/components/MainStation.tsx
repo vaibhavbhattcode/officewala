@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Song, StationConfig, PlayerState } from '@/types/types';
 import { AudioPlayerActions } from '@/hooks/useAudioPlayer';
 import { HeroBackground } from './HeroBackground';
@@ -51,7 +51,20 @@ export function MainStation({
     ? favorites.includes(playerState.currentSong.id)
     : false;
 
-  const [currentBgUrl, setCurrentBgUrl] = useState<string | undefined>(undefined);
+  const allBackgrounds = station.backgrounds && station.backgrounds.length > 0 ? station.backgrounds : [station.background];
+  const [bgIndex, setBgIndex] = useState(0);
+
+  const handleNextBackground = useCallback(() => {
+    setBgIndex(curr => (curr + 1) % allBackgrounds.length);
+  }, [allBackgrounds.length]);
+
+  useEffect(() => {
+    if (allBackgrounds.length <= 1) return;
+    const interval = setInterval(() => {
+      setBgIndex(curr => (curr + 1) % allBackgrounds.length);
+    }, 35000);
+    return () => clearInterval(interval);
+  }, [allBackgrounds.length]);
 
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden select-none">
@@ -59,7 +72,7 @@ export function MainStation({
       <HeroBackground
         backgroundUrl={station.background}
         backgrounds={station.backgrounds}
-        onBackgroundChange={setCurrentBgUrl}
+        currentIndex={bgIndex}
       />
 
       {/* Top Header with Live Presence and Favorites button */}
@@ -113,7 +126,8 @@ export function MainStation({
 
           {/* Core Player Pill */}
           <NowPlaying
-            currentBackgroundUrl={currentBgUrl}
+            currentBackgroundUrl={allBackgrounds[bgIndex]}
+            onNextBackground={handleNextBackground}
             playerState={playerState}
             playerActions={playerActions}
             station={station}
