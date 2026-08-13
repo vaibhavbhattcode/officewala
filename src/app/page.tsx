@@ -4,6 +4,7 @@ import { StationApp } from '@/components/StationApp';
 import { Song, StationConfig } from '@/types/types';
 
 export default function Home() {
+  // trigger refresh
   const stationRaw = fs.readFileSync(path.join(process.cwd(), 'data', 'station.json'), 'utf-8');
   const songsRaw = fs.readFileSync(path.join(process.cwd(), 'data', 'songs.json'), 'utf-8');
   const oneLinersRaw = fs.readFileSync(path.join(process.cwd(), 'data', 'oneliners.json'), 'utf-8');

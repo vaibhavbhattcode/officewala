@@ -4,19 +4,15 @@
   "tagline": "Good Work. Good Music.",
   "locationText": "LIVE ON MUSICWALA.LIFE",
   "logo": "/logo/logo.png",
-  "background": "/backgrounds/a (6).png",
+  "background": "/backgrounds/a (4).png",
   "backgrounds": [
-    "/backgrounds/11722-231759069_medium.mp4",
-    "/backgrounds/18941-297535761_medium.mp4",
     "/backgrounds/203759-922186910_medium.mp4",
     "/backgrounds/213923_medium.mp4",
     "/backgrounds/270983.mp4",
     "/backgrounds/a (4).png",
     "/backgrounds/a (5).png",
-    "/backgrounds/a (6).png",
     "/backgrounds/a (7).png",
-    "/backgrounds/dc9e6d2ce6.mp4",
-    "/backgrounds/file_00000000c74c82119f6940ac235617eb.png"
+    "/backgrounds/dc9e6d2ce6.mp4"
   ],
   "primaryColor": "#D9A441",
   "secondaryColor": "#1A1A2E",
