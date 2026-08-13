@@ -432,7 +432,7 @@ export function NowPlaying({
             {/* Right: Waveform + More */}
             <div className="flex items-center gap-2 sm:gap-[16px] shrink-0 pl-1 sm:pl-[8px] relative">
               <WaveformIcon isPlaying={isPlaying} className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`} />
-              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowEqMenu(false); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer ignore-click-outside outline-none focus:outline-none">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer ignore-click-outside outline-none focus:outline-none">
                 <MoreHorizontal className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
               </button>
 
