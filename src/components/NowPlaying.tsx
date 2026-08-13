@@ -302,7 +302,7 @@ export function NowPlaying({
   const outerBg = `hsla(${hue}, ${sat}%, 12%, 0.72)`;
   const outerBorder = '1px solid transparent';
 
-  const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)';
+  const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)`;
   const popoverBorder = '1px solid rgba(255, 255, 255, 0.08)';
 
   /* ── Render ── */
