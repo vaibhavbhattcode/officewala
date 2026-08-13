@@ -300,15 +300,13 @@ export function NowPlaying({
 
   // Dark Card Background: Rich midnight dark hue matching background sky/accent (e.g. dark violet/purple)
   const cardBg = `hsla(${hue}, ${sat}%, 8%, 0.92)`;
-  const cardBorder = `1px solid hsla(${hue}, ${sat}%, 55%, 0.22)`;
+  const cardBorder = '1px solid transparent';
 
-  // Outer Glass Player Background: Translucent dark glowing glass
   const outerBg = `hsla(${hue}, ${sat}%, 12%, 0.72)`;
-  const outerBorder = `1px solid hsla(${hue}, ${sat}%, 60%, 0.25)`;
+  const outerBorder = '1px solid transparent';
 
-  // Dynamic Dialog Popover Background
   const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)`;
-  const popoverBorder = `1px solid hsla(${hue}, ${sat}%, 60%, 0.22)`;
+  const popoverBorder = '1px solid rgba(255, 255, 255, 0.08)';
 
   /* ── Render ── */
   return (
