@@ -46,27 +46,27 @@ export const StationHeader = memo(function StationHeader({
         <div
           className="inline-flex items-center gap-2 sm:gap-2.5 px-4 py-1.5 rounded-full select-none transition-all duration-300"
           style={{
-            background: 'rgba(18, 16, 28, 0.65)',
-            backdropFilter: 'blur(20px) saturate(140%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(140%)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            boxShadow: '0 6px 24px rgba(0, 0, 0, 0.35)',
+            background: 'rgba(0, 0, 0, 0.35)',
+            backdropFilter: 'blur(24px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(140%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
           }}
           title="Real-time listeners active in the office"
         >
           {/* Pulsing Emerald Radar Dot */}
-          <div className="relative flex items-center justify-center flex-none w-2 h-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/80" />
-            <span className="absolute inset-0 w-2 h-2 rounded-full bg-emerald-400/70 animate-ping" />
+          <div className="relative flex items-center justify-center flex-none w-[6px] h-[6px]">
+            <span className="w-[6px] h-[6px] rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+            <span className="absolute inset-0 w-[6px] h-[6px] rounded-full bg-emerald-400/50 animate-ping" />
           </div>
 
           {/* Listener count number */}
-          <span className="font-extrabold text-xs sm:text-sm text-white tabular-nums tracking-tight">
+          <span className="font-semibold text-[11px] sm:text-xs text-white tabular-nums tracking-wide">
             {listenerCount}
           </span>
 
           {/* Location Label */}
-          <span className="text-[10px] sm:text-[11px] text-white/85 font-bold tracking-[0.12em] uppercase">
+          <span className="text-[9px] sm:text-[10px] text-white/75 font-medium tracking-[0.15em] uppercase">
             {station.locationText}
           </span>
         </div>
