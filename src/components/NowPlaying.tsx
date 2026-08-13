@@ -299,28 +299,18 @@ export function NowPlaying({
       {/* ════════ OUTER GLASS PILL ════════ */}
       <section
         aria-label="Music Player"
+        className="flex flex-col sm:flex-row items-center justify-between w-full sm:w-[850px] max-w-[calc(100vw-16px)] sm:max-w-[calc(100vw-80px)] h-auto sm:h-[86px] rounded-[24px] sm:rounded-[44px] p-3 sm:p-0 sm:px-[42px] transition-all duration-500 relative"
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '850px',
-          maxWidth: 'calc(100vw - 80px)',
-          height: '86px',
-          borderRadius: '44px',
-          padding: '0 42px',
           background: outerBg,
           backdropFilter: 'blur(18px) saturate(130%)',
           WebkitBackdropFilter: 'blur(18px) saturate(130%)',
           border: outerBorder,
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.28)',
-          position: 'relative',
-          transition: 'background 500ms ease, border-color 500ms ease',
         }}
       >
 
-        {/* ── LEFT: Utility Controls (Heart, Equalizer, Volume) ── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '26px', flexShrink: 0 }}>
-
+        {/* ── DESKTOP LEFT: Utility Controls (Heart, Equalizer, Volume) ── */}
+        <div className="hidden sm:flex items-center gap-[26px] shrink-0 order-1">
           {/* Favorite Heart Button */}
           <button
             type="button"
@@ -358,7 +348,7 @@ export function NowPlaying({
               }}>
                 <div className="flex items-center gap-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.10)', paddingBottom: '7px', marginBottom: '7px', paddingLeft: '4px' }}>
                   <Sparkles className="w-3.5 h-3.5 text-white/80" />
-                  <p style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>Audio Presets</p>
+                  <p style={{ fontSize: '12px', fontWeight: 700, color: '#fff', margin: 0 }}>Audio Presets</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                   {EQ_PRESETS.map((p) => (
@@ -426,181 +416,61 @@ export function NowPlaying({
           </div>
         </div>
 
-        {/* ── CENTER: Dark Track Card ── */}
-        <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', justifyContent: 'center', margin: '0 30px', position: 'relative' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '460px',
-              maxWidth: '100%',
-              height: '68px',
-              borderRadius: '18px',
-              background: cardBg,
-              border: cardBorder,
-              padding: '0 14px',
-              gap: '12px',
-              transition: 'background 500ms ease, border-color 500ms ease',
-            }}
-          >
-            {/* Album Art — 52×52, 11px radius */}
-            <div
-              style={{
-                position: 'relative',
-                width: '50px',
-                height: '50px',
-                borderRadius: '10px',
-                overflow: 'hidden',
-                flexShrink: 0,
-                background: '#161520',
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}
-            >
+        {/* ── CENTER: Dark Track Card (Top on Mobile) ── */}
+        <div className="w-full sm:flex-1 min-w-0 flex justify-center sm:mx-[30px] relative order-1 sm:order-2">
+          <div className="flex items-center w-full sm:w-[460px] max-w-full h-[60px] sm:h-[68px] rounded-[16px] sm:rounded-[18px] px-3 sm:px-[14px] gap-3 sm:gap-[12px] transition-all duration-500" style={{ background: cardBg, border: cardBorder }}>
+            {/* Album Art */}
+            <div className="relative w-[44px] h-[44px] sm:w-[50px] sm:h-[50px] rounded-[10px] overflow-hidden shrink-0 bg-[#161520] border border-white/5">
               {currentSong?.cover ? (
-                <Image
-                  src={currentSong.cover}
-                  alt={currentSong.title || 'Album cover'}
-                  fill
-                  className="object-cover"
-                  sizes="50px"
-                  priority
-                />
+                <Image src={currentSong.cover} alt="Cover" fill className="object-cover" sizes="50px" priority />
               ) : (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                  <Music style={{ width: '18px', height: '18px', color: 'rgba(255,255,255,0.25)' }} />
-                </div>
+                <div className="flex items-center justify-center h-full"><Music className="w-[18px] h-[18px] text-white/25" /></div>
               )}
             </div>
-
-            {/* Text + Progress — unified vertical group */}
-            <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-
-              {/* Title — 15px, bold */}
-              <p style={{
-                fontSize: '14px',
-                fontWeight: 700,
-                color: '#ffffff',
-                lineHeight: '18px',
-                letterSpacing: '-0.01em',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                margin: 0,
-              }}>
+            
+            {/* Text + Progress */}
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+              <p className="text-[13px] sm:text-[14px] font-bold text-white leading-[18px] tracking-tight truncate m-0">
                 {currentSong?.artist || 'Gery & Gany'}
-                {isLoading && <Loader2 className="inline-block animate-spin text-amber-400" style={{ width: '12px', height: '12px', marginLeft: '6px' }} />}
+                {isLoading && <Loader2 className="inline-block animate-spin text-amber-400 w-3 h-3 ml-1.5" />}
               </p>
-
-              {/* Artist — 11px, muted */}
-              <p style={{
-                fontSize: '11px',
-                fontWeight: 500,
-                color: 'rgba(255, 255, 255, 0.50)',
-                lineHeight: '16px',
-                marginTop: '2px',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}>
-                {error
-                  ? <span style={{ color: '#f87171', fontWeight: 400 }}>{error}</span>
-                  : currentSong?.title || 'Rusuk'
-                }
+              <p className="text-[10px] sm:text-[11px] font-medium text-white/50 leading-[16px] mt-[2px] truncate m-0">
+                {error ? <span className="text-red-400 font-normal">{error}</span> : (currentSong?.title || 'Rusuk')}
               </p>
-
-              {/* Progress — 3px, 6px below artist */}
-              <div
-                ref={seekRef}
-                role="slider"
-                tabIndex={0}
-                aria-label="Seek track position"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0}
-                onPointerDown={onDown}
-                onPointerMove={onMove}
-                onPointerUp={onUp}
-                style={{
-                  width: '100%',
-                  height: '3px',
-                  borderRadius: '999px',
-                  background: 'rgba(255, 255, 255, 0.16)',
-                  marginTop: '6px',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  ref={fillRef}
-                  style={{
-                    height: '100%',
-                    borderRadius: '999px',
-                    background: 'rgba(255, 255, 255, 0.80)',
-                    transformOrigin: 'left center',
-                    transition: 'transform 75ms linear',
-                    transform: `scaleX(${duration > 0 ? currentTime / duration : 0})`,
-                  }}
-                />
+              {/* Progress */}
+              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[3px] rounded-full bg-white/15 mt-[6px] cursor-pointer relative overflow-hidden">
+                <div ref={fillRef} className="h-full rounded-full bg-white/80 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
               </div>
             </div>
 
-            {/* Card right: Waveform + ··· */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0, paddingLeft: '8px' }}>
-              <WaveformIcon
-                isPlaying={isPlaying}
-                className={`w-[18px] h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`}
-              />
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMoreMenu(p => !p);
-                  setShowEqMenu(false);
-                  setShowAirplayMenu(false);
-                }}
-                aria-label="More song options"
-                title="Song options"
-                style={{ color: 'rgba(255,255,255,0.45)', padding: '2px', cursor: 'pointer', background: 'none', border: 'none' }}
-                className="hover:text-white transition-colors"
-              >
-                <MoreHorizontal style={{ width: '18px', height: '18px' }} />
+            {/* Right: Waveform + More */}
+            <div className="flex items-center gap-2 sm:gap-[16px] shrink-0 pl-1 sm:pl-[8px]">
+              <WaveformIcon isPlaying={isPlaying} className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`} />
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowEqMenu(false); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer">
+                <MoreHorizontal className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
               </button>
             </div>
           </div>
-
+          
           {/* More popover */}
           {showMoreMenu && (
-            <div style={{
-              position: 'absolute', bottom: '100%', marginBottom: '12px',
-              left: '50%', transform: 'translateX(-50%)', width: '220px', zIndex: 50,
-              background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)',
-              border: popoverBorder, borderRadius: '18px',
-              padding: '8px', boxShadow: '0 16px 40px rgba(0,0,0,0.55)',
-              transition: 'background 500ms ease, border-color 500ms ease',
-            }}>
-              <div style={{ padding: '6px 10px', borderBottom: '1px solid rgba(255,255,255,0.10)', marginBottom: '4px' }}>
-                <p className="truncate" style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>{currentSong?.title || 'Track Info'}</p>
-                <p className="truncate" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>{currentSong?.artist || 'Office Waala'}</p>
+            <div className="absolute bottom-full mb-[12px] left-1/2 -translate-x-1/2 w-[220px] z-50 rounded-[18px] p-2 transition-all" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
+              <div className="px-[10px] py-[6px] border-b border-white/10 mb-1">
+                <p className="text-[12px] font-bold text-white truncate m-0">{currentSong?.title || 'Track Info'}</p>
+                <p className="text-[10px] text-white/50 truncate m-0">{currentSong?.artist || 'Office Waala'}</p>
               </div>
               {onToggleFavorite && (
-                <button type="button" onClick={() => { onToggleFavorite(); setShowMoreMenu(false); }}
-                  className="w-full flex items-center text-left hover:bg-white/10 transition-all"
-                  style={{ gap: '8px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.85)', borderRadius: '11px', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <button type="button" onClick={() => { onToggleFavorite(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer">
                   <Heart className={`w-3.5 h-3.5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/60'}`} />
                   {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                 </button>
               )}
-              <button type="button" onClick={() => { playerActions.toggleShuffle(); setShowMoreMenu(false); }}
-                className="w-full flex items-center text-left hover:bg-white/10 transition-all"
-                style={{ gap: '8px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.85)', borderRadius: '11px', background: 'none', border: 'none', cursor: 'pointer' }}>
+              <button type="button" onClick={() => { playerActions.toggleShuffle(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer">
                 <Shuffle className={`w-3.5 h-3.5 ${isShuffle ? 'text-white font-bold' : 'text-white/60'}`} />
                 {isShuffle ? 'Shuffle: Enabled' : 'Shuffle: Disabled'}
               </button>
               {onTogglePlaylist && (
-                <button type="button" onClick={() => { onTogglePlaylist(); setShowMoreMenu(false); }}
-                  className="w-full flex items-center text-left hover:bg-white/10 transition-all"
-                  style={{ gap: '8px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.85)', borderRadius: '11px', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <button type="button" onClick={() => { onTogglePlaylist(); setShowMoreMenu(false); }} className="w-full flex items-center text-left hover:bg-white/10 transition-all gap-2 px-[10px] py-[7px] text-[11px] font-semibold text-white/85 rounded-[11px] bg-transparent border-none cursor-pointer">
                   <ListMusic className="w-3.5 h-3.5 text-white/60" />
                   {isPlaylistOpen ? 'Hide Playlist' : 'Show Playlist'}
                 </button>
@@ -609,45 +479,64 @@ export function NowPlaying({
           )}
         </div>
 
-        {/* ── RIGHT: Playback Controls (Prev, Play/Pause, Next) ── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '26px', flexShrink: 0 }}>
-          <button
-            type="button"
-            onClick={playerActions.previous}
-            aria-label="Previous track"
-            title="Previous track"
-            style={{ color: 'rgba(255,255,255,0.7)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
-            className="hover:text-white active:scale-95 transition-all"
-          >
+        {/* ── DESKTOP RIGHT: Playback Controls (Prev, Play/Pause, Next) ── */}
+        <div className="hidden sm:flex items-center gap-[26px] shrink-0 order-3">
+          <button type="button" onClick={playerActions.previous} aria-label="Previous" title="Previous" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer">
             <RewindIcon className="w-[22px] h-[22px]" />
           </button>
-
-          <button
-            type="button"
-            onClick={handlePlay}
-            aria-label={isPlaying ? 'Pause' : 'Play'}
-            title={isPlaying ? 'Pause' : 'Play'}
-            style={{ color: 'rgba(255,255,255,0.8)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
-            className="hover:text-white active:scale-95 transition-all"
-          >
-            {isPlaying
-              ? <PauseIcon className="w-[22px] h-[22px]" />
-              : <PlayIcon className="w-[22px] h-[22px]" />
-            }
+          <button type="button" onClick={handlePlay} aria-label="Play/Pause" title={isPlaying ? 'Pause' : 'Play'} className="text-white/80 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer">
+            {isPlaying ? <PauseIcon className="w-[22px] h-[22px]" /> : <PlayIcon className="w-[22px] h-[22px]" />}
           </button>
-
-          <button
-            type="button"
-            onClick={playerActions.next}
-            aria-label="Next track"
-            title="Next track"
-            style={{ color: 'rgba(255,255,255,0.7)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
-            className="hover:text-white active:scale-95 transition-all"
-          >
+          <button type="button" onClick={playerActions.next} aria-label="Next" title="Next" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer">
             <ForwardIcon className="w-[22px] h-[22px]" />
           </button>
         </div>
 
+        {/* ── MOBILE ROW 2: All Controls ── */}
+        <div className="flex sm:hidden w-full items-center justify-between mt-3 px-2 order-3">
+          <div className="flex items-center gap-4">
+            {/* Mobile Heart */}
+            <button type="button" onClick={() => onToggleFavorite?.()} className="active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+              <Heart className={`w-[20px] h-[20px] transition-colors ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'}`} />
+            </button>
+            
+            {/* Mobile Equalizer */}
+            <div className="relative">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setShowEqMenu(p => !p); setShowMoreMenu(false); }} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+                <SlidersIcon className="w-[20px] h-[20px]" />
+              </button>
+              {showEqMenu && (
+                <div className="absolute bottom-full mb-3 left-0 w-[180px] z-50 rounded-[16px] p-[8px] transition-all" style={{ background: popoverBg, backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', border: popoverBorder, boxShadow: '0 16px 40px rgba(0,0,0,0.55)' }}>
+                  <div className="flex items-center gap-2 border-b border-white/10 pb-[6px] mb-[6px] pl-1">
+                    <Sparkles className="w-3 h-3 text-white/80" />
+                    <p className="text-[11px] font-bold text-white m-0">Audio Presets</p>
+                  </div>
+                  <div className="flex flex-col gap-[2px]">
+                    {EQ_PRESETS.map((p) => (
+                      <button key={p} type="button" onClick={() => { setActiveEq(p); setShowEqMenu(false); }} className="w-full flex items-center justify-between text-left transition-all rounded-[10px] px-2 py-1.5 text-[10px] cursor-pointer" style={{ fontWeight: activeEq === p ? 700 : 500, color: activeEq === p ? '#ffffff' : 'rgba(255,255,255,0.65)', backgroundColor: activeEq === p ? 'rgba(255, 255, 255, 0.14)' : 'transparent', border: activeEq === p ? '1px solid rgba(255, 255, 255, 0.22)' : '1px solid transparent' }}>
+                        <span>{p}</span>
+                        {activeEq === p && <Check className="w-3 h-3 text-white" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile Playback Controls */}
+          <div className="flex items-center gap-6">
+            <button type="button" onClick={playerActions.previous} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+              <RewindIcon className="w-[20px] h-[20px]" />
+            </button>
+            <button type="button" onClick={handlePlay} className="text-white hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+              {isPlaying ? <PauseIcon className="w-[26px] h-[26px]" /> : <PlayIcon className="w-[26px] h-[26px]" />}
+            </button>
+            <button type="button" onClick={playerActions.next} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer">
+              <ForwardIcon className="w-[20px] h-[20px]" />
+            </button>
+          </div>
+        </div>
       </section>
     </div>
   );
