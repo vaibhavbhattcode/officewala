@@ -488,8 +488,10 @@ export function NowPlaying({
             <button type="button" onClick={() => onToggleFavorite?.()} className="active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <Heart className={`w-[20px] h-[20px] transition-colors ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'}`} />
             </button>
-            
-            {/* Mobile Change Background */}
+          </div>
+
+          {/* Mobile Change Background (Right Side) */}
+          <div className="flex items-center gap-4 absolute right-2 top-1/2 -translate-y-1/2">
             <button type="button" onClick={onNextBackground} className="text-white/65 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer ignore-click-outside outline-none focus:outline-none">
               <ImageIcon className="w-[20px] h-[20px]" />
             </button>
