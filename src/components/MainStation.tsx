@@ -51,10 +51,16 @@ export function MainStation({
     ? favorites.includes(playerState.currentSong.id)
     : false;
 
+  const [currentBgUrl, setCurrentBgUrl] = useState<string | undefined>(undefined);
+
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden select-none">
       {/* Background */}
-      <HeroBackground backgroundUrl={station.background} />
+      <HeroBackground
+        backgroundUrl={station.background}
+        backgrounds={station.backgrounds}
+        onBackgroundChange={setCurrentBgUrl}
+      />
 
       {/* Top Header with Live Presence and Favorites button */}
       <StationHeader
@@ -107,6 +113,7 @@ export function MainStation({
 
           {/* Core Player Pill */}
           <NowPlaying
+            currentBackgroundUrl={currentBgUrl}
             playerState={playerState}
             playerActions={playerActions}
             station={station}

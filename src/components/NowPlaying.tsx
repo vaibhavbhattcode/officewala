@@ -120,6 +120,7 @@ interface NowPlayingProps {
   onTogglePlaylist?: () => void;
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
+  currentBackgroundUrl?: string;
 }
 
 const EQ_PRESETS = ['Flat', 'Bass Boost', 'Vocal Focus', 'Office Warmth', 'Studio HD'];
@@ -136,6 +137,7 @@ export function NowPlaying({
   onTogglePlaylist,
   isFavorite = false,
   onToggleFavorite,
+  currentBackgroundUrl,
 }: NowPlayingProps) {
   const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error } =
     playerState;
@@ -151,7 +153,7 @@ export function NowPlaying({
 
   // Dynamic HSL color extraction from background image (fetching blob to avoid CORS canvas taint)
   const [accentHsl, setAccentHsl] = useState<{ h: number; s: number } | null>(null);
-  const coverUrl = station.background || currentSong?.cover;
+  const coverUrl = currentBackgroundUrl || station.background || currentSong?.cover;
 
   useEffect(() => {
     if (!coverUrl) return;
@@ -310,7 +312,7 @@ export function NowPlaying({
       >
 
         {/* ── DESKTOP LEFT: Utility Controls (Heart, Equalizer, Volume) ── */}
-        <div className="hidden sm:flex items-center gap-[26px] shrink-0 order-1">
+        <div className="hidden sm:flex items-center gap-[32px] shrink-0 order-1 pr-4">
           {/* Favorite Heart Button */}
           <button
             type="button"
