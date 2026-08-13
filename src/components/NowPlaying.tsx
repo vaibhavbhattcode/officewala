@@ -145,6 +145,7 @@ export function NowPlaying({
 
   const seekRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
+  const knobRef = useRef<HTMLDivElement>(null);
   const [scrubbing, setScrubbing] = useState(false);
   const [showVolumePopup, setShowVolumePopup] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
@@ -257,6 +258,7 @@ export function NowPlaying({
     if (scrubbing) return;
     const f = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
     if (fillRef.current) fillRef.current.style.transform = `scaleX(${f})`;
+    if (knobRef.current) knobRef.current.style.left = `${f * 100}%`;
   }, [currentTime, duration, scrubbing]);
 
   const frac = useCallback((e: PointerEvent | React.PointerEvent) => {
@@ -267,6 +269,7 @@ export function NowPlaying({
 
   const preview = useCallback((f: number) => {
     if (fillRef.current) fillRef.current.style.transform = `scaleX(${f})`;
+    if (knobRef.current) knobRef.current.style.left = `${f * 100}%`;
   }, []);
 
   const onDown = useCallback((e: React.PointerEvent) => {
@@ -421,11 +424,12 @@ export function NowPlaying({
               {/* Progress */}
               <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[16px] flex items-center mt-[2px] cursor-pointer relative group outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
                 <div className="w-full h-[4px] rounded-full bg-white/15 relative">
-                  <div ref={fillRef} className="h-full rounded-full bg-white/90 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
+                  <div ref={fillRef} className="h-full rounded-full bg-white/90 origin-left transition-transform duration-75 linear" />
                   {/* Knob */}
                   <div 
+                    ref={knobRef}
                     className="absolute top-1/2 w-[12px] h-[12px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-                    style={{ left: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`, transform: 'translate(-50%, -50%)' }} 
+                    style={{ transform: 'translate(-50%, -50%)' }} 
                   />
                 </div>
               </div>
