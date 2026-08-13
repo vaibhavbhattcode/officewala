@@ -356,15 +356,12 @@ export function NowPlaying({
 
           {/* Volume */}
           <div
+            className="relative flex items-center overflow-hidden rounded-full transition-all duration-300 ease-out"
             style={{
-              position: 'relative', display: 'flex', alignItems: 'center',
-              width: showVolumePopup ? '100px' : '26px',
+              width: showVolumePopup ? '110px' : '28px',
+              height: '28px',
               background: showVolumePopup ? 'rgba(255,255,255,0.07)' : 'transparent',
-              borderRadius: '999px',
               border: showVolumePopup ? '1px solid rgba(255,255,255,0.10)' : '1px solid transparent',
-              padding: showVolumePopup ? '1px 5px' : '0',
-              transition: 'width 300ms ease, background 300ms ease, border 300ms ease, padding 300ms ease',
-              overflow: 'hidden',
             }}
             onMouseEnter={() => setShowVolumePopup(true)}
             onMouseLeave={() => setShowVolumePopup(false)}
@@ -374,23 +371,23 @@ export function NowPlaying({
               onClick={playerActions.toggleMute}
               aria-label={isMuted ? 'Unmute' : 'Mute'}
               title={isMuted ? 'Unmute' : `Volume: ${Math.round((isMuted ? 0 : volume) * 100)}%`}
-              style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', flexShrink: 0, background: 'none', border: 'none' }}
-              className="hover:text-white active:scale-95 transition-all"
+              className="absolute left-0 top-0 w-[28px] h-[28px] flex items-center justify-center text-white/65 hover:text-white transition-colors bg-transparent border-none cursor-pointer outline-none"
             >
               <SpeakerIcon className="w-[22px] h-[22px]" />
             </button>
-            <div style={{
-              flex: 1, paddingRight: '5px', display: 'flex', alignItems: 'center',
-              opacity: showVolumePopup ? 1 : 0,
-              transition: 'opacity 200ms ease',
-              transitionDelay: showVolumePopup ? '60ms' : '0ms',
-              pointerEvents: showVolumePopup ? 'auto' : 'none',
-            }}>
+            <div 
+              className="absolute left-[30px] flex items-center pr-3 transition-opacity duration-300 ease-out"
+              style={{
+                width: '80px',
+                opacity: showVolumePopup ? 1 : 0,
+                pointerEvents: showVolumePopup ? 'auto' : 'none',
+              }}
+            >
               <input
                 type="range" min="0" max="1" step="0.01"
                 value={isMuted ? 0 : volume}
                 onChange={(e) => playerActions.setVolume(parseFloat(e.target.value))}
-                className="w-full h-[3px] rounded-full appearance-none cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-sm"
+                className="w-full h-[4px] rounded-full appearance-none cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-sm"
                 style={{
                   background: `linear-gradient(to right, #fff ${(isMuted ? 0 : volume) * 100}%, rgba(255,255,255,0.18) ${(isMuted ? 0 : volume) * 100}%)`,
                 }}
