@@ -33,11 +33,10 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
         if (isActive) zIndex = 10;
         else if (isPrev) zIndex = 5;
 
-        // If it's active or was just active, keep opacity 1. 
-        // This ensures the new image fades IN on top of the old image, eliminating dip-to-black.
-        const opacity = (isActive || isPrev) ? 1 : 0;
-        // Fade duration 2 seconds. When it stops being isPrev, it fades out invisibly behind the new active one.
-        const transitionClass = isActive || isPrev ? 'transition-opacity duration-[2000ms] ease-in-out' : '';
+        // Active is 1, everything else fades to 0
+        const opacity = isActive ? 1 : 0;
+        // Apply a smooth 3-second fade transition to all elements
+        const transitionClass = 'transition-opacity duration-[3000ms] ease-in-out';
 
         return (
           <div
@@ -60,7 +59,7 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
                 alt="Station Background"
                 fill
                 className="object-cover"
-                priority={idx === 0 || idx === activeIdx}
+                priority={true}
                 unoptimized
               />
             )}

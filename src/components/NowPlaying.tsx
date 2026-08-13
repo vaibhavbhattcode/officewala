@@ -419,8 +419,13 @@ export function NowPlaying({
                 {currentSong?.artist || 'Gery & Gany'}
               </p>
               {/* Progress */}
-              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[3px] rounded-full bg-white/15 mt-[6px] cursor-pointer relative overflow-hidden outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
-                <div ref={fillRef} className="h-full rounded-full bg-white/80 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
+              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[4px] rounded-full bg-white/15 mt-[8px] cursor-pointer relative group outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
+                <div ref={fillRef} className="h-full rounded-full bg-white/90 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
+                {/* Knob */}
+                <div 
+                  className="absolute top-1/2 -mt-[5px] w-[10px] h-[10px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                  style={{ left: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`, marginLeft: '-5px' }} 
+                />
               </div>
             </div>
 
@@ -474,8 +479,8 @@ export function NowPlaying({
         </div>
 
         {/* ── MOBILE ROW 2: All Controls ── */}
-        <div className="flex sm:hidden w-full items-center mt-3 px-2 order-3 relative min-h-[30px]">
-          <div className="flex items-center gap-4 absolute left-2">
+        <div className="flex sm:hidden w-full items-center mt-4 mb-2 order-3 relative h-[32px]">
+          <div className="flex items-center gap-4 absolute left-2 top-1/2 -translate-y-1/2">
             {/* Mobile Heart */}
             <button type="button" onClick={() => onToggleFavorite?.()} className="active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <Heart className={`w-[20px] h-[20px] transition-colors ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'}`} />
@@ -487,13 +492,13 @@ export function NowPlaying({
             </button>
           </div>
 
-          {/* Mobile Playback Controls (Centered) */}
-          <div className="flex items-center gap-6 mx-auto">
+          {/* Mobile Playback Controls (Centered Perfectly) */}
+          <div className="flex items-center gap-7 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <button type="button" onClick={playerActions.previous} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <RewindIcon className="w-[20px] h-[20px]" />
             </button>
             <button type="button" onClick={handlePlay} className="text-white hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
-              {isPlaying ? <PauseIcon className="w-[26px] h-[26px]" /> : <PlayIcon className="w-[26px] h-[26px]" />}
+              {isPlaying ? <PauseIcon className="w-[28px] h-[28px]" /> : <PlayIcon className="w-[28px] h-[28px]" />}
             </button>
             <button type="button" onClick={playerActions.next} className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-1 cursor-pointer outline-none focus:outline-none">
               <ForwardIcon className="w-[20px] h-[20px]" />
