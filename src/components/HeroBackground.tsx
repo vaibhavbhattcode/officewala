@@ -44,7 +44,6 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
             className={`absolute inset-0 ${transitionClass}`}
             style={{ opacity, zIndex }}
           >
-            {/* 1. Ambient Blurred Background Layer (to fill empty space nicely) */}
             {isVideo ? (
               <video
                 src={bg}
@@ -52,34 +51,14 @@ export const HeroBackground = memo(function HeroBackground({ backgroundUrl, back
                 muted
                 loop
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover scale-125 blur-[40px] opacity-40"
-              />
-            ) : (
-              <Image
-                src={bg}
-                alt="Station Background Ambient"
-                fill
-                className="object-cover scale-125 blur-[40px] opacity-40"
-                unoptimized
-              />
-            )}
-
-            {/* 2. Sharp Foreground Layer (object-contain so it never crops or tears) */}
-            {isVideo ? (
-              <video
-                src={bg}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             ) : (
               <Image
                 src={bg}
                 alt="Station Background"
                 fill
-                className="object-contain"
+                className="object-cover"
                 priority={true}
                 unoptimized
               />

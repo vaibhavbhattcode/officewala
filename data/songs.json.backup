@@ -798,14 +798,5 @@
     "album": "WAPAS",
     "cover": "",
     "audio": "/songs/050 WAPAS = EK TERA SAATH.mp3"
-  },
-  {
-    "id": "song-1786645875646",
-    "title": "song",
-    "artist": "son",
-    "album": "Single",
-    "cover": "",
-    "audio": "https://youtu.be/4VqeqbzJxbc?si=GdrDMK4Nos00YqPM",
-    "isYoutube": true
   }
 ]
