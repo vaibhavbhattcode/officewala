@@ -419,13 +419,15 @@ export function NowPlaying({
                 {currentSong?.artist || 'Gery & Gany'}
               </p>
               {/* Progress */}
-              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[4px] rounded-full bg-white/15 mt-[8px] cursor-pointer relative group outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
-                <div ref={fillRef} className="h-full rounded-full bg-white/90 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
-                {/* Knob */}
-                <div 
-                  className="absolute top-1/2 -mt-[5px] w-[10px] h-[10px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-                  style={{ left: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`, marginLeft: '-5px' }} 
-                />
+              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[16px] flex items-center mt-[2px] cursor-pointer relative group outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
+                <div className="w-full h-[4px] rounded-full bg-white/15 relative">
+                  <div ref={fillRef} className="h-full rounded-full bg-white/90 origin-left transition-transform duration-75 linear" style={{ transform: `scaleX(${duration > 0 ? currentTime / duration : 0})` }} />
+                  {/* Knob */}
+                  <div 
+                    className="absolute top-1/2 w-[12px] h-[12px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                    style={{ left: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`, transform: 'translate(-50%, -50%)' }} 
+                  />
+                </div>
               </div>
             </div>
 
