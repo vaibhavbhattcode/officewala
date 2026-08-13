@@ -37,5 +37,4 @@ export interface PlayerState {
   isLoading: boolean;
   error: string | null;
   activePreset: AudioPreset;
-  isYouTube?: boolean;
 }

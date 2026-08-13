@@ -137,7 +137,7 @@ export function NowPlaying({
   isFavorite = false,
   onToggleFavorite,
 }: NowPlayingProps) {
-  const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error, isYouTube } =
+  const { currentSong, isPlaying, isShuffle, currentTime, duration, volume, isMuted, isLoading, error } =
     playerState;
 
   const fillRef = useRef<HTMLDivElement>(null);
@@ -455,14 +455,30 @@ export function NowPlaying({
         {/* ── RIGHT: Desktop Volume & Playlist | Mobile Play Controls ── */}
         <div className="flex items-center justify-end sm:w-[30%] shrink-0 gap-1 sm:gap-4">
           
-          {/* Mobile Only: Play/Pause */}
-          <button
-            type="button"
-            onClick={handlePlay}
-            className="sm:hidden text-white p-2 cursor-pointer bg-transparent border-none active:scale-95 transition-all"
-          >
-            {isPlaying ? <PauseIcon className="w-[26px] h-[26px]" /> : <PlayIcon className="w-[26px] h-[26px]" />}
-          </button>
+          {/* Mobile Only: Playback Controls */}
+          <div className="flex items-center sm:hidden">
+            <button
+              type="button"
+              onClick={playerActions.previous}
+              className="text-white/80 p-1.5 cursor-pointer bg-transparent border-none active:scale-95 transition-all"
+            >
+              <RewindIcon className="w-[18px] h-[18px]" />
+            </button>
+            <button
+              type="button"
+              onClick={handlePlay}
+              className="text-white p-2 cursor-pointer bg-transparent border-none active:scale-95 transition-all mx-0.5"
+            >
+              {isPlaying ? <PauseIcon className="w-[26px] h-[26px]" /> : <PlayIcon className="w-[26px] h-[26px]" />}
+            </button>
+            <button
+              type="button"
+              onClick={playerActions.next}
+              className="text-white/80 p-1.5 cursor-pointer bg-transparent border-none active:scale-95 transition-all"
+            >
+              <ForwardIcon className="w-[18px] h-[18px]" />
+            </button>
+          </div>
 
           {/* Desktop EQ */}
           <div className="relative hidden lg:block">

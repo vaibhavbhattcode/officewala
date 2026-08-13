@@ -2,8 +2,6 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Song, PlayerState, AudioPreset } from '@/types/types';
-import youtubePlayer from 'youtube-player';
-import type { YouTubePlayer } from 'youtube-player/dist/types';
 
 interface UseAudioPlayerOptions {
   songs: Song[];
@@ -38,33 +36,19 @@ const PRESET_CONFIGS: Record<AudioPreset, { low: number; mid: number; high: numb
   'Studio HD': { low: 4, mid: -1, high: 5 },
 };
 
-function extractYouTubeId(url: string): string | null {
-  const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[2].length === 11) ? match[2] : null;
-}
-
 export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, AudioPlayerActions] {
   const { songs, shuffle: initialShuffle, autoplayNext, loopPlaylist } = options;
 
-  // HTML5 Engine Refs
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
   const filtersRef = useRef<{ low: BiquadFilterNode; mid: BiquadFilterNode; high: BiquadFilterNode } | null>(null);
 
-  // YouTube Engine Refs
-  const ytPlayerRef = useRef<YouTubePlayer | null>(null);
-  const ytDivRef = useRef<HTMLDivElement | null>(null);
-  const ytIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // State Refs
   const shuffleHistoryRef = useRef<number[]>([]);
   const volumeBeforeMuteRef = useRef<number>(0.8);
   const isShuffleRef = useRef<boolean>(initialShuffle);
   const currentIndexRef = useRef<number>(0);
   const songsRef = useRef<Song[]>(songs);
-  const isYouTubeRef = useRef<boolean>(false);
 
   // Keep songsRef updated
   songsRef.current = songs;
@@ -81,52 +65,27 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     isLoading: false,
     error: null,
     activePreset: 'Flat',
-    isYouTube: false,
   });
 
   isShuffleRef.current = state.isShuffle;
-  isYouTubeRef.current = state.isYouTube || false;
 
-  const clearYtInterval = () => {
-    if (ytIntervalRef.current) {
-      clearInterval(ytIntervalRef.current);
-      ytIntervalRef.current = null;
-    }
-  };
-
-  const applyPresetToFilters = useCallback((preset: AudioPreset) => {
-    const filters = filtersRef.current;
-    if (!filters) return;
-    const config = PRESET_CONFIGS[preset];
-    if (!config) return;
-    try {
-      filters.low.gain.value = config.low;
-      filters.mid.gain.value = config.mid;
-      filters.high.gain.value = config.high;
-    } catch (e) {
-      console.error("Error applying filter preset:", e);
-    }
-  }, []);
-
-  const setPreset = useCallback((preset: AudioPreset) => {
-    applyPresetToFilters(preset);
-    setState(prev => ({ ...prev, activePreset: preset }));
-  }, [applyPresetToFilters]);
-
-  // Unified loader
+  // Exact loadSong function that guarantees audio.src matches songs[index]
   const loadSong = useCallback((index: number, autoplay: boolean = true) => {
     const list = songsRef.current;
     const audio = audioRef.current;
-    const yt = ytPlayerRef.current;
-    if (!audio || !yt || list.length === 0) return;
+    if (!audio || list.length === 0) return;
 
     const safeIndex = Math.max(0, Math.min(index, list.length - 1));
     const targetSong = list[safeIndex];
     currentIndexRef.current = safeIndex;
 
-    const ytId = extractYouTubeId(targetSong.audio);
-    const isYt = !!ytId;
-    isYouTubeRef.current = isYt;
+    const targetSrc = encodeURI(targetSong.audio);
+
+    // Only change src if different or not set
+    if (!audio.src.endsWith(targetSrc) && audio.src !== targetSrc) {
+      audio.src = targetSrc;
+      audio.load();
+    }
 
     setState(prev => ({
       ...prev,
@@ -136,70 +95,79 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
       duration: 0,
       isLoading: true,
       error: null,
-      isYouTube: isYt,
     }));
 
-    if (isYt && ytId) {
-      // Pause HTML5
-      audio.pause();
-      // Load YouTube
-      if (autoplay) {
-        yt.loadVideoById(ytId);
-      } else {
-        yt.cueVideoById(ytId);
+    if (autoplay) {
+      // Must resume context on play for browser policy
+      if (audioCtxRef.current?.state === 'suspended') {
+        audioCtxRef.current.resume();
       }
-    } else {
-      // Pause YT
-      yt.pauseVideo();
-      // Load HTML5
-      const targetSrc = encodeURI(targetSong.audio);
-      if (!audio.src.endsWith(targetSrc) && audio.src !== targetSrc) {
-        audio.src = targetSrc;
-        audio.load();
-      }
-      if (autoplay) {
-        if (audioCtxRef.current?.state === 'suspended') {
-          audioCtxRef.current.resume();
-        }
-        audio.play().catch(e => console.warn(e));
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setState(prev => ({ ...prev, isPlaying: true, isLoading: false, error: null }));
+          })
+          .catch((err) => {
+            if (err.name !== 'AbortError') {
+              console.warn('Playback notice:', err.message);
+            }
+            setState(prev => ({ ...prev, isPlaying: false, isLoading: false }));
+          });
       }
     }
   }, []);
 
-  // Sync YT Time
-  const startYtInterval = useCallback(() => {
-    clearYtInterval();
-    ytIntervalRef.current = setInterval(async () => {
-      const yt = ytPlayerRef.current;
-      if (yt && isYouTubeRef.current) {
-        const cTime = await yt.getCurrentTime();
-        const dur = await yt.getDuration();
-        setState(prev => ({ ...prev, currentTime: cTime, duration: dur }));
-      }
-    }, 500);
+  const applyPresetToFilters = useCallback((preset: AudioPreset) => {
+    const filters = filtersRef.current;
+    if (!filters) {
+      console.warn("Filters not initialized yet");
+      return;
+    }
+    
+    const config = PRESET_CONFIGS[preset];
+    if (!config) return;
+
+    try {
+      filters.low.gain.value = config.low;
+      filters.mid.gain.value = config.mid;
+      filters.high.gain.value = config.high;
+      console.log(`Applied preset ${preset}:`, config);
+    } catch (e) {
+      console.error("Error applying filter preset:", e);
+    }
   }, []);
 
-  // Init Engine
+  const setPreset = useCallback((preset: AudioPreset) => {
+    console.log("Setting preset state to:", preset);
+    applyPresetToFilters(preset);
+    setState(prev => ({ ...prev, activePreset: preset }));
+  }, [applyPresetToFilters]);
+
+  // Initialize audio element and Web Audio API Context once
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // 1. Init HTML5 Engine
     if (!audioRef.current) {
       const audio = new Audio();
       audio.preload = 'metadata';
-      audio.crossOrigin = 'anonymous';
+      audio.crossOrigin = 'anonymous'; // Important for Web Audio API
       audio.volume = state.volume;
       audio.muted = state.isMuted;
       audioRef.current = audio;
 
       try {
+        // Initialize Web Audio API
         const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioContextClass();
         audioCtxRef.current = ctx;
 
+        // Create MediaElementSource
         const source = ctx.createMediaElementSource(audio);
         sourceNodeRef.current = source;
 
+        // Create Filters (3-band EQ)
         const lowFilter = ctx.createBiquadFilter();
         lowFilter.type = 'lowshelf';
         lowFilter.frequency.value = 250;
@@ -215,79 +183,27 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
 
         filtersRef.current = { low: lowFilter, mid: midFilter, high: highFilter };
 
+        // Connect the pipeline: Source -> Low -> Mid -> High -> Destination
         source.connect(lowFilter);
         lowFilter.connect(midFilter);
         midFilter.connect(highFilter);
         highFilter.connect(ctx.destination);
+
+        // Apply default preset
         applyPresetToFilters('Flat');
+
       } catch (err) {
-        console.warn('Web Audio API not supported', err);
+        console.warn('Web Audio API not supported or failed to initialize:', err);
       }
     }
 
-    // 2. Init YouTube Engine
-    if (!ytDivRef.current) {
-      const div = document.createElement('div');
-      div.id = 'yt-fallback-container';
-      div.style.position = 'fixed';
-      div.style.top = '-9999px';
-      div.style.left = '-9999px';
-      div.style.width = '1px';
-      div.style.height = '1px';
-      div.style.opacity = '0';
-      div.style.pointerEvents = 'none';
-      document.body.appendChild(div);
-      ytDivRef.current = div;
-
-      const yt = youtubePlayer(div, {
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1
-        }
-      });
-      ytPlayerRef.current = yt;
-
-      yt.setVolume(state.volume * 100);
-      if (state.isMuted) yt.mute();
-
-      yt.on('stateChange', (event) => {
-        // PlayerState: UNSTARTED = -1, ENDED = 0, PLAYING = 1, PAUSED = 2, BUFFERING = 3, CUED = 5
-        const ytState = event.data;
-        if (!isYouTubeRef.current) return;
-
-        if (ytState === 1) { // PLAYING
-          setState(prev => ({ ...prev, isPlaying: true, isLoading: false, error: null }));
-          startYtInterval();
-        } else if (ytState === 2) { // PAUSED
-          setState(prev => ({ ...prev, isPlaying: false }));
-          clearYtInterval();
-        } else if (ytState === 3) { // BUFFERING
-          setState(prev => ({ ...prev, isLoading: true }));
-        } else if (ytState === 0) { // ENDED
-          clearYtInterval();
-          if (autoplayNext) nextSong();
-          else setState(prev => ({ ...prev, isPlaying: false }));
-        }
-      });
-      
-      yt.on('error', (event) => {
-        if (!isYouTubeRef.current) return;
-        setState(prev => ({ ...prev, error: 'YT Error ' + event.data, isLoading: false, isPlaying: false }));
-      });
-    }
-
-    // Initial load
-    if (songs.length > 0 && !audioRef.current.src && !isYouTubeRef.current) {
-       loadSong(0, false);
+    const audio = audioRef.current;
+    if (!audio.src && songs.length > 0 && songs[0].audio) {
+      audio.src = encodeURI(songs[0].audio);
     }
 
     return () => {
-      clearYtInterval();
+      // We only clean up when the component fully unmounts
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -303,12 +219,16 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     do {
       nextIndex = Math.floor(Math.random() * list.length);
       attempts++;
-    } while (history.includes(nextIndex) && attempts < list.length * 2);
+    } while (
+      history.includes(nextIndex) &&
+      attempts < list.length * 2
+    );
 
     history.push(nextIndex);
     if (history.length > Math.min(list.length - 1, 10)) {
       history.shift();
     }
+
     return nextIndex;
   }, []);
 
@@ -324,23 +244,25 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     } else {
       nextIndex = current + 1;
       if (nextIndex >= list.length) {
-        if (loopPlaylist) nextIndex = 0;
-        else {
+        if (loopPlaylist) {
+          nextIndex = 0;
+        } else {
           setState(prev => ({ ...prev, isPlaying: false }));
           return;
         }
       }
     }
+
     loadSong(nextIndex, true);
   }, [loopPlaylist, getNextShuffleIndex, loadSong]);
 
   const previous = useCallback(() => {
     const list = songsRef.current;
     if (list.length === 0) return;
-    
-    // Simple 3s reset logic
-    if (state.currentTime > 3) {
-      seek(0);
+    const audio = audioRef.current;
+
+    if (audio && audio.currentTime > 3) {
+      audio.currentTime = 0;
       return;
     }
 
@@ -350,34 +272,61 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
       prevIndex = loopPlaylist ? list.length - 1 : 0;
     }
     loadSong(prevIndex, true);
-  }, [loopPlaylist, loadSong, state.currentTime]);
+  }, [loopPlaylist, loadSong]);
 
-  // HTML5 Event Listeners
+  // Event Listeners on Audio Element
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const onTimeUpdate = () => {
-      if (isYouTubeRef.current) return;
-      setState(prev => ({ ...prev, currentTime: audio.currentTime }));
+      setState(prev => ({
+        ...prev,
+        currentTime: audio.currentTime,
+      }));
     };
+
     const onLoadedMetadata = () => {
-      if (isYouTubeRef.current) return;
-      setState(prev => ({ ...prev, duration: audio.duration || 0, isLoading: false, error: null }));
+      setState(prev => ({
+        ...prev,
+        duration: audio.duration || 0,
+        isLoading: false,
+        error: null,
+      }));
     };
+
     const onEnded = () => {
-      if (isYouTubeRef.current) return;
-      if (autoplayNext) nextSong();
-      else setState(prev => ({ ...prev, isPlaying: false }));
+      if (autoplayNext) {
+        nextSong();
+      } else {
+        setState(prev => ({ ...prev, isPlaying: false }));
+      }
     };
+
     const onError = () => {
-      if (isYouTubeRef.current) return;
-      setState(prev => ({ ...prev, isLoading: false, error: 'Error', isPlaying: false }));
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: 'Unable to play this track',
+        isPlaying: false,
+      }));
     };
-    const onWaiting = () => { if (!isYouTubeRef.current) setState(prev => ({ ...prev, isLoading: true })); };
-    const onCanPlay = () => { if (!isYouTubeRef.current) setState(prev => ({ ...prev, isLoading: false, error: null })); };
-    const onPlay = () => { if (!isYouTubeRef.current) setState(prev => ({ ...prev, isPlaying: true })); };
-    const onPause = () => { if (!isYouTubeRef.current) setState(prev => ({ ...prev, isPlaying: false })); };
+
+    const onWaiting = () => {
+      setState(prev => ({ ...prev, isLoading: true }));
+    };
+
+    const onCanPlay = () => {
+      setState(prev => ({ ...prev, isLoading: false, error: null }));
+    };
+
+    const onPlay = () => {
+      setState(prev => ({ ...prev, isPlaying: true }));
+    };
+
+    const onPause = () => {
+      setState(prev => ({ ...prev, isPlaying: false }));
+    };
 
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
@@ -401,66 +350,103 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
   }, [autoplayNext, nextSong]);
 
   const play = useCallback(() => {
-    if (isYouTubeRef.current && ytPlayerRef.current) {
-      ytPlayerRef.current.playVideo();
-    } else if (audioRef.current) {
-      if (audioCtxRef.current?.state === 'suspended') audioCtxRef.current.resume();
-      audioRef.current.play().catch(e => console.warn(e));
+    const audio = audioRef.current;
+    const list = songsRef.current;
+    if (!audio || list.length === 0) return;
+
+    if (audioCtxRef.current?.state === 'suspended') {
+      audioCtxRef.current.resume();
     }
-  }, []);
+
+    const current = currentIndexRef.current;
+    const currentSong = list[current];
+
+    if (!audio.src || audio.src === window.location.href || audio.src.endsWith('/')) {
+      loadSong(current, true);
+      return;
+    }
+
+    // Ensure audio src corresponds to current
+    const expectedSrc = encodeURI(currentSong.audio);
+    if (!audio.src.endsWith(expectedSrc)) {
+      loadSong(current, true);
+      return;
+    }
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setState(prev => ({ ...prev, isPlaying: true, error: null })))
+        .catch((err) => {
+          console.warn('Audio play prevented:', err);
+          setState(prev => ({ ...prev, isPlaying: false }));
+        });
+    }
+  }, [loadSong]);
 
   const pause = useCallback(() => {
-    if (isYouTubeRef.current && ytPlayerRef.current) {
-      ytPlayerRef.current.pauseVideo();
-    } else if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.pause();
+    setState(prev => ({ ...prev, isPlaying: false }));
   }, []);
 
   const togglePlay = useCallback(() => {
-    if (state.isPlaying) pause();
-    else play();
-  }, [state.isPlaying, play, pause]);
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (!audio.paused && !audio.ended && audio.currentTime > 0) {
+      pause();
+    } else {
+      play();
+    }
+  }, [play, pause]);
 
   const seek = useCallback((time: number) => {
-    const newTime = Math.max(0, Math.min(time, state.duration || 0));
-    if (isYouTubeRef.current && ytPlayerRef.current) {
-      ytPlayerRef.current.seekTo(newTime, true);
-    } else if (audioRef.current) {
-      audioRef.current.currentTime = newTime;
-    }
+    const audio = audioRef.current;
+    if (!audio) return;
+    const newTime = Math.max(0, Math.min(time, audio.duration || 0));
+    audio.currentTime = newTime;
+    // Eagerly update state to prevent visual rubber-banding
     setState(prev => ({ ...prev, currentTime: newTime }));
-  }, [state.duration]);
+  }, []);
 
   const setVolume = useCallback((vol: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
     const clampedVol = Math.max(0, Math.min(1, vol));
-    if (ytPlayerRef.current) {
-      ytPlayerRef.current.setVolume(clampedVol * 100);
-      if (clampedVol === 0) ytPlayerRef.current.mute();
-      else ytPlayerRef.current.unMute();
-    }
-    if (audioRef.current) {
-      audioRef.current.volume = clampedVol;
-      audioRef.current.muted = clampedVol === 0;
-    }
-    setState(prev => ({ ...prev, volume: clampedVol, isMuted: clampedVol === 0 }));
+    audio.volume = clampedVol;
+    audio.muted = clampedVol === 0;
+    setState(prev => ({
+      ...prev,
+      volume: clampedVol,
+      isMuted: clampedVol === 0,
+    }));
   }, []);
 
   const toggleMute = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
     setState(prev => {
-      const nextMuted = !prev.isMuted;
-      const nextVol = nextMuted ? 0 : (volumeBeforeMuteRef.current || 0.8);
-      if (!prev.isMuted) volumeBeforeMuteRef.current = prev.volume;
-      
-      if (ytPlayerRef.current) {
-        if (nextMuted) ytPlayerRef.current.mute();
-        else ytPlayerRef.current.unMute();
+      if (prev.isMuted) {
+        const restored = volumeBeforeMuteRef.current || 0.8;
+        audio.volume = restored;
+        audio.muted = false;
+        return {
+          ...prev,
+          volume: restored,
+          isMuted: false,
+        };
+      } else {
+        volumeBeforeMuteRef.current = prev.volume;
+        audio.volume = 0;
+        audio.muted = true;
+        return {
+          ...prev,
+          volume: 0,
+          isMuted: true,
+        };
       }
-      if (audioRef.current) {
-        audioRef.current.muted = nextMuted;
-        audioRef.current.volume = nextVol;
-      }
-      return { ...prev, volume: nextVol, isMuted: nextMuted };
     });
   }, []);
 
@@ -468,7 +454,10 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     setState(prev => {
       const next = !prev.isShuffle;
       isShuffleRef.current = next;
-      return { ...prev, isShuffle: next };
+      return {
+        ...prev,
+        isShuffle: next,
+      };
     });
   }, []);
 
@@ -477,12 +466,20 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
   }, [loadSong]);
 
   const seekForward = useCallback((seconds: number = 5) => {
-    seek(state.currentTime + seconds);
-  }, [seek, state.currentTime]);
+    const audio = audioRef.current;
+    if (!audio) return;
+    const newTime = Math.min(audio.currentTime + seconds, audio.duration || 0);
+    audio.currentTime = newTime;
+    setState(prev => ({ ...prev, currentTime: newTime }));
+  }, []);
 
   const seekBackward = useCallback((seconds: number = 5) => {
-    seek(state.currentTime - seconds);
-  }, [seek, state.currentTime]);
+    const audio = audioRef.current;
+    if (!audio) return;
+    const newTime = Math.max(audio.currentTime - seconds, 0);
+    audio.currentTime = newTime;
+    setState(prev => ({ ...prev, currentTime: newTime }));
+  }, []);
 
   const volumeUp = useCallback((step: number = 0.1) => {
     setVolume(state.volume + step);
@@ -493,8 +490,21 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
   }, [state.volume, setVolume]);
 
   const actions: AudioPlayerActions = {
-    play, pause, togglePlay, next: nextSong, previous, seek, setVolume, toggleMute, toggleShuffle,
-    playSong, seekForward, seekBackward, volumeUp, volumeDown, setPreset,
+    play,
+    pause,
+    togglePlay,
+    next: nextSong,
+    previous,
+    seek,
+    setVolume,
+    toggleMute,
+    toggleShuffle,
+    playSong,
+    seekForward,
+    seekBackward,
+    volumeUp,
+    volumeDown,
+    setPreset,
   };
 
   return [state, actions];
