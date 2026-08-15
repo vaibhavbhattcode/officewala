@@ -40,17 +40,16 @@ export function OneLinerRotator({ oneLiners, intervalMs = 15000 }: OneLinerRotat
   if (!oneLiners || oneLiners.length === 0) return null;
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-3 mb-14 sm:mb-20 px-4 text-center select-none overflow-hidden">
+    <div className="w-full max-w-2xl mx-auto mt-2 mb-6 sm:mb-8 px-4 text-center select-none overflow-hidden min-h-[44px] flex items-center justify-center">
       <p
-        className="text-center font-medium tracking-wide text-white/80 leading-relaxed truncate"
+        className="text-center font-medium tracking-wide text-white/80 leading-relaxed"
         style={{
-          fontSize: 'clamp(0.84rem, 2vw, 0.98rem)',
+          fontSize: 'clamp(0.82rem, 1.8vw, 0.94rem)',
           textShadow: '0 1px 6px rgba(0,0,0,0.6)',
         }}
       >
         <span
-          className={`bumper-text transition-opacity duration-200 ${isSwapping ? 'is-swapping opacity-0' : 'opacity-100'}`}
-          style={{ whiteSpace: 'nowrap' }}
+          className={`bumper-text transition-opacity duration-200 block ${isSwapping ? 'is-swapping opacity-0' : 'opacity-100'}`}
         >
           {oneLiners[index]}
         </span>

@@ -142,7 +142,7 @@ export function MainStation({
             className="anim-rise w-full flex flex-col items-center relative px-2 sm:px-0"
             style={{
               maxWidth: '48rem',
-              marginBottom: 'clamp(0.6rem, 4vh, 2.5rem)',
+              marginBottom: '0.45rem',
               animationDelay: '0.16s',
             }}
           >

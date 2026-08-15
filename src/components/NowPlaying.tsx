@@ -298,14 +298,14 @@ export function NowPlaying({
   const hue = accentHsl ? accentHsl.h : 265;
   const sat = accentHsl ? accentHsl.s : 50;
 
-  // Dark Card Background: Rich midnight dark hue matching background sky/accent (e.g. dark violet/purple)
-  const cardBg = `hsla(${hue}, ${sat}%, 8%, 0.92)`;
-  const cardBorder = '1px solid transparent';
+  // Dark Card Background: Rich midnight dark hue matching background sky/accent, made semi-transparent and glassy
+  const cardBg = `hsla(${hue}, ${sat}%, 4%, 0.45)`;
+  const cardBorder = '1px solid rgba(255, 255, 255, 0.08)';
 
-  const outerBg = `hsla(${hue}, ${sat}%, 12%, 0.72)`;
-  const outerBorder = '1px solid transparent';
+  const outerBg = `hsla(${hue}, ${sat}%, 6%, 0.35)`;
+  const outerBorder = '1px solid rgba(255, 255, 255, 0.09)';
 
-  const popoverBg = `hsla(${hue}, ${sat}%, 13%, 0.95)`;
+  const popoverBg = `hsla(${hue}, ${sat}%, 8%, 0.85)`;
   const popoverBorder = '1px solid rgba(255, 255, 255, 0.08)';
 
   /* ── Render ── */
@@ -315,18 +315,19 @@ export function NowPlaying({
       {/* ════════ OUTER GLASS PILL ════════ */}
       <section
         aria-label="Music Player"
-        className="flex flex-col sm:flex-row items-center justify-between w-full sm:w-[850px] max-w-[calc(100vw-16px)] sm:max-w-[calc(100vw-80px)] h-auto sm:h-[86px] rounded-[24px] sm:rounded-[44px] p-3 sm:p-0 sm:px-[42px] transition-all duration-500 relative"
+        className="flex flex-col sm:flex-row items-center justify-between w-full sm:w-[760px] max-w-[calc(100vw-16px)] sm:max-w-[calc(100vw-80px)] h-auto sm:h-[72px] rounded-[24px] sm:rounded-[36px] p-3 sm:p-0 sm:px-[28px] transition-all duration-500 relative"
         style={{
           background: outerBg,
-          backdropFilter: 'blur(18px) saturate(130%)',
-          WebkitBackdropFilter: 'blur(18px) saturate(130%)',
+          backdropFilter: 'blur(28px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(28px) saturate(140%)',
           border: outerBorder,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.28)',
+          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.55)',
         }}
       >
 
+
         {/* ── DESKTOP LEFT: Utility Controls (Heart, Background, Volume) ── */}
-        <div className="hidden sm:flex items-center gap-[32px] shrink-0 order-1 pr-4">
+        <div className="hidden sm:flex items-center gap-[20px] shrink-0 order-1 pr-2">
           {/* Favorite Heart Button */}
           <button
             type="button"
@@ -337,7 +338,7 @@ export function NowPlaying({
             className="hover:scale-105 active:scale-95 transition-all"
           >
             <Heart
-              className={`w-[22px] h-[22px] transition-colors ${
+              className={`w-[18px] h-[18px] transition-colors ${
                 isFavorite ? 'fill-red-500 text-red-500' : 'text-white/65 hover:text-white'
               }`}
             />
@@ -351,15 +352,15 @@ export function NowPlaying({
             style={{ color: 'rgba(255,255,255,0.65)', padding: '3px', cursor: 'pointer', background: 'none', border: 'none' }}
             className="hover:text-white active:scale-95 transition-all ignore-click-outside outline-none focus:outline-none"
           >
-            <ImageIcon className="w-[22px] h-[22px]" />
+            <ImageIcon className="w-[18px] h-[18px]" />
           </button>
 
           {/* Volume */}
           <div
             className="relative flex items-center overflow-hidden rounded-full transition-all duration-300 ease-out"
             style={{
-              width: showVolumePopup ? '110px' : '28px',
-              height: '28px',
+              width: showVolumePopup ? '100px' : '24px',
+              height: '24px',
               background: showVolumePopup ? 'rgba(255,255,255,0.07)' : 'transparent',
               border: showVolumePopup ? '1px solid rgba(255,255,255,0.10)' : '1px solid transparent',
             }}
@@ -371,14 +372,14 @@ export function NowPlaying({
               onClick={playerActions.toggleMute}
               aria-label={isMuted ? 'Unmute' : 'Mute'}
               title={isMuted ? 'Unmute' : `Volume: ${Math.round((isMuted ? 0 : volume) * 100)}%`}
-              className="absolute left-0 top-0 w-[28px] h-[28px] flex items-center justify-center text-white/65 hover:text-white transition-colors bg-transparent border-none cursor-pointer outline-none"
+              className="absolute left-0 top-0 w-[24px] h-[24px] flex items-center justify-center text-white/65 hover:text-white transition-colors bg-transparent border-none cursor-pointer outline-none"
             >
-              <SpeakerIcon className="w-[22px] h-[22px]" />
+              <SpeakerIcon className="w-[18px] h-[18px]" />
             </button>
             <div 
-              className="absolute left-[30px] flex items-center pr-3 transition-opacity duration-300 ease-out"
+              className="absolute left-[26px] flex items-center pr-3 transition-opacity duration-300 ease-out"
               style={{
-                width: '80px',
+                width: '70px',
                 opacity: showVolumePopup ? 1 : 0,
                 pointerEvents: showVolumePopup ? 'auto' : 'none',
               }}
@@ -398,34 +399,34 @@ export function NowPlaying({
         </div>
 
         {/* ── CENTER: Dark Track Card (Top on Mobile) ── */}
-        <div className="w-full sm:flex-1 min-w-0 flex justify-center sm:mx-[30px] relative order-1 sm:order-2">
-          <div className="flex items-center w-full sm:w-[460px] max-w-full h-[60px] sm:h-[68px] rounded-[16px] sm:rounded-[18px] px-3 sm:px-[14px] gap-3 sm:gap-[12px] transition-all duration-500" style={{ background: cardBg, border: cardBorder }}>
+        <div className="w-full sm:flex-1 min-w-0 flex justify-center sm:mx-[16px] relative order-1 sm:order-2">
+          <div className="flex items-center w-full sm:w-[380px] max-w-full h-[52px] sm:h-[56px] rounded-[12px] sm:rounded-[14px] px-2.5 sm:px-[10px] gap-2.5 sm:gap-[8px] transition-all duration-500" style={{ background: cardBg, border: cardBorder }}>
             {/* Album Art */}
-            <div className="relative w-[44px] h-[44px] sm:w-[50px] sm:h-[50px] rounded-[10px] overflow-hidden shrink-0 bg-[#161520] border border-white/5">
+            <div className="relative w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[8px] overflow-hidden shrink-0 bg-[#161520] border border-white/5">
               {currentSong?.cover ? (
-                <Image src={currentSong.cover} alt="Cover" fill className="object-cover" sizes="50px" priority />
+                <Image src={currentSong.cover} alt="Cover" fill className="object-cover" sizes="40px" priority />
               ) : (
-                <div className="flex items-center justify-center h-full"><Music className="w-[18px] h-[18px] text-white/25" /></div>
+                <div className="flex items-center justify-center h-full"><Music className="w-[14px] h-[14px] text-white/25" /></div>
               )}
             </div>
             
             {/* Text + Progress */}
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <p className="text-[13px] sm:text-[14px] font-bold text-white leading-[18px] tracking-tight truncate m-0">
+              <p className="text-[12px] sm:text-[13px] font-bold text-white leading-[16px] tracking-tight truncate m-0">
                 {error ? <span className="text-red-400 font-normal">{error}</span> : (currentSong?.title || 'Rusuk')}
                 {isLoading && <Loader2 className="inline-block animate-spin text-amber-400 w-3 h-3 ml-1.5" />}
               </p>
-              <p className="text-[10px] sm:text-[11px] font-medium text-white/50 leading-[16px] mt-[2px] truncate m-0">
+              <p className="text-[9px] sm:text-[10px] font-medium text-white/50 leading-[14px] mt-[1px] truncate m-0">
                 {currentSong?.artist || 'Gery & Gany'}
               </p>
               {/* Progress */}
-              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[16px] flex items-center mt-[2px] cursor-pointer relative group outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
-                <div className="w-full h-[4px] rounded-full bg-white/15 relative">
+              <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek" aria-valuemin={0} aria-valuemax={100} aria-valuenow={duration > 0 ? Math.round((currentTime / duration) * 100) : 0} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} className="w-full h-[12px] flex items-center mt-[1px] cursor-pointer relative group outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none select-none" style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}>
+                <div className="w-full h-[3px] rounded-full bg-white/15 relative">
                   <div ref={fillRef} className="h-full rounded-full bg-white/90 origin-left transition-transform duration-75 linear" />
                   {/* Knob */}
                   <div 
                     ref={knobRef}
-                    className="absolute top-1/2 w-[12px] h-[12px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                    className="absolute top-1/2 w-[10px] h-[10px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                     style={{ transform: 'translate(-50%, -50%)' }} 
                   />
                 </div>
@@ -433,10 +434,10 @@ export function NowPlaying({
             </div>
 
             {/* Right: Waveform + More */}
-            <div className="flex items-center gap-2 sm:gap-[16px] shrink-0 pl-1 sm:pl-[8px] relative">
-              <WaveformIcon isPlaying={isPlaying} className={`w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] ${isPlaying ? 'text-white' : 'text-white/30'}`} />
+            <div className="flex items-center gap-1.5 sm:gap-[10px] shrink-0 pl-0.5 sm:pl-[4px] relative">
+              <WaveformIcon isPlaying={isPlaying} className={`w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] ${isPlaying ? 'text-white' : 'text-white/30'}`} />
               <button type="button" onClick={(e) => { e.stopPropagation(); setShowMoreMenu(p => !p); setShowAirplayMenu(false); }} aria-label="More" title="Song options" className="text-white/45 hover:text-white transition-colors bg-transparent border-none p-[2px] cursor-pointer ignore-click-outside outline-none focus:outline-none">
-                <MoreHorizontal className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
+                <MoreHorizontal className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" />
               </button>
 
               {/* More popover */}
@@ -469,15 +470,15 @@ export function NowPlaying({
         </div>
 
         {/* ── DESKTOP RIGHT: Playback Controls (Prev, Play/Pause, Next) ── */}
-        <div className="hidden sm:flex items-center gap-[26px] shrink-0 order-3">
+        <div className="hidden sm:flex items-center gap-[18px] shrink-0 order-3">
           <button type="button" onClick={playerActions.previous} aria-label="Previous" title="Previous" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer outline-none focus:outline-none">
-            <RewindIcon className="w-[22px] h-[22px]" />
+            <RewindIcon className="w-[19px] h-[19px]" />
           </button>
           <button type="button" onClick={handlePlay} aria-label="Play/Pause" title={isPlaying ? 'Pause' : 'Play'} className="text-white/80 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer outline-none focus:outline-none">
-            {isPlaying ? <PauseIcon className="w-[22px] h-[22px]" /> : <PlayIcon className="w-[22px] h-[22px]" />}
+            {isPlaying ? <PauseIcon className="w-[19px] h-[19px]" /> : <PlayIcon className="w-[19px] h-[19px]" />}
           </button>
           <button type="button" onClick={playerActions.next} aria-label="Next" title="Next" className="text-white/70 hover:text-white active:scale-95 transition-all bg-transparent border-none p-[3px] cursor-pointer outline-none focus:outline-none">
-            <ForwardIcon className="w-[22px] h-[22px]" />
+            <ForwardIcon className="w-[19px] h-[19px]" />
           </button>
         </div>
 
