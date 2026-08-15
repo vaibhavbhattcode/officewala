@@ -21,6 +21,26 @@ export function AdSenseBanner({
   const insRef = useRef<HTMLModElement | null>(null);
   const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-0000000000000000';
 
+  // Map friendly slot names to environment variables or fallback values
+  const googleAdSlot = (() => {
+    switch (adSlot) {
+      case 'home-sticky-top':
+        return process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_TOP || '1111111111';
+      case 'home-sticky-bottom':
+        return process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_BOTTOM || '2222222222';
+      case 'home-left-skyscraper':
+        return process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_LEFT || '3333333333';
+      case 'home-right-skyscraper':
+        return process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_RIGHT || '4444444444';
+      case 'info-page-top':
+        return process.env.NEXT_PUBLIC_ADSENSE_SLOT_INFO_TOP || '5555555555';
+      case 'info-page-bottom':
+        return process.env.NEXT_PUBLIC_ADSENSE_SLOT_INFO_BOTTOM || '6666666666';
+      default:
+        return adSlot; // Fallback if a raw numeric ID is passed directly
+    }
+  })();
+
   useEffect(() => {
     // If client ID is placeholder (not configured), treat as unfilled immediately
     if (adsenseClientId === 'ca-pub-0000000000000000') {
@@ -104,7 +124,7 @@ export function AdSenseBanner({
         className="adsbygoogle"
         style={style}
         data-ad-client={adsenseClientId}
-        data-ad-slot={adSlot}
+        data-ad-slot={googleAdSlot}
         data-ad-format={adFormat}
         data-full-width-responsive={responsive ? 'true' : 'false'}
       />
