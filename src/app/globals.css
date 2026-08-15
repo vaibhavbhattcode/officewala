@@ -513,3 +513,113 @@ body {
     transform: none;
   }
 }
+
+/* ========== INFO PAGES CUSTOM PROSE ========== */
+.info-page-prose {
+  width: 100%;
+}
+
+.info-page-prose h2 {
+  font-family: var(--font-space-grotesk);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 2.2rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-left: 3px solid var(--color-station-gold);
+  padding-left: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .info-page-prose h2 {
+    font-size: 1.45rem;
+  }
+}
+
+.info-page-prose h3 {
+  font-family: var(--font-space-grotesk);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-station-gold);
+  margin-top: 1.6rem;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-page-prose p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .info-page-prose p {
+    font-size: 1.02rem;
+  }
+}
+
+.info-page-prose ul, 
+.info-page-prose ol {
+  margin-left: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-page-prose li {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.625rem;
+  list-style-type: square;
+}
+
+.info-page-prose li::marker {
+  color: var(--color-station-gold);
+}
+
+@media (min-width: 768px) {
+  .info-page-prose li {
+    font-size: 1.02rem;
+  }
+}
+
+.info-page-prose a {
+  color: var(--color-station-gold);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.15s ease;
+  border-bottom: 1px dashed rgba(217, 164, 65, 0.4);
+  padding-bottom: 1px;
+}
+
+.info-page-prose a:hover {
+  opacity: 0.85;
+  border-bottom-style: solid;
+}
+
+/* ========== HOME PAGE AD CONTAINER (FLOATING) ========== */
+.home-ad-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  max-height: 100px;
+  width: 100%;
+  transition: opacity 0.3s ease;
+}
+
+/* Safe-guard for AdSense: Hide the ad slot completely on devices with small vertical space to avoid covering controls */
+@media (max-height: 680px) {
+  .home-ad-top {
+    display: none !important;
+  }
+}
+
+

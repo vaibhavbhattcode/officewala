@@ -23,7 +23,7 @@ export const StationHeader = memo(function StationHeader({
   const listenerCount = useFirebasePresence();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 w-full pointer-events-none">
+    <header className="absolute top-0 left-0 right-0 z-30 w-full pointer-events-none">
       <div className="flex justify-between sm:block w-full p-4 sm:p-0">
         {/* Left: Clock */}
         <div className="pointer-events-auto flex flex-col items-start z-10 sm:absolute sm:top-4 sm:left-8">

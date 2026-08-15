@@ -83,6 +83,11 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
 
     // Only change src if different or not set
     if (!audio.src.endsWith(targetSrc) && audio.src !== targetSrc) {
+      if (targetSong.audio.startsWith('http://') || targetSong.audio.startsWith('https://')) {
+        audio.crossOrigin = 'anonymous';
+      } else {
+        audio.removeAttribute('crossorigin');
+      }
       audio.src = targetSrc;
       audio.load();
     }
@@ -152,7 +157,6 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
     if (!audioRef.current) {
       const audio = new Audio();
       audio.preload = 'metadata';
-      audio.crossOrigin = 'anonymous'; // Important for Web Audio API
       audio.volume = state.volume;
       audio.muted = state.isMuted;
       audioRef.current = audio;
@@ -199,7 +203,13 @@ export function useAudioPlayer(options: UseAudioPlayerOptions): [PlayerState, Au
 
     const audio = audioRef.current;
     if (!audio.src && songs.length > 0 && songs[0].audio) {
-      audio.src = encodeURI(songs[0].audio);
+      const initialAudio = songs[0].audio;
+      if (initialAudio.startsWith('http://') || initialAudio.startsWith('https://')) {
+        audio.crossOrigin = 'anonymous';
+      } else {
+        audio.removeAttribute('crossorigin');
+      }
+      audio.src = encodeURI(initialAudio);
     }
 
     return () => {
