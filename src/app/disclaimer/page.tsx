@@ -11,7 +11,7 @@ export default function DisclaimerPage() {
     <InfoPageLayout title="Disclaimer" subtitle="Legal & Fair Use Statement">
       <div className="space-y-6 text-white/80">
         <p>
-          If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at <em>pleasemusicwalayug@gmail.com</em>.
+          If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at <em>musicwalayug@gmail.com</em>.
         </p>
 
         <section className="space-y-3">
@@ -30,7 +30,7 @@ export default function DisclaimerPage() {
             We do not sell digital music files, distribute commercial albums, or charge membership fees. The audio files streamed on this site are sourced from user-curated indexes or public directories. All rights, copyright, and distribution licenses for the audio tracks remain with the original songwriters, recording artists, record labels, and producers.
           </p>
           <p>
-            If you are the copyright owner of any track or background video listed on this station and wish to request its removal, please contact us at <em>pleasemusicwalayug@gmail.com</em> with proper proof of ownership, and we will remove the content from our playlist index immediately (within 24-48 hours).
+            If you are the copyright owner of any track or background video listed on this station and wish to request its removal, please contact us at <em>musicwalayug@gmail.com</em> with proper proof of ownership, and we will remove the content from our playlist index immediately (within 24-48 hours).
           </p>
         </section>
 
