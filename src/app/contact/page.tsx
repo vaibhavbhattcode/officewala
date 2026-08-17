@@ -30,10 +30,10 @@ export default function ContactPage() {
               Reach out directly for general support, partnership queries, or DMCA inquiries.
             </p>
             <a 
-              href="mailto:hello@musicwala.life" 
+              href="mailto:pleasemusicwalayug@gmail.com" 
               className="mt-5 text-xs font-semibold text-[#D9A441] hover:underline"
             >
-              hello@musicwala.life
+              pleasemusicwalayug@gmail.com
             </a>
           </div>
 
@@ -49,10 +49,10 @@ export default function ContactPage() {
               Have high-quality classic MP3/Lofi tracks? Send us suggestions for the next batch update.
             </p>
             <a 
-              href="mailto:songs@musicwala.life" 
+              href="mailto:pleasemusicwalayug@gmail.com" 
               className="mt-5 text-xs font-semibold text-[#D9A441] hover:underline"
             >
-              songs@musicwala.life
+              pleasemusicwalayug@gmail.com
             </a>
           </div>
         </div>
