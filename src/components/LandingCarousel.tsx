@@ -190,28 +190,28 @@ export function LandingCarousel() {
 
   // Sizing definitions for Carousel layout across viewports
   const containerHeightClass = isMobile 
-    ? 'h-[340px]' 
+    ? 'h-[250px]' 
     : isTablet 
-      ? 'h-[340px]' 
+      ? 'h-[300px]' 
       : isWide 
-        ? 'h-[490px]' 
-        : 'h-[420px]';
+        ? 'h-[430px]' 
+        : 'h-[360px]';
 
   const cardWidthClass = isMobile 
-    ? 'w-[210px] h-[210px]' 
+    ? 'w-[180px] h-[180px]' 
     : isTablet 
       ? 'w-[190px] h-[190px]' 
       : isWide 
-        ? 'w-[300px] h-[300px]' 
-        : 'w-[250px] h-[250px]';
+        ? 'w-[280px] h-[280px]' 
+        : 'w-[230px] h-[230px]';
 
   const coverHeightClass = isMobile 
-    ? 'h-[140px]' 
+    ? 'h-[115px]' 
     : isTablet 
       ? 'h-[120px]' 
       : isWide 
-        ? 'h-[205px]' 
-        : 'h-[170px]';
+        ? 'h-[190px]' 
+        : 'h-[155px]';
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -526,7 +526,7 @@ export function LandingCarousel() {
       </div>
 
       {/* 🔘 Dots Pagination Bar (Shazam Mobile Style) */}
-      <div className="flex items-center justify-center gap-2 mt-4 sm:mt-6 z-40">
+      <div className="flex items-center justify-center gap-2 mt-2 sm:mt-3 z-40">
         {CAROUSEL_ITEMS.map((item) => {
           const isActive = item.id === centerIndex;
           return (
