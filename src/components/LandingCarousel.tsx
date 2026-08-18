@@ -13,6 +13,7 @@ interface CarouselItem {
   title: string;
   artist: string;
   cover: string;
+  accentColor: string;
 }
 
 const CAROUSEL_ITEMS: CarouselItem[] = [
@@ -23,6 +24,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: 'Study Flow Lofi',
     artist: 'Officewala Stream',
     cover: '/landing/cover_lofi.jpg',
+    accentColor: '#38bdf8', // Sky Cyan
   },
   {
     id: 1,
@@ -31,6 +33,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: 'MAHEBOOBA MAHEBOOBA',
     artist: 'Tapriwala Classics',
     cover: '/landing/cover_bollywood.jpg',
+    accentColor: '#f59e0b', // Amber Gold
   },
   {
     id: 2,
@@ -39,14 +42,16 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: 'Aigiri Nandini & Chants',
     artist: 'Bhajanwala Devotional',
     cover: '/landing/cover_acoustic.jpg',
+    accentColor: '#fb923c', // Saffron Gold
   },
   {
     id: 3,
-    category: 'Lohriwala',
-    tagline: 'Festive folk beats & energetic strums',
-    title: 'Folk Acoustic Beats',
-    artist: 'Lohriwala Special',
+    category: 'Loriwala',
+    tagline: 'Highway dhaba beats & long-haul truck tunes',
+    title: 'Highway Dhaba Beats',
+    artist: 'Loriwala Truck Drivers',
     cover: '/landing/cover_jazz.jpg',
+    accentColor: '#ef4444', // Highway Crimson
   },
   {
     id: 4,
@@ -55,6 +60,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: 'Warm Saloon Coffee',
     artist: 'Saloonwala Vibes',
     cover: '/landing/cover_midnight.jpg',
+    accentColor: '#c084fc', // Grooming Violet
   },
   {
     id: 5,
@@ -63,6 +69,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: 'Terminal Neon Synth',
     artist: 'Partywala Night',
     cover: '/landing/cover_synthwave.jpg',
+    accentColor: '#f43f5e', // Neon Pink
   },
 ];
 
@@ -437,6 +444,7 @@ export function LandingCarousel() {
               }}
               onClick={() => handleCardClick(item.id)}
             >
+              {/* Category label above card with custom theme colors */}
               <motion.div 
                 className="text-center mb-2.5 sm:mb-4 transition-all duration-300"
                 animate={{
@@ -445,16 +453,33 @@ export function LandingCarousel() {
                   scale: isCenter ? 1 : 0.85
                 }}
               >
-                <h4 className="text-[#D9A441] text-[9px] sm:text-xs 2xl:text-sm font-bold uppercase tracking-[0.18em]">{item.category}</h4>
-                <p className="text-white/60 text-[8px] sm:text-[10px] 2xl:text-xs mt-0.5 font-semibold">{item.tagline}</p>
+                <div 
+                  className="px-3 py-0.5 rounded-full border inline-block"
+                  style={{
+                    backgroundColor: `${item.accentColor}15`,
+                    borderColor: `${item.accentColor}40`,
+                  }}
+                >
+                  <h4 
+                    className="text-[9px] sm:text-xs 2xl:text-sm font-bold uppercase tracking-[0.18em]"
+                    style={{ color: item.accentColor }}
+                  >
+                    {item.category}
+                  </h4>
+                </div>
+                <p className="text-white/60 text-[8px] sm:text-[10px] 2xl:text-xs mt-1 font-semibold">{item.tagline}</p>
               </motion.div>
 
+              {/* Card Container with custom dynamic color glow on center */}
               <div 
-                className={`relative ${cardWidthClass} rounded-[22px] 2xl:rounded-[28px] overflow-hidden border border-white/[0.08] bg-white/[0.02] backdrop-blur-md shadow-2xl flex flex-col items-center justify-center p-2.5 sm:p-3 2xl:p-4 transition-transform duration-300 ${
-                  isCenter 
-                    ? 'shadow-black/75 hover:shadow-black/90 hover:scale-[1.02] border-white/[0.14] bg-white/[0.03]' 
-                    : 'shadow-black/45'
-                }`}
+                className={`relative ${cardWidthClass} rounded-[22px] 2xl:rounded-[28px] overflow-hidden border bg-white/[0.02] backdrop-blur-md shadow-2xl flex flex-col items-center justify-center p-2.5 sm:p-3 2xl:p-4 transition-all duration-300`}
+                style={{
+                  borderColor: isCenter ? `${item.accentColor}50` : 'rgba(255, 255, 255, 0.08)',
+                  backgroundColor: isCenter ? `${item.accentColor}08` : 'rgba(255, 255, 255, 0.02)',
+                  boxShadow: isCenter 
+                    ? `0 20px 60px ${item.accentColor}30, inset 0 0 20px ${item.accentColor}10` 
+                    : '0 20px 40px rgba(0,0,0,0.45)',
+                }}
               >
                 <div className={`relative w-full ${coverHeightClass} rounded-[14px] 2xl:rounded-[18px] overflow-hidden bg-zinc-950 border border-white/5 ${
                   isZoomed ? 'animate-spin' : ''
@@ -473,7 +498,10 @@ export function LandingCarousel() {
                   />
                   {isCenter && !isRedirecting && (
                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-[34px] h-[34px] sm:w-[42px] sm:h-[42px] 2xl:w-[50px] 2xl:h-[50px] rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white scale-90 hover:scale-100 transition-transform shadow-lg shadow-black/25">
+                      <div 
+                        className="w-[34px] h-[34px] sm:w-[42px] sm:h-[42px] 2xl:w-[50px] 2xl:h-[50px] rounded-full backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 hover:scale-100 transition-transform shadow-lg"
+                        style={{ backgroundColor: `${item.accentColor}40` }}
+                      >
                         <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 2xl:w-5 2xl:h-5 fill-white text-white ml-0.5" />
                       </div>
                     </div>
@@ -485,7 +513,7 @@ export function LandingCarousel() {
                     {item.title}
                   </h5>
                   <p className="text-[8px] sm:text-[10px] 2xl:text-xs font-medium text-white/50 leading-relaxed mt-0.5 truncate m-0 flex items-center gap-1">
-                    <Music className="w-1.5 h-1.5 sm:w-2 sm:h-2 2xl:w-3 2xl:h-3 text-[#D9A441]" /> {item.artist}
+                    <Music className="w-1.5 h-1.5 sm:w-2 sm:h-2 2xl:w-3 2xl:h-3" style={{ color: item.accentColor }} /> {item.artist}
                   </p>
                 </div>
               </div>
