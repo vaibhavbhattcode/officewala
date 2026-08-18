@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Music, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Music, Play, ChevronLeft, ChevronRight, Radio } from 'lucide-react';
 
 interface CarouselItem {
   id: number;
@@ -21,60 +21,60 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   {
     id: 0,
     slug: 'officewala',
-    category: 'Officewala',
-    tagline: 'Deep focus beats & workspace flow',
-    title: 'Study Flow Lofi',
-    artist: 'Officewala Stream',
+    category: 'Focus & Code',
+    tagline: 'Deep Lofi Beats to Stay in Flow',
+    title: 'OFFICEWALA',
+    artist: 'Study Flow Lofi',
     cover: '/landing/cover_lofi.jpg',
     accentColor: '#38bdf8', // Sky Cyan
   },
   {
     id: 1,
     slug: 'tapriwala',
-    category: 'Tapriwala',
-    tagline: 'Chai tapri classic melodies & vintage tunes',
-    title: 'MAHEBOOBA MAHEBOOBA',
-    artist: 'Tapriwala Classics',
+    category: 'Chai Tapri Hits',
+    tagline: 'Retro Classics & Vintage Melodies',
+    title: 'TAPRIWALA',
+    artist: 'MAHEBOOBA MAHEBOOBA',
     cover: '/landing/cover_bollywood.jpg',
     accentColor: '#f59e0b', // Amber Gold
   },
   {
     id: 2,
     slug: 'bhajanwala',
-    category: 'Bhajanwala',
-    tagline: 'Peaceful morning bhajans & spiritual vibes',
-    title: 'Aigiri Nandini & Chants',
-    artist: 'Bhajanwala Devotional',
+    category: 'Morning Devotional',
+    tagline: 'Peaceful Bhajans & Spiritual Chants',
+    title: 'BHAJANWALA',
+    artist: 'Aigiri Nandini & Chants',
     cover: '/landing/cover_acoustic.jpg',
     accentColor: '#fb923c', // Saffron Gold
   },
   {
     id: 3,
     slug: 'loriwala',
-    category: 'Loriwala',
-    tagline: 'Highway dhaba beats & long-haul truck tunes',
-    title: 'Highway Dhaba Beats',
-    artist: 'Loriwala Truck Drivers',
+    category: 'Highway Dhaba Jams',
+    tagline: 'Long-Haul Truck Beats & Folk Tunes',
+    title: 'LORIWALA',
+    artist: 'Highway Dhaba Beats',
     cover: '/landing/cover_jazz.jpg',
     accentColor: '#ef4444', // Highway Crimson
   },
   {
     id: 4,
     slug: 'saloonwala',
-    category: 'Saloonwala',
-    tagline: 'Trendy saloon grooming jams & chill hits',
-    title: 'Warm Saloon Coffee',
-    artist: 'Saloonwala Vibes',
+    category: 'Saloon Grooming',
+    tagline: 'Chill Lounge Pop & Grooming Vibes',
+    title: 'SALOONWALA',
+    artist: 'Warm Saloon Coffee',
     cover: '/landing/cover_midnight.jpg',
     accentColor: '#c084fc', // Grooming Violet
   },
   {
     id: 5,
     slug: 'partywala',
-    category: 'Partywala',
-    tagline: 'High-energy synthwave & night mood beats',
-    title: 'Terminal Neon Synth',
-    artist: 'Partywala Night',
+    category: 'Night Party Beats',
+    tagline: 'High-Energy Synthwave & Remixes',
+    title: 'PARTYWALA',
+    artist: 'Terminal Neon Synth',
     cover: '/landing/cover_synthwave.jpg',
     accentColor: '#f43f5e', // Neon Pink
   },
@@ -197,36 +197,36 @@ export function LandingCarousel() {
   const isTablet = viewport === 'tablet';
   const isWide = viewport === 'wide';
 
-  // Sizing definitions for Carousel layout across viewports
+  // Shazam-matched Portrait Sizing definitions
   const containerHeightClass = isMobile 
-    ? 'h-[250px]' 
+    ? 'h-[360px]' 
     : isTablet 
-      ? 'h-[300px]' 
+      ? 'h-[400px]' 
       : isWide 
-        ? 'h-[430px]' 
-        : 'h-[360px]';
+        ? 'h-[480px]' 
+        : 'h-[440px]';
 
   const cardWidthClass = isMobile 
-    ? 'w-[180px] h-[180px]' 
+    ? 'w-[200px] h-[280px]' 
     : isTablet 
-      ? 'w-[190px] h-[190px]' 
+      ? 'w-[220px] h-[320px]' 
       : isWide 
-        ? 'w-[280px] h-[280px]' 
-        : 'w-[230px] h-[230px]';
+        ? 'w-[300px] h-[400px]' 
+        : 'w-[260px] h-[360px]';
 
   const coverHeightClass = isMobile 
-    ? 'h-[115px]' 
+    ? 'h-[200px]' 
     : isTablet 
-      ? 'h-[120px]' 
+      ? 'h-[230px]' 
       : isWide 
-        ? 'h-[190px]' 
-        : 'h-[155px]';
+        ? 'h-[290px]' 
+        : 'h-[260px]';
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      {/* 🎡 3D Carousel Viewport */}
+      {/* 🎡 3D Carousel Viewport (Shazam Portrait Card Layout) */}
       <div 
-        className={`relative w-full ${containerHeightClass} flex items-center justify-center overflow-visible select-none [perspective:1000px] sm:[perspective:1400px]`}
+        className={`relative w-full ${containerHeightClass} flex items-center justify-center overflow-visible select-none [perspective:1200px]`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -235,11 +235,11 @@ export function LandingCarousel() {
           type="button"
           onClick={() => handleArrowClick('prev')}
           aria-label="Previous Song"
-          className={`absolute left-0 sm:-left-4 2xl:-left-12 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
+          className={`absolute left-0 sm:-left-4 2xl:-left-12 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/10 hover:bg-white/30 border border-white/20 flex items-center justify-center text-white transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
             isHovered && !isRedirecting ? 'opacity-100 scale-100' : 'opacity-0 sm:opacity-40 scale-95'
           }`}
         >
-          <ChevronLeft className="w-4.5 h-4.5 sm:w-5 sm:h-5 2xl:w-6 2xl:h-6 mr-0.5" />
+          <ChevronLeft className="w-5 h-5 2xl:w-6 2xl:h-6 mr-0.5" />
         </button>
 
         {/* 👉 Right Navigation Arrow */}
@@ -247,11 +247,11 @@ export function LandingCarousel() {
           type="button"
           onClick={() => handleArrowClick('next')}
           aria-label="Next Song"
-          className={`absolute right-0 sm:-right-4 2xl:-right-12 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
+          className={`absolute right-0 sm:-right-4 2xl:-right-12 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/10 hover:bg-white/30 border border-white/20 flex items-center justify-center text-white transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
             isHovered && !isRedirecting ? 'opacity-100 scale-100' : 'opacity-0 sm:opacity-40 scale-95'
           }`}
         >
-          <ChevronRight className="w-4.5 h-4.5 sm:w-5 sm:h-5 2xl:w-6 2xl:h-6 ml-0.5" />
+          <ChevronRight className="w-5 h-5 2xl:w-6 2xl:h-6 ml-0.5" />
         </button>
 
         <AnimatePresence mode="popLayout">
@@ -274,28 +274,28 @@ export function LandingCarousel() {
             let pointerEvents: 'auto' | 'none' = 'auto';
 
             if (isMobile) {
-              // Mobile View: Larger cards (220px) with wide 3D perspective spread like Web
+              // Mobile View
               if (isCenter) {
                 zIndex = 40;
                 opacity = 1;
                 scale = 1;
                 rotateY = 0;
                 translateX = 0;
-                translateZ = 60;
+                translateZ = 50;
               } else if (diff === -1) {
                 zIndex = 30;
-                opacity = 0.55;
+                opacity = 0.5;
                 scale = 0.82;
                 rotateY = 22;
-                translateX = -145;
-                translateZ = 10;
+                translateX = -140;
+                translateZ = 0;
               } else if (diff === 1) {
                 zIndex = 30;
-                opacity = 0.55;
+                opacity = 0.5;
                 scale = 0.82;
                 rotateY = -22;
-                translateX = 145;
-                translateZ = 10;
+                translateX = 140;
+                translateZ = 0;
               } else {
                 zIndex = 10;
                 opacity = 0;
@@ -306,7 +306,7 @@ export function LandingCarousel() {
                 pointerEvents = 'none';
               }
             } else if (isTablet) {
-              // Tablet: 3 cards
+              // Tablet View
               if (isCenter) {
                 zIndex = 40;
                 opacity = 1;
@@ -317,16 +317,16 @@ export function LandingCarousel() {
               } else if (diff === -1) {
                 zIndex = 30;
                 opacity = 0.55;
-                scale = 0.78;
-                rotateY = 18;
-                translateX = -135;
+                scale = 0.82;
+                rotateY = 20;
+                translateX = -170;
                 translateZ = 10;
               } else if (diff === 1) {
                 zIndex = 30;
                 opacity = 0.55;
-                scale = 0.78;
-                rotateY = -18;
-                translateX = 135;
+                scale = 0.82;
+                rotateY = -20;
+                translateX = 170;
                 translateZ = 10;
               } else {
                 zIndex = 10;
@@ -338,41 +338,41 @@ export function LandingCarousel() {
                 pointerEvents = 'none';
               }
             } else if (isWide) {
-              // Big Monitors (>= 1536px / 2K / 4K): Full-width 5-card 3D cover flow
+              // Big Monitors (>= 1536px / 2K / 4K): Shazam Style 5-Card Spread
               if (isCenter) {
                 zIndex = 40;
                 opacity = 1;
                 scale = 1;
                 rotateY = 0;
                 translateX = 0;
-                translateZ = 130;
+                translateZ = 120;
               } else if (diff === -1) {
                 zIndex = 30;
-                opacity = 0.7;
+                opacity = 0.65;
                 scale = 0.85;
-                rotateY = 18;
-                translateX = -250;
+                rotateY = 22;
+                translateX = -260;
                 translateZ = 30;
               } else if (diff === 1) {
                 zIndex = 30;
-                opacity = 0.7;
+                opacity = 0.65;
                 scale = 0.85;
-                rotateY = -18;
-                translateX = 250;
+                rotateY = -22;
+                translateX = 260;
                 translateZ = 30;
               } else if (diff === -2) {
                 zIndex = 20;
                 opacity = 0.25;
                 scale = 0.7;
-                rotateY = 30;
-                translateX = -450;
+                rotateY = 32;
+                translateX = -460;
                 translateZ = -40;
               } else if (diff === 2) {
                 zIndex = 20;
                 opacity = 0.25;
                 scale = 0.7;
-                rotateY = -30;
-                translateX = 450;
+                rotateY = -32;
+                translateX = 460;
                 translateZ = -40;
               } else {
                 zIndex = 10;
@@ -384,7 +384,7 @@ export function LandingCarousel() {
                 pointerEvents = 'none';
               }
             } else {
-              // Standard Desktop / Laptop: Full-width 5-card layout
+              // Standard Desktop / Laptop: Shazam Style 5-Card Layout
               if (isCenter) {
                 zIndex = 40;
                 opacity = 1;
@@ -395,30 +395,30 @@ export function LandingCarousel() {
               } else if (diff === -1) {
                 zIndex = 30;
                 opacity = 0.65;
-                scale = 0.82;
-                rotateY = 20;
-                translateX = -200;
+                scale = 0.84;
+                rotateY = 22;
+                translateX = -220;
                 translateZ = 20;
               } else if (diff === 1) {
                 zIndex = 30;
                 opacity = 0.65;
-                scale = 0.82;
-                rotateY = -20;
-                translateX = 200;
+                scale = 0.84;
+                rotateY = -22;
+                translateX = 220;
                 translateZ = 20;
               } else if (diff === -2) {
                 zIndex = 20;
                 opacity = 0.2;
-                scale = 0.66;
+                scale = 0.68;
                 rotateY = 32;
-                translateX = -360;
+                translateX = -380;
                 translateZ = -50;
               } else if (diff === 2) {
                 zIndex = 20;
                 opacity = 0.2;
-                scale = 0.66;
+                scale = 0.68;
                 rotateY = -32;
-                translateX = 360;
+                translateX = 380;
                 translateZ = -50;
               } else {
                 zIndex = 10;
@@ -442,7 +442,7 @@ export function LandingCarousel() {
                 }}
                 animate={{
                   x: isZoomed ? 0 : translateX,
-                  scale: isZoomed ? 2.5 : scale,
+                  scale: isZoomed ? 2.2 : scale,
                   rotateY: isZoomed ? 0 : rotateY,
                   opacity: isZoomed ? 1 : opacity,
                   z: isZoomed ? 200 : translateZ,
@@ -455,44 +455,36 @@ export function LandingCarousel() {
                 }}
                 onClick={() => handleCardClick(item.id)}
               >
-                {/* Category label above card with custom theme colors */}
+                {/* Category label ABOVE card (Shazam Style) */}
                 <motion.div 
-                  className="text-center mb-2.5 sm:mb-4 transition-all duration-300"
+                  className="text-center mb-2.5 sm:mb-3.5 transition-all duration-300 max-w-[220px] sm:max-w-[260px]"
                   animate={{
-                    opacity: isCenter && !isRedirecting ? 1 : 0,
-                    y: isCenter ? 0 : 8,
-                    scale: isCenter ? 1 : 0.85
+                    opacity: isCenter && !isRedirecting ? 1 : 0.45,
+                    y: isCenter ? 0 : 6,
+                    scale: isCenter ? 1 : 0.88
                   }}
                 >
-                  <div 
-                    className="px-3 py-0.5 rounded-full border inline-block"
-                    style={{
-                      backgroundColor: `${item.accentColor}15`,
-                      borderColor: `${item.accentColor}40`,
-                    }}
-                  >
-                    <h4 
-                      className="text-[9px] sm:text-xs 2xl:text-sm font-bold uppercase tracking-[0.18em]"
-                      style={{ color: item.accentColor }}
-                    >
-                      {item.category}
-                    </h4>
-                  </div>
-                  <p className="text-white/60 text-[8px] sm:text-[10px] 2xl:text-xs mt-1 font-semibold">{item.tagline}</p>
+                  <h3 className="text-white text-sm sm:text-lg 2xl:text-xl font-bold tracking-tight leading-snug">
+                    {item.category}
+                  </h3>
+                  <p className="text-white/60 text-[9px] sm:text-xs mt-0.5 font-medium leading-tight line-clamp-1">
+                    {item.tagline}
+                  </p>
                 </motion.div>
 
-                {/* Card Container with custom dynamic color glow on center */}
+                {/* Shazam Style Portrait Glass Card */}
                 <div 
-                  className={`relative ${cardWidthClass} rounded-[22px] 2xl:rounded-[28px] overflow-hidden border bg-white/[0.02] backdrop-blur-md shadow-2xl flex flex-col items-center justify-center p-2.5 sm:p-3 2xl:p-4 transition-all duration-300`}
+                  className={`relative ${cardWidthClass} rounded-[28px] sm:rounded-[36px] overflow-hidden border bg-white/[0.05] backdrop-blur-xl shadow-2xl flex flex-col justify-between p-3 sm:p-4 transition-all duration-300`}
                   style={{
-                    borderColor: isCenter ? `${item.accentColor}50` : 'rgba(255, 255, 255, 0.08)',
-                    backgroundColor: isCenter ? `${item.accentColor}08` : 'rgba(255, 255, 255, 0.02)',
+                    borderColor: isCenter ? `${item.accentColor}60` : 'rgba(255, 255, 255, 0.12)',
+                    backgroundColor: isCenter ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
                     boxShadow: isCenter 
-                      ? `0 20px 60px ${item.accentColor}30, inset 0 0 20px ${item.accentColor}10` 
-                      : '0 20px 40px rgba(0,0,0,0.45)',
+                      ? `0 30px 80px ${item.accentColor}35, inset 0 0 30px ${item.accentColor}15` 
+                      : '0 20px 50px rgba(0,0,0,0.5)',
                   }}
                 >
-                  <div className={`relative w-full ${coverHeightClass} rounded-[14px] 2xl:rounded-[18px] overflow-hidden bg-zinc-950 border border-white/5 ${
+                  {/* Portrait Album Cover Image taking top 75% */}
+                  <div className={`relative w-full ${coverHeightClass} rounded-[20px] sm:rounded-[26px] overflow-hidden bg-zinc-950 border border-white/10 ${
                     isZoomed ? 'animate-spin' : ''
                   }`}
                   style={{
@@ -504,28 +496,39 @@ export function LandingCarousel() {
                       alt={item.title} 
                       fill 
                       className="object-cover"
-                      sizes="(max-width: 768px) 180px, 320px"
+                      sizes="(max-width: 768px) 220px, 340px"
                       priority 
                     />
                     {isCenter && !isRedirecting && (
-                      <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/35 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <div 
-                          className="w-[34px] h-[34px] sm:w-[42px] sm:h-[42px] 2xl:w-[50px] 2xl:h-[50px] rounded-full backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 hover:scale-100 transition-transform shadow-lg"
-                          style={{ backgroundColor: `${item.accentColor}40` }}
+                          className="w-11 h-11 sm:w-13 sm:h-13 rounded-full backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 hover:scale-100 transition-transform shadow-xl"
+                          style={{ backgroundColor: `${item.accentColor}60` }}
                         >
-                          <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 2xl:w-5 2xl:h-5 fill-white text-white ml-0.5" />
+                          <Play className="w-5 h-5 fill-white text-white ml-0.5" />
                         </div>
                       </div>
                     )}
                   </div>
 
-                  <div className="w-full mt-2 sm:mt-2.5 2xl:mt-3 px-0.5 text-left flex flex-col justify-center">
-                    <h5 className="text-[9px] sm:text-xs 2xl:text-sm font-bold text-white tracking-tight truncate m-0">
-                      {item.title}
-                    </h5>
-                    <p className="text-[8px] sm:text-[10px] 2xl:text-xs font-medium text-white/50 leading-relaxed mt-0.5 truncate m-0 flex items-center gap-1">
-                      <Music className="w-1.5 h-1.5 sm:w-2 sm:h-2 2xl:w-3 2xl:h-3" style={{ color: item.accentColor }} /> {item.artist}
-                    </p>
+                  {/* Shazam Bottom Card Info Bar */}
+                  <div className="w-full mt-2 sm:mt-3 px-1 flex items-end justify-between">
+                    <div className="flex flex-col justify-center min-w-0 pr-2">
+                      <h4 className="text-xs sm:text-base font-black text-white tracking-wider uppercase truncate">
+                        {item.title}
+                      </h4>
+                      <p className="text-[10px] sm:text-xs font-semibold text-white/70 truncate mt-0.5">
+                        {item.artist}
+                      </p>
+                    </div>
+
+                    {/* Shazam Style Bottom Action Icon */}
+                    <div 
+                      className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border border-white/20 shrink-0 text-white shadow-md transition-transform hover:scale-110"
+                      style={{ backgroundColor: `${item.accentColor}30` }}
+                    >
+                      <Radio className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 text-white" />
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -545,7 +548,7 @@ export function LandingCarousel() {
               onClick={() => handleCardClick(item.id)}
               className={`h-2 rounded-full transition-all duration-300 ${
                 isActive 
-                  ? 'w-6 bg-[#D9A441] shadow-sm shadow-[#D9A441]/50' 
+                  ? 'w-6 bg-[#38bdf8] shadow-sm shadow-[#38bdf8]/50' 
                   : 'w-2 bg-white/20 hover:bg-white/40'
               }`}
               aria-label={`Go to ${item.category}`}
