@@ -190,15 +190,15 @@ export function LandingCarousel() {
 
   // Sizing definitions for Carousel layout across viewports
   const containerHeightClass = isMobile 
-    ? 'h-[250px]' 
+    ? 'h-[340px]' 
     : isTablet 
-      ? 'h-[320px]' 
+      ? 'h-[340px]' 
       : isWide 
         ? 'h-[490px]' 
         : 'h-[420px]';
 
   const cardWidthClass = isMobile 
-    ? 'w-[155px] h-[155px]' 
+    ? 'w-[210px] h-[210px]' 
     : isTablet 
       ? 'w-[190px] h-[190px]' 
       : isWide 
@@ -206,7 +206,7 @@ export function LandingCarousel() {
         : 'w-[250px] h-[250px]';
 
   const coverHeightClass = isMobile 
-    ? 'h-[95px]' 
+    ? 'h-[140px]' 
     : isTablet 
       ? 'h-[120px]' 
       : isWide 
@@ -265,28 +265,28 @@ export function LandingCarousel() {
             let pointerEvents: 'auto' | 'none' = 'auto';
 
             if (isMobile) {
-              // Mobile: 3 cards (Center, Left, Right)
+              // Mobile View: Larger cards (220px) with wide 3D perspective spread like Web
               if (isCenter) {
                 zIndex = 40;
                 opacity = 1;
                 scale = 1;
                 rotateY = 0;
                 translateX = 0;
-                translateZ = 50;
+                translateZ = 60;
               } else if (diff === -1) {
                 zIndex = 30;
-                opacity = 0.45;
-                scale = 0.78;
-                rotateY = 18;
-                translateX = -100;
-                translateZ = 0;
+                opacity = 0.55;
+                scale = 0.82;
+                rotateY = 22;
+                translateX = -145;
+                translateZ = 10;
               } else if (diff === 1) {
                 zIndex = 30;
-                opacity = 0.45;
-                scale = 0.78;
-                rotateY = -18;
-                translateX = 100;
-                translateZ = 0;
+                opacity = 0.55;
+                scale = 0.82;
+                rotateY = -22;
+                translateX = 145;
+                translateZ = 10;
               } else {
                 zIndex = 10;
                 opacity = 0;
