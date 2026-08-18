@@ -187,24 +187,24 @@ export function LandingCarousel() {
     : isTablet 
       ? 'h-[340px]' 
       : isWide 
-        ? 'h-[460px]' 
-        : 'h-[400px]';
+        ? 'h-[490px]' 
+        : 'h-[420px]';
 
   const cardWidthClass = isMobile 
     ? 'w-[150px] h-[150px]' 
     : isTablet 
       ? 'w-[190px] h-[190px]' 
       : isWide 
-        ? 'w-[280px] h-[280px]' 
-        : 'w-[230px] h-[230px]';
+        ? 'w-[300px] h-[300px]' 
+        : 'w-[250px] h-[250px]';
 
   const coverHeightClass = isMobile 
     ? 'h-[90px]' 
     : isTablet 
       ? 'h-[120px]' 
       : isWide 
-        ? 'h-[190px]' 
-        : 'h-[155px]';
+        ? 'h-[205px]' 
+        : 'h-[170px]';
 
   return (
     <div 
@@ -217,7 +217,7 @@ export function LandingCarousel() {
         type="button"
         onClick={() => handleArrowClick('prev')}
         aria-label="Previous Song"
-        className={`absolute left-0 sm:-left-6 2xl:-left-10 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
+        className={`absolute left-0 sm:-left-4 2xl:-left-12 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
           isHovered && !isRedirecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
@@ -229,7 +229,7 @@ export function LandingCarousel() {
         type="button"
         onClick={() => handleArrowClick('next')}
         aria-label="Next Song"
-        className={`absolute right-0 sm:-right-6 2xl:-right-10 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
+        className={`absolute right-0 sm:-right-4 2xl:-right-12 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
           isHovered && !isRedirecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
@@ -301,14 +301,14 @@ export function LandingCarousel() {
               opacity = 0.55;
               scale = 0.78;
               rotateY = 18;
-              translateX = -130;
+              translateX = -135;
               translateZ = 10;
             } else if (diff === 1) {
               zIndex = 30;
               opacity = 0.55;
               scale = 0.78;
               rotateY = -18;
-              translateX = 130;
+              translateX = 135;
               translateZ = 10;
             } else {
               zIndex = 10;
@@ -320,41 +320,41 @@ export function LandingCarousel() {
               pointerEvents = 'none';
             }
           } else if (isWide) {
-            // Big Monitors (>= 1536px / 2K / 4K): Expanded 5-card 3D cover flow
+            // Big Monitors (>= 1536px / 2K / 4K): Full-width 5-card 3D cover flow
             if (isCenter) {
               zIndex = 40;
               opacity = 1;
               scale = 1;
               rotateY = 0;
               translateX = 0;
-              translateZ = 120;
+              translateZ = 130;
             } else if (diff === -1) {
               zIndex = 30;
               opacity = 0.7;
               scale = 0.85;
               rotateY = 18;
-              translateX = -230;
+              translateX = -250;
               translateZ = 30;
             } else if (diff === 1) {
               zIndex = 30;
               opacity = 0.7;
               scale = 0.85;
               rotateY = -18;
-              translateX = 230;
+              translateX = 250;
               translateZ = 30;
             } else if (diff === -2) {
               zIndex = 20;
               opacity = 0.25;
               scale = 0.7;
               rotateY = 30;
-              translateX = -410;
+              translateX = -450;
               translateZ = -40;
             } else if (diff === 2) {
               zIndex = 20;
               opacity = 0.25;
               scale = 0.7;
               rotateY = -30;
-              translateX = 410;
+              translateX = 450;
               translateZ = -40;
             } else {
               zIndex = 10;
@@ -366,7 +366,7 @@ export function LandingCarousel() {
               pointerEvents = 'none';
             }
           } else {
-            // Standard Desktop / Laptop: Balanced 5-card layout
+            // Standard Desktop / Laptop: Full-width 5-card layout spanning column width
             if (isCenter) {
               zIndex = 40;
               opacity = 1;
@@ -379,28 +379,28 @@ export function LandingCarousel() {
               opacity = 0.65;
               scale = 0.82;
               rotateY = 20;
-              translateX = -180;
+              translateX = -200;
               translateZ = 20;
             } else if (diff === 1) {
               zIndex = 30;
               opacity = 0.65;
               scale = 0.82;
               rotateY = -20;
-              translateX = 180;
+              translateX = 200;
               translateZ = 20;
             } else if (diff === -2) {
               zIndex = 20;
               opacity = 0.2;
               scale = 0.66;
               rotateY = 32;
-              translateX = -310;
+              translateX = -360;
               translateZ = -50;
             } else if (diff === 2) {
               zIndex = 20;
               opacity = 0.2;
               scale = 0.66;
               rotateY = -32;
-              translateX = 310;
+              translateX = 360;
               translateZ = -50;
             } else {
               zIndex = 10;
@@ -468,7 +468,7 @@ export function LandingCarousel() {
                     alt={item.title} 
                     fill 
                     className="object-cover"
-                    sizes="(max-width: 768px) 180px, 300px"
+                    sizes="(max-width: 768px) 180px, 320px"
                     priority 
                   />
                   {isCenter && !isRedirecting && (
