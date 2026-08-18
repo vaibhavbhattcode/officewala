@@ -8,6 +8,7 @@ import { Music, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CarouselItem {
   id: number;
+  slug: string;
   category: string;
   tagline: string;
   title: string;
@@ -19,6 +20,7 @@ interface CarouselItem {
 const CAROUSEL_ITEMS: CarouselItem[] = [
   {
     id: 0,
+    slug: 'officewala',
     category: 'Officewala',
     tagline: 'Deep focus beats & workspace flow',
     title: 'Study Flow Lofi',
@@ -28,6 +30,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   },
   {
     id: 1,
+    slug: 'tapriwala',
     category: 'Tapriwala',
     tagline: 'Chai tapri classic melodies & vintage tunes',
     title: 'MAHEBOOBA MAHEBOOBA',
@@ -37,6 +40,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   },
   {
     id: 2,
+    slug: 'bhajanwala',
     category: 'Bhajanwala',
     tagline: 'Peaceful morning bhajans & spiritual vibes',
     title: 'Aigiri Nandini & Chants',
@@ -46,6 +50,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   },
   {
     id: 3,
+    slug: 'loriwala',
     category: 'Loriwala',
     tagline: 'Highway dhaba beats & long-haul truck tunes',
     title: 'Highway Dhaba Beats',
@@ -55,6 +60,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   },
   {
     id: 4,
+    slug: 'saloonwala',
     category: 'Saloonwala',
     tagline: 'Trendy saloon grooming jams & chill hits',
     title: 'Warm Saloon Coffee',
@@ -64,6 +70,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   },
   {
     id: 5,
+    slug: 'partywala',
     category: 'Partywala',
     tagline: 'High-energy synthwave & night mood beats',
     title: 'Terminal Neon Synth',
@@ -179,8 +186,10 @@ export function LandingCarousel() {
     if (introTimerRef.current) clearInterval(introTimerRef.current);
     if (timerRef.current) clearInterval(timerRef.current);
 
+    const selectedItem = CAROUSEL_ITEMS.find((c) => c.id === cardId) || CAROUSEL_ITEMS[0];
+
     setTimeout(() => {
-      router.push('/radio');
+      router.push(`/radio?station=${selectedItem.slug}`);
     }, 1200);
   };
 
