@@ -201,10 +201,10 @@ export function LandingCarousel() {
   const containerHeightClass = isMobile 
     ? 'h-[320px]' 
     : isTablet 
-      ? 'h-[340px]' 
+      ? 'h-[350px]' 
       : isWide 
-        ? 'h-[430px]' 
-        : 'h-[370px]';
+        ? 'h-[440px]' 
+        : 'h-[395px]';
 
   const cardWidthClass = isMobile 
     ? 'w-[170px] h-[240px]' 
@@ -538,7 +538,7 @@ export function LandingCarousel() {
       </div>
 
       {/* 🔘 Dots Pagination Bar */}
-      <div className="flex items-center justify-center gap-2 mt-6 sm:mt-8 z-40">
+      <div className="flex items-center justify-center gap-2 mt-8 sm:mt-10 lg:mt-12 xl:mt-14 z-40">
         {CAROUSEL_ITEMS.map((item) => {
           const isActive = item.id === centerIndex;
           return (
