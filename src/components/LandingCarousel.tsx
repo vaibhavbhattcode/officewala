@@ -75,9 +75,9 @@ export function LandingCarousel() {
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const introTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+  const [viewport, setViewport] = useState<'mobile' | 'tablet' | 'desktop' | 'wide'>('desktop');
 
-  // Check width dynamically to adapt screen formats cleanly
+  // Check width dynamically to adapt screen formats cleanly across mobile, laptop, desktop, and 2K/4K big screens
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -85,8 +85,10 @@ export function LandingCarousel() {
         setViewport('mobile');
       } else if (width < 1024) {
         setViewport('tablet');
-      } else {
+      } else if (width < 1536) {
         setViewport('desktop');
+      } else {
+        setViewport('wide');
       }
     };
     handleResize();
@@ -177,29 +179,36 @@ export function LandingCarousel() {
 
   const isMobile = viewport === 'mobile';
   const isTablet = viewport === 'tablet';
+  const isWide = viewport === 'wide';
 
-  // Sizing definitions for Carousel layout
+  // Sizing definitions for Carousel layout across viewports
   const containerHeightClass = isMobile 
     ? 'h-[280px]' 
     : isTablet 
       ? 'h-[340px]' 
-      : 'h-[390px]';
+      : isWide 
+        ? 'h-[460px]' 
+        : 'h-[400px]';
 
   const cardWidthClass = isMobile 
     ? 'w-[150px] h-[150px]' 
     : isTablet 
       ? 'w-[190px] h-[190px]' 
-      : 'w-[230px] h-[230px]';
+      : isWide 
+        ? 'w-[280px] h-[280px]' 
+        : 'w-[230px] h-[230px]';
 
   const coverHeightClass = isMobile 
     ? 'h-[90px]' 
     : isTablet 
       ? 'h-[120px]' 
-      : 'h-[160px]';
+      : isWide 
+        ? 'h-[190px]' 
+        : 'h-[155px]';
 
   return (
     <div 
-      className={`relative w-full ${containerHeightClass} flex items-center justify-center overflow-visible select-none [perspective:1000px] sm:[perspective:1300px]`}
+      className={`relative w-full ${containerHeightClass} flex items-center justify-center overflow-visible select-none [perspective:1000px] sm:[perspective:1400px]`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -208,11 +217,11 @@ export function LandingCarousel() {
         type="button"
         onClick={() => handleArrowClick('prev')}
         aria-label="Previous Song"
-        className={`absolute left-0 sm:-left-6 z-50 w-9 h-9 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
+        className={`absolute left-0 sm:-left-6 2xl:-left-10 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
           isHovered && !isRedirecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
-        <ChevronLeft className="w-4.5 h-4.5 mr-0.5" />
+        <ChevronLeft className="w-4.5 h-4.5 sm:w-5 sm:h-5 2xl:w-6 2xl:h-6 mr-0.5" />
       </button>
 
       {/* 👉 Right Navigation Arrow */}
@@ -220,11 +229,11 @@ export function LandingCarousel() {
         type="button"
         onClick={() => handleArrowClick('next')}
         aria-label="Next Song"
-        className={`absolute right-0 sm:-right-6 z-50 w-9 h-9 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
+        className={`absolute right-0 sm:-right-6 2xl:-right-10 z-50 w-9 h-9 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12 rounded-full bg-white/5 hover:bg-[#D9A441] hover:text-black border border-white/10 flex items-center justify-center text-white/80 transition-all duration-300 backdrop-blur-md shadow-lg outline-none focus:outline-none ${
           isHovered && !isRedirecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
-        <ChevronRight className="w-4.5 h-4.5 ml-0.5" />
+        <ChevronRight className="w-4.5 h-4.5 sm:w-5 sm:h-5 2xl:w-6 2xl:h-6 ml-0.5" />
       </button>
 
       <AnimatePresence mode="popLayout">
@@ -310,8 +319,54 @@ export function LandingCarousel() {
               translateZ = -100;
               pointerEvents = 'none';
             }
+          } else if (isWide) {
+            // Big Monitors (>= 1536px / 2K / 4K): Expanded 5-card 3D cover flow
+            if (isCenter) {
+              zIndex = 40;
+              opacity = 1;
+              scale = 1;
+              rotateY = 0;
+              translateX = 0;
+              translateZ = 120;
+            } else if (diff === -1) {
+              zIndex = 30;
+              opacity = 0.7;
+              scale = 0.85;
+              rotateY = 18;
+              translateX = -230;
+              translateZ = 30;
+            } else if (diff === 1) {
+              zIndex = 30;
+              opacity = 0.7;
+              scale = 0.85;
+              rotateY = -18;
+              translateX = 230;
+              translateZ = 30;
+            } else if (diff === -2) {
+              zIndex = 20;
+              opacity = 0.25;
+              scale = 0.7;
+              rotateY = 30;
+              translateX = -410;
+              translateZ = -40;
+            } else if (diff === 2) {
+              zIndex = 20;
+              opacity = 0.25;
+              scale = 0.7;
+              rotateY = -30;
+              translateX = 410;
+              translateZ = -40;
+            } else {
+              zIndex = 10;
+              opacity = 0;
+              scale = 0.5;
+              rotateY = 0;
+              translateX = 0;
+              translateZ = -200;
+              pointerEvents = 'none';
+            }
           } else {
-            // Desktop/Laptop: Full size cover-flow cards
+            // Standard Desktop / Laptop: Balanced 5-card layout
             if (isCenter) {
               zIndex = 40;
               opacity = 1;
@@ -324,28 +379,28 @@ export function LandingCarousel() {
               opacity = 0.65;
               scale = 0.82;
               rotateY = 20;
-              translateX = -170;
+              translateX = -180;
               translateZ = 20;
             } else if (diff === 1) {
               zIndex = 30;
               opacity = 0.65;
               scale = 0.82;
               rotateY = -20;
-              translateX = 170;
+              translateX = 180;
               translateZ = 20;
             } else if (diff === -2) {
               zIndex = 20;
               opacity = 0.2;
               scale = 0.66;
               rotateY = 32;
-              translateX = -290;
+              translateX = -310;
               translateZ = -50;
             } else if (diff === 2) {
               zIndex = 20;
               opacity = 0.2;
               scale = 0.66;
               rotateY = -32;
-              translateX = 290;
+              translateX = 310;
               translateZ = -50;
             } else {
               zIndex = 10;
@@ -383,25 +438,25 @@ export function LandingCarousel() {
               onClick={() => handleCardClick(item.id)}
             >
               <motion.div 
-                className="text-center mb-2.5 sm:mb-3.5 transition-all duration-300"
+                className="text-center mb-2.5 sm:mb-4 transition-all duration-300"
                 animate={{
                   opacity: isCenter && !isRedirecting ? 1 : 0,
                   y: isCenter ? 0 : 8,
                   scale: isCenter ? 1 : 0.85
                 }}
               >
-                <h4 className="text-[#D9A441] text-[9px] sm:text-[11px] font-bold uppercase tracking-[0.15em]">{item.category}</h4>
-                <p className="text-white/60 text-[8px] sm:text-[9px] mt-0.5 font-semibold">{item.tagline}</p>
+                <h4 className="text-[#D9A441] text-[9px] sm:text-xs 2xl:text-sm font-bold uppercase tracking-[0.18em]">{item.category}</h4>
+                <p className="text-white/60 text-[8px] sm:text-[10px] 2xl:text-xs mt-0.5 font-semibold">{item.tagline}</p>
               </motion.div>
 
               <div 
-                className={`relative ${cardWidthClass} rounded-[20px] overflow-hidden border border-white/[0.08] bg-white/[0.02] backdrop-blur-md shadow-2xl flex flex-col items-center justify-center p-2.5 transition-transform duration-300 ${
+                className={`relative ${cardWidthClass} rounded-[22px] 2xl:rounded-[28px] overflow-hidden border border-white/[0.08] bg-white/[0.02] backdrop-blur-md shadow-2xl flex flex-col items-center justify-center p-2.5 sm:p-3 2xl:p-4 transition-transform duration-300 ${
                   isCenter 
-                    ? 'shadow-black/75 hover:shadow-black/90 hover:scale-[1.02] border-white/[0.12] bg-white/[0.03]' 
+                    ? 'shadow-black/75 hover:shadow-black/90 hover:scale-[1.02] border-white/[0.14] bg-white/[0.03]' 
                     : 'shadow-black/45'
                 }`}
               >
-                <div className={`relative w-full ${coverHeightClass} rounded-[12px] overflow-hidden bg-zinc-950 border border-white/5 ${
+                <div className={`relative w-full ${coverHeightClass} rounded-[14px] 2xl:rounded-[18px] overflow-hidden bg-zinc-950 border border-white/5 ${
                   isZoomed ? 'animate-spin' : ''
                 }`}
                 style={{
@@ -413,24 +468,24 @@ export function LandingCarousel() {
                     alt={item.title} 
                     fill 
                     className="object-cover"
-                    sizes="230px"
+                    sizes="(max-width: 768px) 180px, 300px"
                     priority 
                   />
                   {isCenter && !isRedirecting && (
                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-[32px] h-[32px] sm:w-[38px] sm:h-[38px] rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white scale-90 hover:scale-100 transition-transform shadow-lg shadow-black/25">
-                        <Play className="w-3.5 h-3.5 fill-white text-white ml-0.5" />
+                      <div className="w-[34px] h-[34px] sm:w-[42px] sm:h-[42px] 2xl:w-[50px] 2xl:h-[50px] rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white scale-90 hover:scale-100 transition-transform shadow-lg shadow-black/25">
+                        <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 2xl:w-5 2xl:h-5 fill-white text-white ml-0.5" />
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div className="w-full mt-2 px-0.5 text-left flex flex-col justify-center">
-                  <h5 className="text-[9px] sm:text-[11px] font-bold text-white tracking-tight truncate m-0">
+                <div className="w-full mt-2 sm:mt-2.5 2xl:mt-3 px-0.5 text-left flex flex-col justify-center">
+                  <h5 className="text-[9px] sm:text-xs 2xl:text-sm font-bold text-white tracking-tight truncate m-0">
                     {item.title}
                   </h5>
-                  <p className="text-[8px] sm:text-[9px] font-medium text-white/50 leading-relaxed mt-0.5 truncate m-0 flex items-center gap-1">
-                    <Music className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-[#D9A441]" /> {item.artist}
+                  <p className="text-[8px] sm:text-[10px] 2xl:text-xs font-medium text-white/50 leading-relaxed mt-0.5 truncate m-0 flex items-center gap-1">
+                    <Music className="w-1.5 h-1.5 sm:w-2 sm:h-2 2xl:w-3 2xl:h-3 text-[#D9A441]" /> {item.artist}
                   </p>
                 </div>
               </div>
